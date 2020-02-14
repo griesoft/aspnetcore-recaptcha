@@ -1,0 +1,81 @@
+﻿using System;
+using GSoftware.AspNetCore.ReCaptcha;
+using GSoftware.AspNetCore.ReCaptcha.Configuration;
+using GSoftware.AspNetCore.ReCaptcha.Filters;
+using Microsoft.Extensions.Options;
+using Moq;
+using NUnit.Framework;
+
+namespace ReCaptcha.Tests
+{
+    [TestFixture]
+    public class ValidateRecaptchaAttributeTests
+    {
+        [Test(Description = "CreateInstance(...) should return a new instance of " +
+            "ValidateRecaptchaFilter with the default value for the OnValidationFailedAction property.")]
+        public void CreateInstance_ShouldReturn_ValidateRecaptchaFilter_WithDefaultAction()
+        {
+            // Arrange
+            var optionsMock = new Mock<IOptionsMonitor<RecaptchaOptions>>();
+            optionsMock.SetupGet(options => options.CurrentValue)
+                .Returns(new RecaptchaOptions());
+            var servicesMock = new Mock<IServiceProvider>();
+            servicesMock.Setup(provider => provider.GetService(typeof(ValidateRecaptchaFilter)))
+                .Returns(new ValidateRecaptchaFilter(null, optionsMock.Object, null))
+                .Verifiable();
+            var attribute = new ValidateRecaptchaAttribute();
+
+            // Act
+            var filterInstance = attribute.CreateInstance(servicesMock.Object);
+
+            // Assert
+            servicesMock.Verify();
+            Assert.IsNotNull(filterInstance);
+            Assert.IsInstanceOf<ValidateRecaptchaFilter>(filterInstance);
+            Assert.AreEqual(ValidationFailedAction.Unspecified, (filterInstance as ValidateRecaptchaFilter).OnValidationFailedAction);
+        }
+
+        [Test(Description = "CreateInstance(...) should return a new instance of " +
+            "ValidateRecaptchaFilter with the user set value for the OnValidationFailedAction property.")]
+        public void CreateInstance_ShouldReturn_ValidateRecaptchaFilter_WithUserSetAction()
+        {
+            // Arrange
+            var optionsMock = new Mock<IOptionsMonitor<RecaptchaOptions>>();
+            optionsMock.SetupGet(options => options.CurrentValue)
+                .Returns(new RecaptchaOptions());
+            var servicesMock = new Mock<IServiceProvider>();
+            servicesMock.Setup(provider => provider.GetService(typeof(ValidateRecaptchaFilter)))
+                .Returns(new ValidateRecaptchaFilter(null, optionsMock.Object, null))
+                .Verifiable();
+            var attribute = new ValidateRecaptchaAttribute
+            {
+                ValidationFailedAction = ValidationFailedAction.ContinueRequest
+            };
+
+            // Act
+            var filterInstance = attribute.CreateInstance(servicesMock.Object);
+
+            // Assert
+            servicesMock.Verify();
+            Assert.IsNotNull(filterInstance);
+            Assert.IsInstanceOf<ValidateRecaptchaFilter>(filterInstance);
+            Assert.AreEqual(ValidationFailedAction.ContinueRequest, (filterInstance as ValidateRecaptchaFilter).OnValidationFailedAction);
+        }
+
+        [Test(Description = "CreateInstance(...) should throw InvalidOperationException if the library services are not registered.")]
+        public void CreateInstance_ShouldThrowWhen_ServicesNotRegistered()
+        {
+            // Arrange
+            var servicesMock = new Mock<IServiceProvider>();
+            servicesMock.Setup(provider => provider.GetService(typeof(ValidateRecaptchaFilter)))
+                .Returns(null);
+            var attribute = new ValidateRecaptchaAttribute();
+
+            // Act
+
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => attribute.CreateInstance(servicesMock.Object));
+        }
+    }
+}
