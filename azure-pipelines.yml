@@ -1,0 +1,55 @@
+trigger:
+- dev
+- master
+
+pr:
+- master
+
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  - group: 'Package Versioning'
+  - name: buildPlatform
+    value: 'Any CPU'
+  - name: buildConfiguration 
+    value: 'Release'
+  - name: buildDirPath 
+    value: '$(Build.SourcesDirectory)/src/bin/$(buildPlatform)/$(buildConfiguration)'
+
+
+
+steps:
+- task: MSBuild@1
+  displayName: Build Solution
+  inputs:
+    solution: '**/src/ReCaptcha/ReCaptcha.csproj'
+    configuration: $(buildConfiguration)
+    platform: $(buildPlatform)
+    msbuildArguments: '/restore /t:Build /p:ContinuousIntegrationBuild=true /p:Deterministic=false'
+
+- task: MSBuild@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Pack NuGets
+  inputs:
+    solution: '**/src/ReCaptcha/ReCaptcha.csproj'
+    configuration: $(buildConfiguration)
+    platform: $(buildPlatform)
+    msbuildArguments: '/t:Pack /p:PackageVersion=$(major).$(minor).$(patch) /p:PackageOutputPath="$(buildDirPath)"'
+
+- task: DotNetCoreCLI@2
+  displayName: Run Tests
+  inputs:
+    command: 'test'
+    publishTestResults: true
+    projects: '**/test/ReCaptcha.Tests/ReCaptcha.Tests.csproj'
+    testRunTitle: 'Project Unit Tests'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    PathtoPublish: '$(buildDirPath)'
+    ArtifactName: 'nuget'
+    publishLocation: 'Container'
