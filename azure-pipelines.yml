@@ -67,7 +67,9 @@ jobs:
 
   - job: PublishArtifacts
     displayName: Publish Production Artifacts
-    dependsOn: BuildPack | Test
+    dependsOn: 
+      - BuildPack
+      - Test
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     steps:
       - task: PublishBuildArtifacts@1
@@ -78,7 +80,9 @@ jobs:
 
   - deployment: PushArtifacts
     displayName: Push to Development Feed
-    dependsOn: BuildPack | Test
+    dependsOn: 
+      - BuildPack
+      - Test
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
     environment: Development
     strategy:
