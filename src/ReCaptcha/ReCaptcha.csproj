@@ -6,9 +6,17 @@
     <AssemblyName>GSoftware.AspNetCore.ReCaptcha</AssemblyName>
     <Company>Griesinger Software</Company>
     <Authors>Joonas Griesinger</Authors>
+    <Owners>jgdevlabs,jooni91</Owners>
+    <Title>ASP.NET Core reCAPTCHA Service</Title>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Nullable>enable</Nullable>
     <LangVersion>8.0</LangVersion>
+    <Description>A Google reCPATCHA validation wrapper service for ASP.NET Core. Implementation is made very simple and usage is as easy as the usage of the antiforgery token validation filter.</Description>
+    <Copyright>2020 © Griesinger Software</Copyright>
+    <PackageProjectUrl>https://github.com/jgdevlabs/aspnetcore-recaptcha</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jgdevlabs/aspnetcore-recaptcha</RepositoryUrl>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageTags>aspnetcore;recaptcha;aspnetcoremvc;actionfilter;google;razor;recaptcha-v2;recaptcha-v3;taghelper</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
