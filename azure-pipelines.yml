@@ -50,7 +50,7 @@ jobs:
         solution: '**/src/ReCaptcha/ReCaptcha.csproj'
         configuration: $(buildConfiguration)
         platform: $(buildPlatform)
-        msbuildArguments: '/t:Pack /p:PackageVersion=$(packageVersion) /p:PackageOutputPath="$(buildDirPath)"'
+        msbuildArguments: '/t:Pack /p:PackageVersion=$(packageVersion) /p:PackageOutputPath=$(buildDirPath)'
         
     - task: PublishBuildArtifacts@1
       displayName: Publish Build Artifacts
