@@ -32,8 +32,9 @@ jobs:
           targetType: 'inline'
           script: |
             Write-Host  "##vso[task.LogIssue type=warning;]$(packageVersion)"
-            Write-Host "##vso[task.setvariable variable=packageVersion;]$(packageVersion)-ci.$(Build.BuildId)"
-            Write-Host  "##vso[task.LogIssue type=warning;]$(packageVersion)"
+            Write-Host "##vso[task.setvariable variable=packageVersion;isOutput=true]$(packageVersion)-ci.$(Build.BuildId)"
+            Write-Host  "##vso[task.LogIssue type=warning;]Expected: $(packageVersion)-ci.$(Build.BuildId)"
+            Write-Host  "##vso[task.LogIssue type=warning;]Actuall: $(packageVersion)"
 
   - job: BuildPack
     displayName: Build & Pack
