@@ -16,7 +16,7 @@ variables:
   - name: buildConfiguration 
     value: 'Release'
   - name: buildDirPath 
-    value: '$(Build.SourcesDirectory)/src/bin/$(buildPlatform)/$(buildConfiguration)'
+    value: '$(Build.SourcesDirectory)\src\bin\$(buildPlatform)\$(buildConfiguration)'
   - name: packageVersion
     value: '$(major).$(minor).$(patch)'
 
@@ -92,7 +92,7 @@ jobs:
             - task: NuGetCommand@2
               inputs:
                 command: 'push'
-                packagesToPush: '$(buildDirPath)/**/*.nupkg;!$(buildDirPath)/**/*.symbols.nupkg'
+                packagesToPush: '$(buildDirPath)\*.nupkg;!$(buildDirPath)\*.symbols.nupkg'
                 nuGetFeedType: 'internal'
                 publishVstsFeed: '664acd3b-eaa2-47d0-a9a4-09c7e2741d7d'
                 allowPackageConflicts: true
