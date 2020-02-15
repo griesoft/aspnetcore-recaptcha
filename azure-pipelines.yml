@@ -25,7 +25,7 @@ jobs:
     steps:
 
       - powershell: | 
-          if($(Build.SourceBranch) == "refs/heads/master")
+          if($(Build.SourceBranch) -eq 'refs/heads/master')
           {
             Write-Host "##vso[task.setvariable variable=version;isOutput=true]$(major).$(minor).$(patch)"
           }
