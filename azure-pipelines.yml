@@ -43,14 +43,6 @@ jobs:
         configuration: $(buildConfiguration)
         platform: $(buildPlatform)
         msbuildArguments: '/restore /t:Build /t:Pack /p:ContinuousIntegrationBuild=true /p:Deterministic=false /p:PackageVersion=$(packageVersion) /p:PackageOutputPath="$(buildDirPath)"'
-
-    # - task: MSBuild@1
-    #   displayName: Pack Solution
-    #   inputs:
-    #     solution: '**/src/ReCaptcha/ReCaptcha.csproj'
-    #     configuration: $(buildConfiguration)
-    #     platform: $(buildPlatform)
-    #     msbuildArguments: '/t:Pack /p:PackageVersion=$(packageVersion) /p:PackageOutputPath="$(buildDirPath)"'
         
     - task: PublishBuildArtifacts@1
       displayName: Publish Build Artifacts
@@ -83,6 +75,9 @@ jobs:
       runOnce:
         deploy:
           steps:
+            - download: current
+              artifact: nuget
+          
             - task: NuGetCommand@2
               inputs:
                 command: 'push'
