@@ -31,7 +31,7 @@ jobs:
           }
           else
           {
-            Write-Host "##vso[task.setvariable variable=version;isOutput=true]$(major).$(minor).$(patch)-ci.$(Build.BuildId)"
+            Write-Host "##vso[task.setvariable variable=version;isOutput=true]$(major).$(minor).$(patch)-alpha$(Build.BuildId)"
           }
         displayName: Set Package Version
         name: package
