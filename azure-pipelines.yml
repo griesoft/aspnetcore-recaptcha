@@ -30,7 +30,10 @@ jobs:
         condition: eq(variables['Build.SourceBranch'], 'refs/heads/dev')
         inputs:
           targetType: 'inline'
-          script: 'Write-Host $(packageVersion) Write-Host "##vso[task.setvariable variable=packageVersion]$(packageVersion)-ci.$(Build.BuildId)" Write-Host $(packageVersion)'
+          script: |
+            Write-Host  "##vso[task.LogIssue type=warning;]$(packageVersion)"
+            Write-Host "##vso[task.setvariable variable=packageVersion]$(packageVersion)-ci.$(Build.BuildId)"
+            Write-Host  "##vso[task.LogIssue type=warning;]$(packageVersion)"
 
   - job: BuildPack
     displayName: Build & Pack
