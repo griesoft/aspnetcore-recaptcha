@@ -32,7 +32,7 @@ jobs:
           targetType: 'inline'
           script: |
             Write-Host  "##vso[task.LogIssue type=warning;]$(packageVersion)"
-            Write-Host "##vso[task.setvariable variable=packageVersion]$(packageVersion)-ci.$(Build.BuildId)"
+            Write-Host "##vso[task.setvariable variable=packageVersion;]$(packageVersion)-ci.$(Build.BuildId)"
             Write-Host  "##vso[task.LogIssue type=warning;]$(packageVersion)"
 
   - job: BuildPack
