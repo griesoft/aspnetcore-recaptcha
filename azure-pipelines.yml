@@ -26,12 +26,10 @@ jobs:
 
       - powershell: echo "##vso[task.setvariable variable=packageVersion;isOutput=true]$(major).$(minor).$(patch)-ci.$(Build.BuildId)"
         displayName: Set Development Package Version
-        name: versionScript
         condition: eq(variables['Build.SourceBranch'], 'refs/heads/dev')
 
       - powershell: echo "##vso[task.setvariable variable=packageVersion;isOutput=true]$(major).$(minor).$(patch)"
         displayName: Set Production Package Version
-        name: versionScript
         condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
 
   - job: BuildPack
@@ -39,7 +37,7 @@ jobs:
     dependsOn: Init
     variables:
       - name: packageVersion
-        value: $[ dependencies.Init.outputs['versionScript.packageVersion'] ]
+        value: $[ dependencies.Init.outputs['packageVersion'] ]
     steps:
     - task: MSBuild@1
       displayName: Build & Pack Project
