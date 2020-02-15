@@ -41,7 +41,7 @@ jobs:
     dependsOn: Init
     variables:
       - name: packageVersion
-        value: $[ dependencies.Init.outputs['packageVersion'] ]
+        value: $[ dependencies.Init.outputs['package.version'] ]
     steps:
     - task: MSBuild@1
       displayName: Build & Pack Project
