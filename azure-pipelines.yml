@@ -16,40 +16,79 @@ variables:
   - name: buildConfiguration 
     value: 'Release'
   - name: buildDirPath 
-    value: '$(Build.SourcesDirectory)/src/bin/$(buildPlatform)/$(buildConfiguration)'
+    value: '$(Build.SourcesDirectory)\src\ReCaptcha\bin\$(buildPlatform)\$(buildConfiguration)'
 
 
+jobs:
+  - job: Init
+    displayName: Initialize & Versioning
+    steps:
 
-steps:
-- task: MSBuild@1
-  displayName: Build Solution
-  inputs:
-    solution: '**/src/ReCaptcha/ReCaptcha.csproj'
-    configuration: $(buildConfiguration)
-    platform: $(buildPlatform)
-    msbuildArguments: '/restore /t:Build /p:ContinuousIntegrationBuild=true /p:Deterministic=false'
+      - powershell: | 
+          if('$(Build.SourceBranch)' -eq 'refs/heads/master')
+          {
+            Write-Host "##vso[task.setvariable variable=version;isOutput=true]$(major).$(minor).$(patch)"
+          }
+          else
+          {
+            Write-Host "##vso[task.setvariable variable=version;isOutput=true]$(major).$(minor).$(patch)-alpha$(Build.BuildId)"
+          }
+        displayName: Set Package Version
+        name: package
 
-- task: MSBuild@1
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  displayName: Pack NuGets
-  inputs:
-    solution: '**/src/ReCaptcha/ReCaptcha.csproj'
-    configuration: $(buildConfiguration)
-    platform: $(buildPlatform)
-    msbuildArguments: '/t:Pack /p:PackageVersion=$(major).$(minor).$(patch) /p:PackageOutputPath="$(buildDirPath)"'
+  - job: BuildPack
+    displayName: Build & Pack
+    dependsOn: Init
+    variables:
+      - name: packageVersion
+        value: $[ dependencies.Init.outputs['package.version'] ]
+    steps:
+    - task: MSBuild@1
+      displayName: Build & Pack Project
+      inputs:
+        solution: '**/src/ReCaptcha/ReCaptcha.csproj'
+        configuration: $(buildConfiguration)
+        platform: $(buildPlatform)
+        msbuildArguments: '/restore /t:Build /t:Pack /p:ContinuousIntegrationBuild=true /p:Deterministic=false /p:PackageVersion=$(packageVersion) /p:PackageOutputPath="$(buildDirPath)"'
+        
+    - task: PublishBuildArtifacts@1
+      displayName: Publish Build Artifacts
+      inputs:
+        PathtoPublish: '$(buildDirPath)'
+        ArtifactName: 'nuget'
+        publishLocation: 'Container'
 
-- task: DotNetCoreCLI@2
-  displayName: Run Tests
-  inputs:
-    command: 'test'
-    publishTestResults: true
-    projects: '**/test/ReCaptcha.Tests/ReCaptcha.Tests.csproj'
-    testRunTitle: 'Project Unit Tests'
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
+  - job: Test
+    displayName: Run Unit Tests
+    dependsOn: Init
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: Run Tests
+        inputs:
+          command: 'test'
+          publishTestResults: true
+          projects: '**/tests/ReCaptcha.Tests/ReCaptcha.Tests.csproj'
+          testRunTitle: 'Project Unit Tests'
+          workingDirectory: '$(System.DefaultWorkingDirectory)'
 
-- task: PublishBuildArtifacts@1
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  inputs:
-    PathtoPublish: '$(buildDirPath)'
-    ArtifactName: 'nuget'
-    publishLocation: 'Container'
+  - deployment: PushArtifacts
+    displayName: Push to Development Feed
+    dependsOn: 
+      - BuildPack
+      - Test
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+    environment: Development
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - download: current
+              artifact: nuget
+          
+            - task: NuGetCommand@2
+              inputs:
+                command: 'push'
+                packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
+                nuGetFeedType: 'internal'
+                publishVstsFeed: '664acd3b-eaa2-47d0-a9a4-09c7e2741d7d'
+                allowPackageConflicts: true
