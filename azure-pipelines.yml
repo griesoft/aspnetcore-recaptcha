@@ -79,7 +79,7 @@ jobs:
   - deployment: PushArtifacts
     displayName: Push to Development Feed
     dependsOn: BuildPack | Test
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev')
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
     strategy:
       runOnce:
         deploy:
