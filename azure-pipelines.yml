@@ -81,7 +81,7 @@ jobs:
             - task: NuGetCommand@2
               inputs:
                 command: 'push'
-                packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+                packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
                 nuGetFeedType: 'internal'
                 publishVstsFeed: '664acd3b-eaa2-47d0-a9a4-09c7e2741d7d'
                 allowPackageConflicts: true
