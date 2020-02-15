@@ -51,6 +51,13 @@ jobs:
         configuration: $(buildConfiguration)
         platform: $(buildPlatform)
         msbuildArguments: '/t:Pack /p:PackageVersion=$(packageVersion) /p:PackageOutputPath="$(buildDirPath)"'
+        
+    - task: PublishBuildArtifacts@1
+      displayName: Publish Build Artifacts
+      inputs:
+        PathtoPublish: '$(buildDirPath)'
+        ArtifactName: 'nuget'
+        publishLocation: 'Container'
 
   - job: Test
     displayName: Run Unit Tests
@@ -64,19 +71,6 @@ jobs:
           projects: '**/tests/ReCaptcha.Tests/ReCaptcha.Tests.csproj'
           testRunTitle: 'Project Unit Tests'
           workingDirectory: '$(System.DefaultWorkingDirectory)'
-
-  - job: PublishArtifacts
-    displayName: Publish Production Artifacts
-    dependsOn: 
-      - BuildPack
-      - Test
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    steps:
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathtoPublish: '$(buildDirPath)'
-          ArtifactName: 'nuget'
-          publishLocation: 'Container'
 
   - deployment: PushArtifacts
     displayName: Push to Development Feed
@@ -92,7 +86,7 @@ jobs:
             - task: NuGetCommand@2
               inputs:
                 command: 'push'
-                packagesToPush: '$(buildDirPath)\*.nupkg;!$(buildDirPath)\*.symbols.nupkg'
+                packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
                 nuGetFeedType: 'internal'
                 publishVstsFeed: '664acd3b-eaa2-47d0-a9a4-09c7e2741d7d'
                 allowPackageConflicts: true
