@@ -42,7 +42,7 @@ jobs:
         solution: '**/src/ReCaptcha/ReCaptcha.csproj'
         configuration: $(buildConfiguration)
         platform: $(buildPlatform)
-        msbuildArguments: '/restore /t:Build /p:ContinuousIntegrationBuild=true /p:Deterministic=false'
+        msbuildArguments: '/restore /t:Build /p:ContinuousIntegrationBuild=true /p:Deterministic=false  /p:PackageOutputPath="$(buildDirPath)"'
 
     - task: MSBuild@1
       displayName: Pack Solution
@@ -50,7 +50,7 @@ jobs:
         solution: '**/src/ReCaptcha/ReCaptcha.csproj'
         configuration: $(buildConfiguration)
         platform: $(buildPlatform)
-        msbuildArguments: '/t:Pack /p:PackageVersion=$(packageVersion) /p:PackageOutputPath=$(buildDirPath)'
+        msbuildArguments: '/t:Pack /p:PackageVersion=$(packageVersion) /p:PackageOutputPath="$(buildDirPath)"'
         
     - task: PublishBuildArtifacts@1
       displayName: Publish Build Artifacts
