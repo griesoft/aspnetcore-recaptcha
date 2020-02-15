@@ -17,28 +17,29 @@ variables:
     value: 'Release'
   - name: buildDirPath 
     value: '$(Build.SourcesDirectory)\src\ReCaptcha\bin\$(buildPlatform)\$(buildConfiguration)'
-  - name: packageVersion
-    value: '$(major).$(minor).$(patch)'
 
 
 jobs:
   - job: Init
     displayName: Initialize & Versioning
     steps:
-      - task: PowerShell@2
-        displayName: Set Development Version
+
+      - powershell: echo "##vso[task.setvariable variable=packageVersion;isOutput=true]$(major).$(minor).$(patch)-ci.$(Build.BuildId)"
+        displayName: Set Development Package Version
+        name: versionScript
         condition: eq(variables['Build.SourceBranch'], 'refs/heads/dev')
-        inputs:
-          targetType: 'inline'
-          script: |
-            Write-Host  "##vso[task.LogIssue type=warning;]$(packageVersion)"
-            Write-Host "##vso[task.setvariable variable=packageVersion;isOutput=true]$(packageVersion)-ci.$(Build.BuildId)"
-            Write-Host  "##vso[task.LogIssue type=warning;]Expected: $(packageVersion)-ci.$(Build.BuildId)"
-            Write-Host  "##vso[task.LogIssue type=warning;]Actuall: $(packageVersion)"
+
+      - powershell: echo "##vso[task.setvariable variable=packageVersion;isOutput=true]$(major).$(minor).$(patch)"
+        displayName: Set Production Package Version
+        name: versionScript
+        condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
 
   - job: BuildPack
     displayName: Build & Pack
     dependsOn: Init
+    variables:
+      - name: packageVersion
+        value: $[ dependencies.Init.outputs['versionScript.packageVersion'] ]
     steps:
     - task: MSBuild@1
       displayName: Build & Pack Project
