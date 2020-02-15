@@ -61,7 +61,7 @@ jobs:
         inputs:
           command: 'test'
           publishTestResults: true
-          projects: '**/test/ReCaptcha.Tests/ReCaptcha.Tests.csproj'
+          projects: '**/tests/ReCaptcha.Tests/ReCaptcha.Tests.csproj'
           testRunTitle: 'Project Unit Tests'
           workingDirectory: '$(System.DefaultWorkingDirectory)'
 
