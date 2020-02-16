@@ -59,6 +59,20 @@ namespace ReCaptcha.Tests.TagHelpers
         }
 
         [Test]
+        public void Process_ShouldChange_TagModeTo_StartTagAndEndTag()
+        {
+            // Arrange
+            var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object);
+            _tagHelperOutput.TagMode = TagMode.SelfClosing;
+
+            // Act
+            scriptTagHelper.Process(_context, _tagHelperOutput);
+
+            // Assert
+            Assert.AreEqual(TagMode.StartTagAndEndTag, _tagHelperOutput.TagMode);
+        }
+
+        [Test]
         public void Process_ShouldContain_ThreeAttributes()
         {
             // Arrange

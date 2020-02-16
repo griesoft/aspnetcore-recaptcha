@@ -12,6 +12,7 @@ namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
     /// anywhere on your HTML page, but if you use a onload callback function you must place this
     /// after that callback to avoid race conditions.
     /// </summary>
+    [HtmlTargetElement("recaptcha-script", TagStructure = TagStructure.WithoutEndTag)] 
     public class RecaptchaScriptTagHelper : TagHelper
     {
         private const string RecaptchaScriptEndpoint = "https://www.google.com/recaptcha/api.js";
@@ -48,6 +49,7 @@ namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
             _ = output ?? throw new ArgumentNullException(nameof(output));
 
             output.TagName = "script";
+            output.TagMode = TagMode.StartTagAndEndTag;
 
             if (Render == Render.V3)
             {
