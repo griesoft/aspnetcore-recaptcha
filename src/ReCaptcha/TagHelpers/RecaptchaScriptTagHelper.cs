@@ -77,6 +77,8 @@ namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
 
             output.Attributes.Add("async", null);
             output.Attributes.Add("defer", null);
+
+            output.Content.Clear();
         }
     }
 }
