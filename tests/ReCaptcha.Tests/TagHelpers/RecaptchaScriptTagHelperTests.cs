@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GSoftware.AspNetCore.ReCaptcha.Configuration;
 using GSoftware.AspNetCore.ReCaptcha.TagHelpers;
@@ -184,7 +185,7 @@ namespace ReCaptcha.Tests.TagHelpers
             {
                 OnloadCallback = callback
             };
-
+            
             // Act
             scriptTagHelper.Process(_context, _tagHelperOutput);
             var query = QueryHelpers.ParseQuery(new Uri(_tagHelperOutput.Attributes["src"].Value.ToString()).Query);
@@ -240,6 +241,54 @@ namespace ReCaptcha.Tests.TagHelpers
             Assert.AreEqual("explicit", query["render"]);
             Assert.AreEqual(callback, query["onload"]);
             Assert.AreEqual(language, query["hl"]);
+        }
+
+        [Test]
+        public void Process_SrcAttribute_ExistsOnlyOnce_AndHasUrlValue()
+        {
+            // Arrange
+            var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object);
+            _tagHelperOutput.Attributes.Add("src", "test");
+            _tagHelperOutput.Attributes.Add("src", "othertest");
+
+            // Act
+            scriptTagHelper.Process(_context, _tagHelperOutput);
+
+            // Assert
+            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribut => attribut.Name == "src"));
+            Assert.IsTrue(_tagHelperOutput.Attributes["src"].Value.ToString().StartsWith("https://"));
+        }
+
+        [Test]
+        public void Process_AsyncAttribute_ExistsOnlyOnce_AndHasEmptyValue()
+        {
+            // Arrange
+            var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object);
+            _tagHelperOutput.Attributes.Add("async", "test");
+            _tagHelperOutput.Attributes.Add("async", "othertest");
+
+            // Act
+            scriptTagHelper.Process(_context, _tagHelperOutput);
+
+            // Assert
+            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribut => attribut.Name == "async"));
+            Assert.IsTrue(string.IsNullOrEmpty(_tagHelperOutput.Attributes["async"].Value?.ToString()));
+        }
+
+        [Test]
+        public void Process_DeferAttribute_ExistsOnlyOnce_AndHasEmptyValue()
+        {
+            // Arrange
+            var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object);
+            _tagHelperOutput.Attributes.Add("defer", "test");
+            _tagHelperOutput.Attributes.Add("defer", "othertest");
+
+            // Act
+            scriptTagHelper.Process(_context, _tagHelperOutput);
+
+            // Assert
+            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribut => attribut.Name == "defer"));
+            Assert.IsTrue(string.IsNullOrEmpty(_tagHelperOutput.Attributes["defer"].Value?.ToString()));
         }
     }
 }

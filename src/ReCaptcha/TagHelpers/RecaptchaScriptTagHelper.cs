@@ -74,11 +74,11 @@ namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
                     queryCollection.Add("hl", Language);
                 }
 
-                output.Attributes.Add("src", QueryHelpers.AddQueryString(RecaptchaScriptEndpoint, queryCollection));
+                output.Attributes.SetAttribute("src", QueryHelpers.AddQueryString(RecaptchaScriptEndpoint, queryCollection));
             }
 
-            output.Attributes.Add("async", null);
-            output.Attributes.Add("defer", null);
+            output.Attributes.SetAttribute("async", null);
+            output.Attributes.SetAttribute("defer", null);
 
             output.Content.Clear();
         }
