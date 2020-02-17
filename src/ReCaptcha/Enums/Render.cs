@@ -1,7 +1,7 @@
 ﻿namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
 {
     /// <summary>
-    /// Rechaptcha rendering options for the <see cref="RecaptchaScriptTagHelper"/>.
+    /// Recaptcha rendering options for the <see cref="RecaptchaScriptTagHelper"/>.
     /// </summary>
     public enum Render
     {

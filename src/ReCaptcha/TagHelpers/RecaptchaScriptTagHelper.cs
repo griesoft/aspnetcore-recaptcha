@@ -32,7 +32,7 @@ namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
         public Render Render { get; set; } = Render.Onload;
 
         /// <summary>
-        /// Set a callback function that will be called when reCAPTCHA has finished loading.
+        /// Set the name of your callback function, that will be executed when reCAPTCHA has finished loading.
         /// </summary>
         public string? OnloadCallback { get; set; }
 
