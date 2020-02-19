@@ -17,7 +17,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddOptions<RecaptchaSettings>()
                 .Configure<IConfiguration>((settings, config) =>
-                    config.GetSection(RecaptchaServiceConstants.SettingsSectionKey).Bind(settings));
+                    config.GetSection(RecaptchaServiceConstants.SettingsSectionKey)
+                    .Bind(settings, (op) => op.BindNonPublicProperties = true));
 
             services.Configure(options ??= opt => { });
 
