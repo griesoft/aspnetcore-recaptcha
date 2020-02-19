@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFrameworks>netcoreapp2.1;netcoreapp3.0;net461</TargetFrameworks>
     <RootNamespace>GSoftware.AspNetCore.ReCaptcha</RootNamespace>
     <AssemblyName>GSoftware.AspNetCore.ReCaptcha</AssemblyName>
     <Company>Griesinger Software</Company>
@@ -24,17 +24,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,5 +54,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
+    <NoWarn>$(NoWarn);8600;8601;8602;8603;8604</NoWarn>
+  </PropertyGroup>
 
 </Project>

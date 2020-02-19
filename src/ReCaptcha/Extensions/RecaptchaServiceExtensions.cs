@@ -6,12 +6,16 @@ using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>
+    /// <see cref="IServiceCollection"/> extension methods for easy service registration in the StartUp.cs.
+    /// </summary>
     public static class RecaptchaServiceExtensions
     {
         /// <summary>
         /// Register the <see cref="RecaptchaService"/> to the web project and all it's dependencies.
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="options">Specify global options for the service.</param>
         /// <returns></returns>
         public static IServiceCollection AddRecaptchaService(this IServiceCollection services, Action<RecaptchaOptions>? options = null)
         {
