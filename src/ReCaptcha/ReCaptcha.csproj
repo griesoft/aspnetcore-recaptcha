@@ -19,6 +19,10 @@
     <PackageTags>aspnetcore;recaptcha;aspnetcoremvc;actionfilter;google;razor;recaptcha-v2;recaptcha-v3;taghelper</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\repos\ReCaptcha\docs\GSoftware.AspNetCore.ReCaptcha.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
