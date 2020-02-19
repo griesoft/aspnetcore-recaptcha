@@ -7,7 +7,6 @@ using GSoftware.AspNetCore.ReCaptcha.Configuration;
 using GSoftware.AspNetCore.ReCaptcha.Filters;
 using GSoftware.AspNetCore.ReCaptcha.Services;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
