@@ -27,12 +27,6 @@ namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
         public Theme Theme { get; set; } = Theme.Light;
 
         /// <summary>
-        /// Set the badge position for the reCAPTCHA element. This works only when the size is set to <see cref="Size.Invisible"/>.
-        /// Set this to <see cref="BadgePosition.Inline"/> when you want to position it with CSS yourself.
-        /// </summary>
-        public BadgePosition Badge { get; set; } = BadgePosition.BottomRight;
-
-        /// <summary>
         /// Set the size for the reCAPTCHA element. Please note that when you set the size to <see cref="Size.Invisible"/>, 
         /// you need to manually execute the reCAPTCHA.
         /// </summary>
@@ -71,15 +65,7 @@ namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
 
             output.Attributes.SetAttribute("data-sitekey", _settings.SiteKey);
             output.Attributes.SetAttribute("data-size", Size.ToString().ToLowerInvariant());
-
-            if (Size == Size.Invisible)
-            {
-                output.Attributes.SetAttribute("data-badge", Badge.ToString().ToLowerInvariant());
-            }
-            else
-            {
-                output.Attributes.SetAttribute("data-theme", Theme.ToString().ToLowerInvariant());
-            }
+            output.Attributes.SetAttribute("data-theme", Theme.ToString().ToLowerInvariant());
 
             if (TabIndex != null)
             {

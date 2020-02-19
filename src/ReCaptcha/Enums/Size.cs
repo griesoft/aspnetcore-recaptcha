@@ -6,7 +6,6 @@
     public enum Size
     {
         Normal,
-        Compact,
-        Invisible
+        Compact
     }
 }

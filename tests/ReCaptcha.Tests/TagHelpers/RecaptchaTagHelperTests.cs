@@ -17,8 +17,8 @@ namespace ReCaptcha.Tests.TagHelpers
         private const string SiteKey = "unit_test_site_key";
 
         private Mock<IOptionsMonitor<RecaptchaSettings>> _settingsMock;
-        private TagHelperOutput _tagHelperOutput;
-        private TagHelperContext _context;
+        private TagHelperOutput _tagHelperOutputStub;
+        private TagHelperContext _contextStub;
 
         [SetUp]
         public void Initialize()
@@ -32,7 +32,7 @@ namespace ReCaptcha.Tests.TagHelpers
                 })
                 .Verifiable();
 
-            _tagHelperOutput = new TagHelperOutput("recaptcha",
+            _tagHelperOutputStub = new TagHelperOutput("recaptcha",
                 new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
                 {
                     var tagHelperContent = new DefaultTagHelperContent();
@@ -40,9 +40,22 @@ namespace ReCaptcha.Tests.TagHelpers
                     return Task.FromResult<TagHelperContent>(tagHelperContent);
                 });
 
-            _context = new TagHelperContext(new TagHelperAttributeList(),
+            _contextStub = new TagHelperContext(new TagHelperAttributeList(),
                 new Dictionary<object, object>(),
                 Guid.NewGuid().ToString("N"));
+        }
+
+        [Test]
+        public void Process_ShouldThrow_ArgumentNullException()
+        {
+            // Arrange
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+
+            // Act
+
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => scriptTagHelper.Process(_contextStub, null));
         }
 
         [Test]
@@ -52,10 +65,10 @@ namespace ReCaptcha.Tests.TagHelpers
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.AreEqual("div", _tagHelperOutput.TagName);
+            Assert.AreEqual("div", _tagHelperOutputStub.TagName);
         }
 
         [Test]
@@ -63,13 +76,13 @@ namespace ReCaptcha.Tests.TagHelpers
         {
             // Arrange
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
-            _tagHelperOutput.TagMode = TagMode.SelfClosing;
+            _tagHelperOutputStub.TagMode = TagMode.SelfClosing;
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.AreEqual(TagMode.StartTagAndEndTag, _tagHelperOutput.TagMode);
+            Assert.AreEqual(TagMode.StartTagAndEndTag, _tagHelperOutputStub.TagMode);
         }
 
         [Test]
@@ -79,11 +92,11 @@ namespace ReCaptcha.Tests.TagHelpers
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("class"));
-            Assert.AreEqual("g-recaptcha", _tagHelperOutput.Attributes["class"].Value);
+            Assert.IsTrue(_tagHelperOutputStub.Attributes.ContainsName("class"));
+            Assert.AreEqual("g-recaptcha", _tagHelperOutputStub.Attributes["class"].Value);
         }
 
         [Test]
@@ -91,11 +104,11 @@ namespace ReCaptcha.Tests.TagHelpers
         {
             // Arrange
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
-            _tagHelperOutput.Attributes.Add("class", "container text-center");
+            _tagHelperOutputStub.Attributes.Add("class", "container text-center");
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
-            var classes = _tagHelperOutput.Attributes["class"].Value.ToString().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
+            var classes = _tagHelperOutputStub.Attributes["class"].Value.ToString().Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
             // Assert
             Assert.AreEqual(3, classes.Length);
@@ -105,18 +118,30 @@ namespace ReCaptcha.Tests.TagHelpers
         }
 
         [Test]
+        public void Process_ShouldReady_FromSettings_OnlyOnce()
+        {
+            // Arrange
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+
+            // Act
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
+
+            // Assert
+            _settingsMock.Verify(mock => mock.CurrentValue, Times.Once);
+        }
+
+        [Test]
         public void Process_ShouldAdd_SiteKeyAttribute()
         {
             // Arrange
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            _settingsMock.Verify();
-            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("data-sitekey"));
-            Assert.AreEqual(SiteKey, _tagHelperOutput.Attributes["data-sitekey"].Value.ToString());
+            Assert.IsTrue(_tagHelperOutputStub.Attributes.ContainsName("data-sitekey"));
+            Assert.AreEqual(SiteKey, _tagHelperOutputStub.Attributes["data-sitekey"].Value.ToString());
         }
 
         [Test]
@@ -124,15 +149,14 @@ namespace ReCaptcha.Tests.TagHelpers
         {
             // Arrange
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
-            _tagHelperOutput.Attributes.Add("data-sitekey", "false-key");
+            _tagHelperOutputStub.Attributes.Add("data-sitekey", "false-key");
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            _settingsMock.Verify();
-            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribute => attribute.Name == "data-sitekey"));
-            Assert.AreEqual(SiteKey, _tagHelperOutput.Attributes["data-sitekey"].Value.ToString());
+            Assert.AreEqual(1, _tagHelperOutputStub.Attributes.Count(attribute => attribute.Name == "data-sitekey"));
+            Assert.AreEqual(SiteKey, _tagHelperOutputStub.Attributes["data-sitekey"].Value.ToString());
         }
 
         [Test]
@@ -142,11 +166,11 @@ namespace ReCaptcha.Tests.TagHelpers
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("data-size"));
-            Assert.AreEqual(Size.Normal.ToString().ToLowerInvariant(), _tagHelperOutput.Attributes["data-size"].Value.ToString());
+            Assert.IsTrue(_tagHelperOutputStub.Attributes.ContainsName("data-size"));
+            Assert.AreEqual(Size.Normal.ToString().ToLowerInvariant(), _tagHelperOutputStub.Attributes["data-size"].Value.ToString());
         }
 
         [Test]
@@ -158,55 +182,18 @@ namespace ReCaptcha.Tests.TagHelpers
                 Size = Size.Compact
             };
 
-            _tagHelperOutput.Attributes.Add("data-size", "normal");
+            _tagHelperOutputStub.Attributes.Add("data-size", "normal");
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribute => attribute.Name == "data-size"));
-            Assert.AreEqual(Size.Compact.ToString().ToLowerInvariant(), _tagHelperOutput.Attributes["data-size"].Value.ToString());
+            Assert.AreEqual(1, _tagHelperOutputStub.Attributes.Count(attribute => attribute.Name == "data-size"));
+            Assert.AreEqual(Size.Compact.ToString().ToLowerInvariant(), _tagHelperOutputStub.Attributes["data-size"].Value.ToString());
         }
 
         [Test]
-        public void Process_ShouldAdd_DataBadgeAttribute_WhenInvisibleSize()
-        {
-            // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
-            {
-                Size = Size.Invisible
-            };
-
-            // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
-
-            // Assert
-            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("data-badge"));
-            Assert.AreEqual(BadgePosition.BottomRight.ToString().ToLowerInvariant(), _tagHelperOutput.Attributes["data-badge"].Value.ToString());
-        }
-
-        [Test]
-        public void Process_ShouldOverrideExisting_DataBadgeAttribute_WhenInvisibleSize()
-        {
-            // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
-            {
-                Size = Size.Invisible,
-                Badge = BadgePosition.BottomLeft
-            };
-
-            _tagHelperOutput.Attributes.Add("data-badge", "bottomright");
-
-            // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
-
-            // Assert
-            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribute => attribute.Name == "data-badge"));
-            Assert.AreEqual(BadgePosition.BottomLeft.ToString().ToLowerInvariant(), _tagHelperOutput.Attributes["data-badge"].Value.ToString());
-        }
-
-        [Test]
-        public void Process_ShouldNotAdd_DataBadgeAttribute_WhenSizeNotInvisible()
+        public void Process_ShouldAdd_DataThemeAttribute()
         {
             // Arrange
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
@@ -215,31 +202,15 @@ namespace ReCaptcha.Tests.TagHelpers
             };
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.IsFalse(_tagHelperOutput.Attributes.ContainsName("data-badge"));
+            Assert.IsTrue(_tagHelperOutputStub.Attributes.ContainsName("data-theme"));
+            Assert.AreEqual(Theme.Light.ToString().ToLowerInvariant(), _tagHelperOutputStub.Attributes["data-theme"].Value.ToString());
         }
 
         [Test]
-        public void Process_ShouldAdd_DataThemeAttribute_WhenNotInvisibleSize()
-        {
-            // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
-            {
-                Size = Size.Compact
-            };
-
-            // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
-
-            // Assert
-            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("data-theme"));
-            Assert.AreEqual(Theme.Light.ToString().ToLowerInvariant(), _tagHelperOutput.Attributes["data-theme"].Value.ToString());
-        }
-
-        [Test]
-        public void Process_ShouldOverrideExisting_DataThemeAttribute_WhenNotInvisibleSize()
+        public void Process_ShouldOverrideExisting_DataThemeAttribute()
         {
             // Arrange
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
@@ -247,31 +218,14 @@ namespace ReCaptcha.Tests.TagHelpers
                 Theme = Theme.Dark
             };
 
-            _tagHelperOutput.Attributes.Add("data-theme", "light");
+            _tagHelperOutputStub.Attributes.Add("data-theme", "light");
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribute => attribute.Name == "data-theme"));
-            Assert.AreEqual(Theme.Dark.ToString().ToLowerInvariant(), _tagHelperOutput.Attributes["data-theme"].Value.ToString());
-        }
-
-        [Test]
-        public void Process_ShouldNotAdd_DataThemeAttribute_WhenSizeIsInvisible()
-        {
-            // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
-            {
-                Size = Size.Invisible,
-                Theme = Theme.Dark
-            };
-
-            // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
-
-            // Assert
-            Assert.IsFalse(_tagHelperOutput.Attributes.ContainsName("data-theme"));
+            Assert.AreEqual(1, _tagHelperOutputStub.Attributes.Count(attribute => attribute.Name == "data-theme"));
+            Assert.AreEqual(Theme.Dark.ToString().ToLowerInvariant(), _tagHelperOutputStub.Attributes["data-theme"].Value.ToString());
         }
 
         [Test]
@@ -284,11 +238,11 @@ namespace ReCaptcha.Tests.TagHelpers
             };
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("data-tabindex"));
-            Assert.AreEqual(2, (int)_tagHelperOutput.Attributes["data-tabindex"].Value);
+            Assert.IsTrue(_tagHelperOutputStub.Attributes.ContainsName("data-tabindex"));
+            Assert.AreEqual(2, (int)_tagHelperOutputStub.Attributes["data-tabindex"].Value);
         }
 
         [Test]
@@ -300,14 +254,14 @@ namespace ReCaptcha.Tests.TagHelpers
                 TabIndex = 3
             };
 
-            _tagHelperOutput.Attributes.Add("data-tabindex", "1");
+            _tagHelperOutputStub.Attributes.Add("data-tabindex", "1");
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribute => attribute.Name == "data-tabindex"));
-            Assert.AreEqual(3, (int)_tagHelperOutput.Attributes["data-tabindex"].Value);
+            Assert.AreEqual(1, _tagHelperOutputStub.Attributes.Count(attribute => attribute.Name == "data-tabindex"));
+            Assert.AreEqual(3, (int)_tagHelperOutputStub.Attributes["data-tabindex"].Value);
         }
 
         [Test]
@@ -317,10 +271,10 @@ namespace ReCaptcha.Tests.TagHelpers
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.IsFalse(_tagHelperOutput.Attributes.ContainsName("data-tabindex"));
+            Assert.IsFalse(_tagHelperOutputStub.Attributes.ContainsName("data-tabindex"));
         }
 
         [Test]
@@ -333,11 +287,11 @@ namespace ReCaptcha.Tests.TagHelpers
             };
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("data-callback"));
-            Assert.AreEqual("myCallback", _tagHelperOutput.Attributes["data-callback"].Value.ToString());
+            Assert.IsTrue(_tagHelperOutputStub.Attributes.ContainsName("data-callback"));
+            Assert.AreEqual("myCallback", _tagHelperOutputStub.Attributes["data-callback"].Value.ToString());
         }
 
         [Test]
@@ -349,27 +303,27 @@ namespace ReCaptcha.Tests.TagHelpers
                 Callback = "myCallback"
             };
 
-            _tagHelperOutput.Attributes.Add("data-callback", "fake-callback");
+            _tagHelperOutputStub.Attributes.Add("data-callback", "fake-callback");
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribute => attribute.Name == "data-callback"));
-            Assert.AreEqual("myCallback", _tagHelperOutput.Attributes["data-callback"].Value.ToString());
+            Assert.AreEqual(1, _tagHelperOutputStub.Attributes.Count(attribute => attribute.Name == "data-callback"));
+            Assert.AreEqual("myCallback", _tagHelperOutputStub.Attributes["data-callback"].Value.ToString());
         }
 
         [Test]
-        public void Process_ShouldNotAdd_DataCallbackAttribute_WhenCallbackNull()
+        public void Process_ShouldNotAdd_DataCallbackAttribute_WhenCallbackNullOrEmpty()
         {
             // Arrange
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.IsFalse(_tagHelperOutput.Attributes.ContainsName("data-callback"));
+            Assert.IsFalse(_tagHelperOutputStub.Attributes.ContainsName("data-callback"));
         }
 
         [Test]
@@ -382,11 +336,11 @@ namespace ReCaptcha.Tests.TagHelpers
             };
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("data-expired-callback"));
-            Assert.AreEqual("myCallback", _tagHelperOutput.Attributes["data-expired-callback"].Value.ToString());
+            Assert.IsTrue(_tagHelperOutputStub.Attributes.ContainsName("data-expired-callback"));
+            Assert.AreEqual("myCallback", _tagHelperOutputStub.Attributes["data-expired-callback"].Value.ToString());
         }
 
         [Test]
@@ -398,27 +352,27 @@ namespace ReCaptcha.Tests.TagHelpers
                 ExpiredCallback = "myCallback"
             };
 
-            _tagHelperOutput.Attributes.Add("data-expired-callback", "fake-callback");
+            _tagHelperOutputStub.Attributes.Add("data-expired-callback", "fake-callback");
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribute => attribute.Name == "data-expired-callback"));
-            Assert.AreEqual("myCallback", _tagHelperOutput.Attributes["data-expired-callback"].Value.ToString());
+            Assert.AreEqual(1, _tagHelperOutputStub.Attributes.Count(attribute => attribute.Name == "data-expired-callback"));
+            Assert.AreEqual("myCallback", _tagHelperOutputStub.Attributes["data-expired-callback"].Value.ToString());
         }
 
         [Test]
-        public void Process_ShouldNotAdd_DataExpiredCallbackAttribute_WhenExpiredCallbackNull()
+        public void Process_ShouldNotAdd_DataExpiredCallbackAttribute_WhenExpiredCallbackNullOrEmpty()
         {
             // Arrange
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.IsFalse(_tagHelperOutput.Attributes.ContainsName("data-expired-callback"));
+            Assert.IsFalse(_tagHelperOutputStub.Attributes.ContainsName("data-expired-callback"));
         }
 
         [Test]
@@ -431,11 +385,11 @@ namespace ReCaptcha.Tests.TagHelpers
             };
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("data-error-callback"));
-            Assert.AreEqual("myCallback", _tagHelperOutput.Attributes["data-error-callback"].Value.ToString());
+            Assert.IsTrue(_tagHelperOutputStub.Attributes.ContainsName("data-error-callback"));
+            Assert.AreEqual("myCallback", _tagHelperOutputStub.Attributes["data-error-callback"].Value.ToString());
         }
 
         [Test]
@@ -447,27 +401,27 @@ namespace ReCaptcha.Tests.TagHelpers
                 ErrorCallback = "myCallback"
             };
 
-            _tagHelperOutput.Attributes.Add("data-error-callback", "fake-callback");
+            _tagHelperOutputStub.Attributes.Add("data-error-callback", "fake-callback");
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribute => attribute.Name == "data-error-callback"));
-            Assert.AreEqual("myCallback", _tagHelperOutput.Attributes["data-error-callback"].Value.ToString());
+            Assert.AreEqual(1, _tagHelperOutputStub.Attributes.Count(attribute => attribute.Name == "data-error-callback"));
+            Assert.AreEqual("myCallback", _tagHelperOutputStub.Attributes["data-error-callback"].Value.ToString());
         }
 
         [Test]
-        public void Process_ShouldNotAdd_DataErrorCallbackAttribute_WhenErrorCallbackNull()
+        public void Process_ShouldNotAdd_DataErrorCallbackAttribute_WhenErrorCallbackNullOrEmpty()
         {
             // Arrange
             var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
 
             // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
+            scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
 
             // Assert
-            Assert.IsFalse(_tagHelperOutput.Attributes.ContainsName("data-error-callback"));
+            Assert.IsFalse(_tagHelperOutputStub.Attributes.ContainsName("data-error-callback"));
         }
     }
 }
