@@ -61,6 +61,15 @@ namespace GSoftware.AspNetCore.ReCaptcha.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A callback function name must be specified. Invisible reCAPTCHA does not work without it..
+        /// </summary>
+        internal static string CallbackPropertyNullErrorMessage {
+            get {
+                return ResourceManager.GetString("CallbackPropertyNullErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The reCAPTCHA response token was not valid. Blocked a bot there, yay!.
         /// </summary>
         internal static string InvalidResponseTokenMessage {

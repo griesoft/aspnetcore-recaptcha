@@ -2,19 +2,23 @@
 using System.Text.Encodings.Web;
 using GSoftware.AspNetCore.ReCaptcha.Configuration;
 using GSoftware.AspNetCore.ReCaptcha.Extensions;
+using GSoftware.AspNetCore.ReCaptcha.Localization;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Options;
 
 namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
 {
     /// <summary>
-    /// A tag helper which adds a Google reCAPTCHA div element to your page.
+    /// Add a invisible reCAPTCHA div element to your page or automatically bind the invisible captcha to a button element
+    /// by adding a re-invisible attribute to it. Both require in addition the callback attribute.
     /// </summary>
-    public class RecaptchaTagHelper : TagHelper
+    [HtmlTargetElement("recaptcha-invisible", Attributes = "callback", TagStructure = TagStructure.WithoutEndTag)]
+    [HtmlTargetElement("button", Attributes = "re-invisible,callback")]
+    public class RecaptchaInvisibleTagHelper : TagHelper
     {
         private readonly RecaptchaSettings _settings;
 
-        public RecaptchaTagHelper(IOptionsMonitor<RecaptchaSettings> settings)
+        public RecaptchaInvisibleTagHelper(IOptionsMonitor<RecaptchaSettings> settings)
         {
             _ = settings ?? throw new ArgumentNullException(nameof(settings));
 
@@ -22,15 +26,10 @@ namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
         }
 
         /// <summary>
-        /// Set the theme for the reCAPTCHA element. Does not have any effect when the size is set to <see cref="Size.Invisible"/>.
+        /// Set the badge position for the reCAPTCHA element. This works only when the size is set to <see cref="Size.Invisible"/>.
+        /// Set this to <see cref="BadgePosition.Inline"/> when you want to position it with CSS yourself.
         /// </summary>
-        public Theme Theme { get; set; } = Theme.Light;
-
-        /// <summary>
-        /// Set the size for the reCAPTCHA element. Please note that when you set the size to <see cref="Size.Invisible"/>, 
-        /// you need to manually execute the reCAPTCHA.
-        /// </summary>
-        public Size Size { get; set; } = Size.Normal;
+        public BadgePosition Badge { get; set; } = BadgePosition.BottomRight;
 
         /// <summary>
         /// Set the tabindex of the reCAPTCHA element. If other elements in your page use tabindex, it should be set to make user navigation easier.
@@ -40,7 +39,7 @@ namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
         /// <summary>
         /// Set the name of your callback function, executed when the user submits a successful response. The "g-recaptcha-response" token is passed to your callback.
         /// </summary>
-        public string? Callback { get; set; }
+        public string Callback { get; set; } = string.Empty;
 
         /// <summary>
         /// Set the name of your callback function, executed when the reCAPTCHA response expires and the user needs to re-verify.
@@ -55,27 +54,38 @@ namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
 
         /// <inheritdoc />
         /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="NullReferenceException"><see cref="Callback"/> must not be null. It is required for invisible reCAPTCHA to work.</exception>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             _ = output ?? throw new ArgumentNullException(nameof(output));
 
-            output.TagName = "div";
+            if (string.IsNullOrEmpty(Callback))
+            {
+                throw new NullReferenceException(Resources.CallbackPropertyNullErrorMessage);
+            }
+
+            if (output.TagName == "button")
+            {
+                output.Attributes.Remove(output.Attributes["re-invisible"]);
+            }
+            else
+            {
+                output.TagName = "div";
+
+                output.Attributes.SetAttribute("data-size", "invisible");
+            }
+
             output.TagMode = TagMode.StartTagAndEndTag;
 
             output.AddClass("g-recaptcha", HtmlEncoder.Default);
 
             output.Attributes.SetAttribute("data-sitekey", _settings.SiteKey);
-            output.Attributes.SetAttribute("data-size", Size.ToString().ToLowerInvariant());
-            output.Attributes.SetAttribute("data-theme", Theme.ToString().ToLowerInvariant());
+            output.Attributes.SetAttribute("data-badge", Badge.ToString().ToLowerInvariant());
+            output.Attributes.SetAttribute("data-callback", Callback);
 
             if (TabIndex != null)
             {
                 output.Attributes.SetAttribute("data-tabindex", TabIndex);
-            }
-
-            if (!string.IsNullOrEmpty(Callback))
-            {
-                output.Attributes.SetAttribute("data-callback", Callback);
             }
 
             if (!string.IsNullOrEmpty(ExpiredCallback))

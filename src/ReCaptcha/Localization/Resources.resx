@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CallbackPropertyNullErrorMessage" xml:space="preserve">
+    <value>A callback function name must be specified. Invisible reCAPTCHA does not work without it.</value>
+  </data>
   <data name="InvalidResponseTokenMessage" xml:space="preserve">
     <value>The reCAPTCHA response token was not valid. Blocked a bot there, yay!</value>
   </data>
