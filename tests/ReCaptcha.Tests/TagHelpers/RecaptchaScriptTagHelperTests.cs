@@ -47,6 +47,33 @@ namespace ReCaptcha.Tests.TagHelpers
         }
 
         [Test]
+        public void Construction_IsSuccessful()
+        {
+            // Arrange
+
+
+            // Act
+            var instance = new RecaptchaScriptTagHelper(_settingsMock.Object);
+
+            // Assert
+            Assert.NotNull(instance);
+            _settingsMock.Verify(settings => settings.CurrentValue, Times.Once);
+        }
+
+        [Test]
+        public void Constructor_ShouldThrow_WhenSettingsNull()
+        {
+            // Arrange
+
+
+            // Act
+
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => new RecaptchaScriptTagHelper(null));
+        }
+
+        [Test]
         public void Process_ShouldChangeTagTo_ScriptTag()
         {
             // Arrange

@@ -68,6 +68,19 @@ namespace ReCaptcha.Tests.Filters
             _filter = new ValidateRecaptchaFilter(_recaptchaServiceMock.Object, _optionsMock.Object, _logger);
         }
 
+        [Test]
+        public void Construction_IsSuccessful()
+        {
+            // Arrange
+
+
+            // Act
+            var instance = new ValidateRecaptchaFilter(_recaptchaServiceMock.Object, _optionsMock.Object, _logger);
+
+            // Assert
+            Assert.NotNull(instance);
+        }
+
         [Test(Description = "The default value for OnValidationFailedAction when creating a new instance of the filter " +
             "is Undefined. So we run the method and verify that the value was changed to something else.")]
         public async Task OnActionExecutionAsync_OnValidationFailedAction_IsNeverUndefined()
