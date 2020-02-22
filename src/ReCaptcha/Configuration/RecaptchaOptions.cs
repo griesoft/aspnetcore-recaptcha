@@ -1,7 +1,9 @@
-﻿namespace GSoftware.AspNetCore.ReCaptcha.Configuration
+﻿using GSoftware.AspNetCore.ReCaptcha.TagHelpers;
+
+namespace GSoftware.AspNetCore.ReCaptcha.Configuration
 {
     /// <summary>
-    /// 
+    /// Options for this reCAPTCHA service. You can set your global default values for the service on app startup.
     /// </summary>
     public class RecaptchaOptions
     {
@@ -24,10 +26,25 @@
         /// The value may never be set to <see cref="ValidationFailedAction.Unspecified"/>, it will always be translated to
         /// <see cref="ValidationFailedAction.BlockRequest"/>.
         /// </remarks>
-        public ValidationFailedAction ValidationFailedAction 
+        public ValidationFailedAction ValidationFailedAction
         {
             get => _validationFailedAction;
             set => _validationFailedAction = value == ValidationFailedAction.Unspecified ? ValidationFailedAction.BlockRequest : value;
         }
+
+        /// <summary>
+        /// The global default size value for a reCAPTCHA tag.
+        /// </summary>
+        public Size Size { get; set; } = Size.Normal;
+
+        /// <summary>
+        /// The global default theme value for a reCAPTCHA tag.
+        /// </summary>
+        public Theme Theme { get; set; } = Theme.Light;
+
+        /// <summary>
+        /// The global default badge value for an invisible reCAPTCHA tag.
+        /// </summary>
+        public BadgePosition Badge { get; set; } = BadgePosition.BottomRight;
     }
 }

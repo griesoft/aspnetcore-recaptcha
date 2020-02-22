@@ -18,6 +18,7 @@ namespace ReCaptcha.Tests.TagHelpers
         private const string CallbackName = "myCallback";
 
         private Mock<IOptionsMonitor<RecaptchaSettings>> _settingsMock;
+        private Mock<IOptionsMonitor<RecaptchaOptions>> _optionsMock;
         private TagHelperOutput _tagHelperOutputStub;
         private TagHelperContext _contextStub;
         private RecaptchaInvisibleTagHelper invisibleTagHelper;
@@ -34,6 +35,11 @@ namespace ReCaptcha.Tests.TagHelpers
                 })
                 .Verifiable();
 
+            _optionsMock = new Mock<IOptionsMonitor<RecaptchaOptions>>();
+            _optionsMock.SetupGet(instance => instance.CurrentValue)
+                .Returns(new RecaptchaOptions())
+                .Verifiable();
+
             _tagHelperOutputStub = new TagHelperOutput("recaptcha-invisible",
                 new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
                 {
@@ -46,10 +52,84 @@ namespace ReCaptcha.Tests.TagHelpers
                 new Dictionary<object, object>(),
                 Guid.NewGuid().ToString("N"));
 
-            invisibleTagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object)
+            invisibleTagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 Callback = CallbackName
             };
+        }
+
+        [Test]
+        public void Construction_IsSuccessful()
+        {
+            // Arrange
+            _settingsMock = new Mock<IOptionsMonitor<RecaptchaSettings>>();
+            _settingsMock.SetupGet(instance => instance.CurrentValue)
+                .Returns(new RecaptchaSettings())
+                .Verifiable();
+
+            _optionsMock = new Mock<IOptionsMonitor<RecaptchaOptions>>();
+            _optionsMock.SetupGet(instance => instance.CurrentValue)
+                .Returns(new RecaptchaOptions())
+                .Verifiable();
+
+            // Act
+            var instance = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object);
+
+            // Assert
+            Assert.NotNull(instance);
+            _settingsMock.Verify(settings => settings.CurrentValue, Times.Once);
+            _optionsMock.Verify(options => options.CurrentValue, Times.Once);
+        }
+
+        [Test]
+        public void Constructor_ShouldThrow_WhenSettingsNull()
+        {
+            // Arrange
+
+
+            // Act
+
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => new RecaptchaInvisibleTagHelper(null, _optionsMock.Object));
+        }
+
+        [Test]
+        public void Constructor_ShouldThrow_WhenOptionsNull()
+        {
+            // Arrange
+
+
+            // Act
+
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => new RecaptchaInvisibleTagHelper(_settingsMock.Object, null));
+        }
+
+        [Test]
+        public void Constructor_ShouldSet_DefaultValues_FromGlobalOptions()
+        {
+            // Arrange
+            _settingsMock = new Mock<IOptionsMonitor<RecaptchaSettings>>();
+            _settingsMock.SetupGet(instance => instance.CurrentValue)
+                .Returns(new RecaptchaSettings())
+                .Verifiable();
+
+            _optionsMock = new Mock<IOptionsMonitor<RecaptchaOptions>>();
+            _optionsMock.SetupGet(instance => instance.CurrentValue)
+                .Returns(new RecaptchaOptions()
+                {
+                    Badge = BadgePosition.Inline
+                })
+                .Verifiable();
+
+            // Act
+            var tagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object);
+
+            // Assert
+            _optionsMock.Verify(options => options.CurrentValue, Times.Once);
+            Assert.AreEqual(BadgePosition.Inline, tagHelper.Badge);
         }
 
         [Test]
@@ -69,11 +149,11 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldThrow_NullReferenceException_WhenCallbackNullOrEmpty()
         {
             // Arrange
-            var nullCallbackTagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object)
+            var nullCallbackTagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 Callback = null
             };
-            var emptyCallbackTagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object)
+            var emptyCallbackTagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 Callback = string.Empty
             };

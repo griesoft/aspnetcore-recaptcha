@@ -13,24 +13,37 @@ namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
     public class RecaptchaTagHelper : TagHelper
     {
         private readonly RecaptchaSettings _settings;
+        private readonly RecaptchaOptions _options;
 
-        public RecaptchaTagHelper(IOptionsMonitor<RecaptchaSettings> settings)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="options"></param>
+        public RecaptchaTagHelper(IOptionsMonitor<RecaptchaSettings> settings, IOptionsMonitor<RecaptchaOptions> options)
         {
             _ = settings ?? throw new ArgumentNullException(nameof(settings));
+            _ = options ?? throw new ArgumentNullException(nameof(options));
 
             _settings = settings.CurrentValue;
+            _options = options.CurrentValue;
+
+            Theme = _options.Theme;
+            Size = _options.Size;
         }
 
         /// <summary>
-        /// Set the theme for the reCAPTCHA element. Does not have any effect when the size is set to <see cref="Size.Invisible"/>.
+        /// Set the theme for the reCAPTCHA element.
         /// </summary>
-        public Theme Theme { get; set; } = Theme.Light;
+        /// <remarks>
+        /// The invisible theme is not a option, because you should use <see cref="RecaptchaInvisibleTagHelper"/> instead for that.
+        /// </remarks>
+        public Theme Theme { get; set; }
 
         /// <summary>
-        /// Set the size for the reCAPTCHA element. Please note that when you set the size to <see cref="Size.Invisible"/>, 
-        /// you need to manually execute the reCAPTCHA.
+        /// Set the size for the reCAPTCHA element.
         /// </summary>
-        public Size Size { get; set; } = Size.Normal;
+        public Size Size { get; set; }
 
         /// <summary>
         /// Set the tabindex of the reCAPTCHA element. If other elements in your page use tabindex, it should be set to make user navigation easier.

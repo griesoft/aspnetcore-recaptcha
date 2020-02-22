@@ -17,6 +17,7 @@ namespace ReCaptcha.Tests.TagHelpers
         private const string SiteKey = "unit_test_site_key";
 
         private Mock<IOptionsMonitor<RecaptchaSettings>> _settingsMock;
+        private Mock<IOptionsMonitor<RecaptchaOptions>> _optionsMock;
         private TagHelperOutput _tagHelperOutputStub;
         private TagHelperContext _contextStub;
 
@@ -30,6 +31,11 @@ namespace ReCaptcha.Tests.TagHelpers
                     SiteKey = SiteKey,
                     SecretKey = string.Empty
                 })
+                .Verifiable();
+
+            _optionsMock = new Mock<IOptionsMonitor<RecaptchaOptions>>();
+            _optionsMock.SetupGet(instance => instance.CurrentValue)
+                .Returns(new RecaptchaOptions())
                 .Verifiable();
 
             _tagHelperOutputStub = new TagHelperOutput("recaptcha",
@@ -46,10 +52,72 @@ namespace ReCaptcha.Tests.TagHelpers
         }
 
         [Test]
+        public void Construction_IsSuccessful()
+        {
+            // Arrange
+
+
+            // Act
+            var instance = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
+
+            // Assert
+            Assert.NotNull(instance);
+            _settingsMock.Verify(settings => settings.CurrentValue, Times.Once);
+            _optionsMock.Verify(options => options.CurrentValue, Times.Once);
+        }
+
+        [Test]
+        public void Constructor_ShouldThrow_WhenSettingsNull()
+        {
+            // Arrange
+
+
+            // Act
+
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => new RecaptchaTagHelper(null, _optionsMock.Object));
+        }
+
+        [Test]
+        public void Constructor_ShouldThrow_WhenOptionsNull()
+        {
+            // Arrange
+
+
+            // Act
+
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => new RecaptchaTagHelper(_settingsMock.Object, null));
+        }
+
+        [Test]
+        public void Constructor_ShouldSet_DefaultValues_FromGlobalOptions()
+        {
+            // Arrange
+            _optionsMock.SetupGet(instance => instance.CurrentValue)
+                .Returns(new RecaptchaOptions()
+                {
+                    Theme = Theme.Dark,
+                    Size = Size.Compact
+                })
+                .Verifiable();
+
+            // Act
+            var tagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
+
+            // Assert
+            _optionsMock.Verify(options => options.CurrentValue, Times.Once);
+            Assert.AreEqual(Theme.Dark, tagHelper.Theme);
+            Assert.AreEqual(Size.Compact, tagHelper.Size);
+        }
+
+        [Test]
         public void Process_ShouldThrow_ArgumentNullException()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
 
             // Act
 
@@ -62,7 +130,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldChangeTagTo_DivTag()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
 
             // Act
             scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
@@ -75,7 +143,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldChange_TagModeTo_StartTagAndEndTag()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
             _tagHelperOutputStub.TagMode = TagMode.SelfClosing;
 
             // Act
@@ -89,7 +157,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldAdd_RecaptchaClass()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
 
             // Act
             scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
@@ -103,7 +171,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldAdd_RecaptchaClassAnd_KeepExistingClasses()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
             _tagHelperOutputStub.Attributes.Add("class", "container text-center");
 
             // Act
@@ -121,7 +189,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldReady_FromSettings_OnlyOnce()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
 
             // Act
             scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
@@ -134,7 +202,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldAdd_SiteKeyAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
 
             // Act
             scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
@@ -148,7 +216,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldOverrideExisting_SiteKeyAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
             _tagHelperOutputStub.Attributes.Add("data-sitekey", "false-key");
 
             // Act
@@ -163,7 +231,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldAdd_DataSizeAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
 
             // Act
             scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
@@ -177,7 +245,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldOverrideExisting_DataSizeAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 Size = Size.Compact
             };
@@ -196,7 +264,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldAdd_DataThemeAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 Size = Size.Compact
             };
@@ -213,7 +281,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldOverrideExisting_DataThemeAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 Theme = Theme.Dark
             };
@@ -232,7 +300,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldAdd_DataTabindexAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 TabIndex = 2
             };
@@ -249,7 +317,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldOverrideExisting_DataTabIndexAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 TabIndex = 3
             };
@@ -268,7 +336,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldNotAdd_DataTabIndexAttribute_WhenTabIndexNull()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
 
             // Act
             scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
@@ -281,7 +349,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldAdd_DataCallbackAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 Callback = "myCallback"
             };
@@ -298,7 +366,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldOverrideExisting_DataCallbackAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 Callback = "myCallback"
             };
@@ -317,7 +385,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldNotAdd_DataCallbackAttribute_WhenCallbackNullOrEmpty()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
 
             // Act
             scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
@@ -330,7 +398,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldAdd_DataExpiredCallbackAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 ExpiredCallback = "myCallback"
             };
@@ -347,7 +415,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldOverrideExisting_DataExpiredCallbackAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 ExpiredCallback = "myCallback"
             };
@@ -366,7 +434,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldNotAdd_DataExpiredCallbackAttribute_WhenExpiredCallbackNullOrEmpty()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
 
             // Act
             scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);
@@ -379,7 +447,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldAdd_DataErrorCallbackAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 ErrorCallback = "myCallback"
             };
@@ -396,7 +464,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldOverrideExisting_DataErrorCallbackAttribute()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object)
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object)
             {
                 ErrorCallback = "myCallback"
             };
@@ -415,7 +483,7 @@ namespace ReCaptcha.Tests.TagHelpers
         public void Process_ShouldNotAdd_DataErrorCallbackAttribute_WhenErrorCallbackNullOrEmpty()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object);
+            var scriptTagHelper = new RecaptchaTagHelper(_settingsMock.Object, _optionsMock.Object);
 
             // Act
             scriptTagHelper.Process(_contextStub, _tagHelperOutputStub);

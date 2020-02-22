@@ -17,19 +17,30 @@ namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
     public class RecaptchaInvisibleTagHelper : TagHelper
     {
         private readonly RecaptchaSettings _settings;
+        private readonly RecaptchaOptions _options;
 
-        public RecaptchaInvisibleTagHelper(IOptionsMonitor<RecaptchaSettings> settings)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="options"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public RecaptchaInvisibleTagHelper(IOptionsMonitor<RecaptchaSettings> settings, IOptionsMonitor<RecaptchaOptions> options)
         {
             _ = settings ?? throw new ArgumentNullException(nameof(settings));
+            _ = options ?? throw new ArgumentNullException(nameof(options));
 
             _settings = settings.CurrentValue;
+            _options = options.CurrentValue;
+
+            Badge = _options.Badge;
         }
 
         /// <summary>
-        /// Set the badge position for the reCAPTCHA element. This works only when the size is set to <see cref="Size.Invisible"/>.
+        /// Set the badge position for the reCAPTCHA element.
         /// Set this to <see cref="BadgePosition.Inline"/> when you want to position it with CSS yourself.
         /// </summary>
-        public BadgePosition Badge { get; set; } = BadgePosition.BottomRight;
+        public BadgePosition Badge { get; set; }
 
         /// <summary>
         /// Set the tabindex of the reCAPTCHA element. If other elements in your page use tabindex, it should be set to make user navigation easier.
