@@ -5,7 +5,14 @@
     /// </summary>
     public enum Theme
     {
+        /// <summary>
+        /// 
+        /// </summary>
         Light,
+
+        /// <summary>
+        /// 
+        /// </summary>
         Dark
     }
 }

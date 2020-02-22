@@ -2,7 +2,6 @@
 using GSoftware.AspNetCore.ReCaptcha.Filters;
 using GSoftware.AspNetCore.ReCaptcha.Localization;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace GSoftware.AspNetCore.ReCaptcha
 {

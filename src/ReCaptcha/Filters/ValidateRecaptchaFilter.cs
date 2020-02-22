@@ -68,8 +68,8 @@ namespace GSoftware.AspNetCore.ReCaptcha.Filters
 
         private string? GetRemoteIp(ActionExecutingContext context)
         {
-            return _options.UseRemoteIp ? 
-                context.HttpContext.Connection.RemoteIpAddress.ToString() : 
+            return _options.UseRemoteIp ?
+                context.HttpContext.Connection.RemoteIpAddress.ToString() :
                 null;
         }
         private bool TryGetRecaptchaToken(HttpRequest request, [NotNullWhen(true)] out string? token)

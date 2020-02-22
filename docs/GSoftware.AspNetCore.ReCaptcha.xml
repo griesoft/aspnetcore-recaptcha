@@ -70,7 +70,7 @@
         </member>
         <member name="T:GSoftware.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions">
             <summary>
-            
+            Options for this reCAPTCHA service. You can set your global default values for the service on app startup.
             </summary>
         </member>
         <member name="P:GSoftware.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions.UseRemoteIp">
@@ -92,10 +92,53 @@
             <see cref="F:GSoftware.AspNetCore.ReCaptcha.ValidationFailedAction.BlockRequest"/>.
             </remarks>
         </member>
+        <member name="P:GSoftware.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions.Size">
+            <summary>
+            The global default size value for a reCAPTCHA tag.
+            </summary>
+        </member>
+        <member name="P:GSoftware.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions.Theme">
+            <summary>
+            The global default theme value for a reCAPTCHA tag.
+            </summary>
+        </member>
+        <member name="P:GSoftware.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions.Badge">
+            <summary>
+            The global default badge value for an invisible reCAPTCHA tag.
+            </summary>
+        </member>
+        <member name="T:GSoftware.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings">
+            <summary>
+            Mandatory settings for this reCAPTCHA service. The values for this object will be read from your appsettings.json file.
+            </summary>
+            <remarks>
+            For more information about configuration in ASP.NET Core check out Microsoft docs: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1
+            </remarks>
+            <seealso cref="N:Microsoft.Extensions.Configuration"/>
+        </member>
+        <member name="P:GSoftware.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings.SiteKey">
+            <summary>
+            The public reCAPTCHA site key. Will be added to reCAPTCHA HTML elements as the data-sitekey attribute.
+            </summary>
+        </member>
         <member name="T:GSoftware.AspNetCore.ReCaptcha.TagHelpers.BadgePosition">
             <summary>
-            Recaptcha badge options for the <see cref="T:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaTagHelper"/>. Only usable in combination
-            with the <see cref="!:Size.Invisible"/> size option.
+            Recaptcha badge options for the <see cref="T:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper"/>.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.TagHelpers.BadgePosition.BottomLeft">
+            <summary>
+            Position the badge in the bottom left of your page.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.TagHelpers.BadgePosition.BottomRight">
+            <summary>
+            Position the badge in the bottom right of your page.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.TagHelpers.BadgePosition.Inline">
+            <summary>
+            Use this if you want to customize the position with CSS yourself.
             </summary>
         </member>
         <member name="T:GSoftware.AspNetCore.ReCaptcha.TagHelpers.Render">
@@ -103,14 +146,50 @@
             Recaptcha rendering options for the <see cref="T:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaScriptTagHelper"/>.
             </summary>
         </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.TagHelpers.Render.Explicit">
+            <summary>
+            Render the reCAPTCHA elements explicitly after the scripts have loaded successfully.
+            You need to provide a success callback and handle rendering of the reCAPTCHA elements in it yourself.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.TagHelpers.Render.Onload">
+            <summary>
+            The default rendering option. This will render your reCAPTCHA elements automatically after the script has loaded successfully.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.TagHelpers.Render.V3">
+            <summary>
+            Loads the reCAPTCHA V3 script. It will behave mostly the same like <see cref="F:GSoftware.AspNetCore.ReCaptcha.TagHelpers.Render.Explicit"/>, so you have to render the reCAPTCHA elements yourself.
+            </summary>
+        </member>
         <member name="T:GSoftware.AspNetCore.ReCaptcha.TagHelpers.Size">
             <summary>
             Recaptcha size options for the <see cref="T:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaTagHelper"/>.
             </summary>
         </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.TagHelpers.Size.Normal">
+            <summary>
+            The default value for an reCAPTCHA element.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.TagHelpers.Size.Compact">
+            <summary>
+            A smaller and compact style option for the reCAPTCHA element.
+            </summary>
+        </member>
         <member name="T:GSoftware.AspNetCore.ReCaptcha.TagHelpers.Theme">
             <summary>
             Recaptcha theme options for the <see cref="T:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaTagHelper"/>.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.TagHelpers.Theme.Light">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.TagHelpers.Theme.Dark">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper">
@@ -119,9 +198,17 @@
             by adding a re-invisible attribute to it. Both require in addition the callback attribute.
             </summary>
         </member>
+        <member name="M:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{GSoftware.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings},Microsoft.Extensions.Options.IOptionsMonitor{GSoftware.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions})">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
+            <param name="options"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
         <member name="P:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Badge">
             <summary>
-            Set the badge position for the reCAPTCHA element. This works only when the size is set to <see cref="!:Size.Invisible"/>.
+            Set the badge position for the reCAPTCHA element.
             Set this to <see cref="F:GSoftware.AspNetCore.ReCaptcha.TagHelpers.BadgePosition.Inline"/> when you want to position it with CSS yourself.
             </summary>
         </member>
@@ -158,6 +245,13 @@
             after that callback to avoid race conditions.
             </summary>
         </member>
+        <member name="M:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaScriptTagHelper.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{GSoftware.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings})">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
         <member name="P:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaScriptTagHelper.Render">
             <summary>
             Set the rendering mode for the script.
@@ -183,15 +277,24 @@
             A tag helper which adds a Google reCAPTCHA div element to your page.
             </summary>
         </member>
+        <member name="M:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaTagHelper.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{GSoftware.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings},Microsoft.Extensions.Options.IOptionsMonitor{GSoftware.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions})">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
+            <param name="options"></param>
+        </member>
         <member name="P:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaTagHelper.Theme">
             <summary>
-            Set the theme for the reCAPTCHA element. Does not have any effect when the size is set to <see cref="!:Size.Invisible"/>.
+            Set the theme for the reCAPTCHA element.
             </summary>
+            <remarks>
+            The invisible theme is not a option, because you should use <see cref="T:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper"/> instead for that.
+            </remarks>
         </member>
         <member name="P:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaTagHelper.Size">
             <summary>
-            Set the size for the reCAPTCHA element. Please note that when you set the size to <see cref="!:Size.Invisible"/>, 
-            you need to manually execute the reCAPTCHA.
+            Set the size for the reCAPTCHA element.
             </summary>
         </member>
         <member name="P:GSoftware.AspNetCore.ReCaptcha.TagHelpers.RecaptchaTagHelper.TabIndex">
@@ -224,9 +327,64 @@
             Recaptcha validation error reason message enum fields.
             </summary>
         </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.ValidationError.Undefined">
+            <summary>
+            Somethign went wrong in a very bad way. You can consider yourself lucky when you hit this error.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.ValidationError.MissingInputSecret">
+            <summary>
+            No input secret was provided. Make sure you have configured the service correctly.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.ValidationError.InvalidInputSecret">
+            <summary>
+            The secret parameter is invalid or malformed. Make sure you have not switched the secret key with the site key accidently.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.ValidationError.MissingInputResponse">
+            <summary>
+            The response token is missing.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.ValidationError.InvalidInputResponse">
+            <summary>
+            The response parameter is invalid or malformed.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.ValidationError.BadRequest">
+            <summary>
+            The request is invalid or malformed.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.ValidationError.TimeoutOrDuplicate">
+            <summary>
+            The response is no longer valid: either is too old or has been used previously.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.ValidationError.HttpRequestFailed">
+            <summary>
+            The connection to the reCAPTCHA validation endpoint failed.
+            </summary>
+        </member>
         <member name="T:GSoftware.AspNetCore.ReCaptcha.ValidationFailedAction">
             <summary>
             Options which specify what to do with a HTTP request when a reCAPTCHA response token was invalid.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.ValidationFailedAction.Unspecified">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.ValidationFailedAction.BlockRequest">
+            <summary>
+            The validation filter will block and stop execution of requests which did fail reCAPTCHA response verification.
+            </summary>
+        </member>
+        <member name="F:GSoftware.AspNetCore.ReCaptcha.ValidationFailedAction.ContinueRequest">
+            <summary>
+            The validation filter will allow the request to continue even if the reCAPTCHA response verification failed.
             </summary>
         </member>
         <member name="T:GSoftware.AspNetCore.ReCaptcha.Localization.Resources">
