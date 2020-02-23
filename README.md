@@ -44,7 +44,7 @@ public void ConfigureServices(IServiceCollection services)
 
 First you will need to import the tag helpers. Open your `_ViewImports.cshtml` file and add the following lines:
 
-```csharp
+```razor
 @using GSoftware.AspNetCore.ReCaptcha
 
 @addTagHelper *, GSoftware.AspNetCore.ReCaptcha
