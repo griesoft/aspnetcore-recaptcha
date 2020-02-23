@@ -78,7 +78,7 @@ jobs:
     dependsOn: 
       - BuildPack
       - Test
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     environment: Development
     strategy:
       runOnce:
