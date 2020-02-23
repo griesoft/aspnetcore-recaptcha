@@ -23,7 +23,7 @@ namespace ReCaptcha.Tests.Services
         private const string Token = "testtoken";
 
         private ILogger<RecaptchaService> _logger;
-        private Mock<IOptionsMonitor<RecaptchaSettings>> _optionsMock;
+        private Mock<IOptionsMonitor<RecaptchaSettings>> _settingsMock;
         private Mock<HttpMessageHandler> _httpMessageHandlerMock;
         private HttpClient _httpClient;
 
@@ -32,8 +32,8 @@ namespace ReCaptcha.Tests.Services
         {
             _logger = new LoggerFactory().CreateLogger<RecaptchaService>();
 
-            _optionsMock = new Mock<IOptionsMonitor<RecaptchaSettings>>();
-            _optionsMock.SetupGet(instance => instance.CurrentValue)
+            _settingsMock = new Mock<IOptionsMonitor<RecaptchaSettings>>();
+            _settingsMock.SetupGet(instance => instance.CurrentValue)
                 .Returns(new RecaptchaSettings()
                 {
                     SiteKey = SiteKey,
@@ -62,10 +62,24 @@ namespace ReCaptcha.Tests.Services
         }
 
         [Test]
+        public void Construction_IsSuccessful()
+        {
+            // Arrange
+
+
+            // Act
+            var instance = new RecaptchaService(_settingsMock.Object, _httpClient, _logger);
+
+            // Assert
+            Assert.NotNull(instance);
+            _settingsMock.Verify(settings => settings.CurrentValue, Times.Once);
+        }
+
+        [Test]
         public void ValidateRecaptchaResponse_ShouldThrow_ArgumentNullException()
         {
             // Arrange
-            var service = new RecaptchaService(_optionsMock.Object, _httpClient, _logger);
+            var service = new RecaptchaService(_settingsMock.Object, _httpClient, _logger);
 
             // Act
 
@@ -96,7 +110,7 @@ namespace ReCaptcha.Tests.Services
                 BaseAddress = new Uri("http://test.com/"),
             };
 
-            var service = new RecaptchaService(_optionsMock.Object, _httpClient, _logger);
+            var service = new RecaptchaService(_settingsMock.Object, _httpClient, _logger);
 
             // Act
             var response = await service.ValidateRecaptchaResponse(Token);
@@ -126,7 +140,7 @@ namespace ReCaptcha.Tests.Services
                 BaseAddress = new Uri("http://test.com/"),
             };
 
-            var service = new RecaptchaService(_optionsMock.Object, _httpClient, _logger);
+            var service = new RecaptchaService(_settingsMock.Object, _httpClient, _logger);
 
             // Act
 
@@ -140,7 +154,7 @@ namespace ReCaptcha.Tests.Services
         public async Task ValidateRecaptchaResponse_ShouldReturn_DeserializedResponse()
         {
             // Arrange
-            var service = new RecaptchaService(_optionsMock.Object, _httpClient, _logger);
+            var service = new RecaptchaService(_settingsMock.Object, _httpClient, _logger);
 
             // Act
             var response = await service.ValidateRecaptchaResponse(Token);

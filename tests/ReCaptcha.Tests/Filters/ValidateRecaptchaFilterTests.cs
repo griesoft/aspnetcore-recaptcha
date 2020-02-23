@@ -7,7 +7,6 @@ using GSoftware.AspNetCore.ReCaptcha.Configuration;
 using GSoftware.AspNetCore.ReCaptcha.Filters;
 using GSoftware.AspNetCore.ReCaptcha.Services;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -67,6 +66,19 @@ namespace ReCaptcha.Tests.Filters
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
             _filter = new ValidateRecaptchaFilter(_recaptchaServiceMock.Object, _optionsMock.Object, _logger);
+        }
+
+        [Test]
+        public void Construction_IsSuccessful()
+        {
+            // Arrange
+
+
+            // Act
+            var instance = new ValidateRecaptchaFilter(_recaptchaServiceMock.Object, _optionsMock.Object, _logger);
+
+            // Assert
+            Assert.NotNull(instance);
         }
 
         [Test(Description = "The default value for OnValidationFailedAction when creating a new instance of the filter " +
