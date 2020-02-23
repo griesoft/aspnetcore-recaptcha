@@ -1,5 +1,5 @@
 # ASP.NET Core reCAPTCHA
-A Google reCPATCHA validation wrapper service for ASP.NET & ASP.NET Core. With only a few simple setup steps you are ready to block bots from filling in and submiting forms on your website.
+A Google reCPATCHA validation wrapper service for ASP.NET & ASP.NET Core. With only a few simple setup steps you are ready to block bots from filling in and submitting forms on your website.
 
 This package also supports reCAPTCHA V3, but at the moment does not provide any frontend tag helpers for that. So only backend validation is supported right now.
 
@@ -12,7 +12,7 @@ The first thing you need to do is to sign up for a new API key-pair for your pro
 
 After sign-up you should now have a **Site key** and a **Secret key**. Make note of those, you will need them for the next step.
 
-#### Configuration
+### Configuration
 
 Open your `appsettings.json` and add the following lines:
 
@@ -40,7 +40,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-#### Adding a reCAPTCHA element on your view
+### Adding a reCAPTCHA element on your view
 
 First you will need to import the tag helpers. Open your `_ViewImports.cshtml` file and add the following lines:
 
@@ -50,11 +50,11 @@ First you will need to import the tag helpers. Open your `_ViewImports.cshtml` f
 @addTagHelper *, GSoftware.AspNetCore.ReCaptcha
 ```
 
-Now you are ready to use the tag helpers in your views. First you need to add the `<recaptcha-script>` tag on the bottom of your view. This will add the script tag which will load the reCAPTCHA.js API.
+Now you are ready to use the tag helpers in your views. Always add the `<recaptcha-script>` tag on the bottom of your view. This will render the script tag which will load the reCAPTCHA.js API.
 
 Next you only need to add a `<recaptcha>` tag in your form and you are all set. This is the most simplest way of adding reCAPTCHA to your views. Now you only need to add backend validation to the controller of your view.
 
-#### Adding backend validation to an action
+### Adding backend validation to an action
 
 Add a using statement to `GSoftware.AspNetCore.ReCaptcha` in your controller. Next you just need to the `[ValidateRecaptcha]` attribute to the action which is triggered by your form.
 
@@ -85,6 +85,6 @@ Now if validation would fail, the action method would never get called.
 
 You can configure that behaviour and a lot of other stuff globally at startup or even just seperatly for each controller or action.
 
-#### Addition information
+### Addition information
 
-For more detailed usage guides check out the wiki. You can find there guides about additional configuration options, response validation behaviour, explicit rendering of tags, invisible reCAPTCHA elements and the usage of reCAPTCHA V3.
+For more detailed usage guides check out the wiki. You can find guides about additional configuration options, response validation behaviour, explicit rendering of tags, invisible reCAPTCHA elements and the usage of reCAPTCHA V3.
