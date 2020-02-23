@@ -1,0 +1,39 @@
+pr:
+  - master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  - group: 'Package Versioning'
+  - name: buildPlatform
+    value: 'Any CPU'
+  - name: buildConfiguration 
+    value: 'Release'
+
+jobs:
+  - job: BuildPack
+    displayName: Build & Pack
+    variables:
+      - name: packageVersion
+        value: "$(major).$(minor).$(patch)"
+    steps:
+    - task: MSBuild@1
+      displayName: Build & Pack Project
+      inputs:
+        solution: '**/src/ReCaptcha/ReCaptcha.csproj'
+        configuration: $(buildConfiguration)
+        platform: $(buildPlatform)
+        msbuildArguments: '/restore /t:Build /p:ContinuousIntegrationBuild=true /p:Deterministic=false /p:PackageVersion=$(packageVersion)'
+
+  - job: Test
+    displayName: Run Unit Tests
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: Run Tests
+        inputs:
+          command: 'test'
+          publishTestResults: true
+          projects: '**/tests/ReCaptcha.Tests/ReCaptcha.Tests.csproj'
+          testRunTitle: 'Project Unit Tests'
+          workingDirectory: '$(System.DefaultWorkingDirectory)'
