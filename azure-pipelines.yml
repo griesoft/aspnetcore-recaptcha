@@ -1,9 +1,11 @@
 trigger:
-- dev
-- master
-
-pr:
-- master
+  branches:
+    include:
+    - dev
+    - master
+  paths:
+    exclude:
+    - '*/README.md'
 
 
 pool:
@@ -76,7 +78,7 @@ jobs:
     dependsOn: 
       - BuildPack
       - Test
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     environment: Development
     strategy:
       runOnce:
