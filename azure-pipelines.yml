@@ -104,5 +104,5 @@ jobs:
               displayName: 'Run version bump script'
               inputs:
                 targetType: filePath
-                filePath: './update-version-code-script.ps1'
+                filePath: './update-patch-version-code-script.ps1'
                 arguments: '$(System.AccessToken)'
