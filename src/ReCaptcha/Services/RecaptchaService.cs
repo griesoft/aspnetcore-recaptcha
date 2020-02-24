@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using GSoftware.AspNetCore.ReCaptcha.Configuration;
-using GSoftware.AspNetCore.ReCaptcha.Localization;
+using Griesoft.AspNetCore.ReCaptcha.Configuration;
+using Griesoft.AspNetCore.ReCaptcha.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 [assembly: InternalsVisibleTo("ReCaptcha.Tests")]
-namespace GSoftware.AspNetCore.ReCaptcha.Services
+namespace Griesoft.AspNetCore.ReCaptcha.Services
 {
     /// <inheritdoc />
     internal class RecaptchaService : IRecaptchaService

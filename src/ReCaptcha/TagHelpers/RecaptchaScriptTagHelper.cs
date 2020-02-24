@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using GSoftware.AspNetCore.ReCaptcha.Configuration;
+using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 
-namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
+namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 {
     /// <summary>
     /// Adds a script tag, which will load the required reCAPTCHA JavaScript API. Can be added

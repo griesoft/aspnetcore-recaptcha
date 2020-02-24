@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace GSoftware.AspNetCore.ReCaptcha.Services
+namespace Griesoft.AspNetCore.ReCaptcha.Services
 {
     /// <summary>
     /// A service for reCAPTCHA response backend validation.

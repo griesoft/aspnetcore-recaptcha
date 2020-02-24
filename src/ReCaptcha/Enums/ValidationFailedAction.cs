@@ -1,4 +1,4 @@
-﻿namespace GSoftware.AspNetCore.ReCaptcha
+﻿namespace Griesoft.AspNetCore.ReCaptcha
 {
     /// <summary>
     /// Options which specify what to do with a HTTP request when a reCAPTCHA response token was invalid.

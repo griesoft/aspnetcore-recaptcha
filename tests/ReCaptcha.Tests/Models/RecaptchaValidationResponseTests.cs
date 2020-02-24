@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GSoftware.AspNetCore.ReCaptcha;
+using Griesoft.AspNetCore.ReCaptcha;
 using NUnit.Framework;
 
 namespace ReCaptcha.Tests.Models

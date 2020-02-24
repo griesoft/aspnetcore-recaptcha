@@ -1,9 +1,9 @@
 ﻿using System;
-using GSoftware.AspNetCore.ReCaptcha.Filters;
-using GSoftware.AspNetCore.ReCaptcha.Localization;
+using Griesoft.AspNetCore.ReCaptcha.Filters;
+using Griesoft.AspNetCore.ReCaptcha.Localization;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace GSoftware.AspNetCore.ReCaptcha
+namespace Griesoft.AspNetCore.ReCaptcha
 {
     /// <summary>
     /// Validates an incoming POST request to a controller or action, which is decorated with this attribute 

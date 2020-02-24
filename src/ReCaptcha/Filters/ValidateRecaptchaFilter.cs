@@ -3,9 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using GSoftware.AspNetCore.ReCaptcha.Configuration;
-using GSoftware.AspNetCore.ReCaptcha.Localization;
-using GSoftware.AspNetCore.ReCaptcha.Services;
+using Griesoft.AspNetCore.ReCaptcha.Configuration;
+using Griesoft.AspNetCore.ReCaptcha.Localization;
+using Griesoft.AspNetCore.ReCaptcha.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 [assembly: InternalsVisibleTo("ReCaptcha.Tests")]
-namespace GSoftware.AspNetCore.ReCaptcha.Filters
+namespace Griesoft.AspNetCore.ReCaptcha.Filters
 {
     internal class ValidateRecaptchaFilter : IAsyncActionFilter
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text.Encodings.Web;
-using GSoftware.AspNetCore.ReCaptcha.Configuration;
-using GSoftware.AspNetCore.ReCaptcha.Extensions;
+using Griesoft.AspNetCore.ReCaptcha.Configuration;
+using Griesoft.AspNetCore.ReCaptcha.Extensions;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Options;
 
-namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
+namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 {
     /// <summary>
     /// A tag helper which adds a Google reCAPTCHA div element to your page.

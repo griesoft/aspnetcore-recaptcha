@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;netcoreapp3.0;net461</TargetFrameworks>
-    <RootNamespace>GSoftware.AspNetCore.ReCaptcha</RootNamespace>
-    <AssemblyName>GSoftware.AspNetCore.ReCaptcha</AssemblyName>
+    <RootNamespace>Griesoft.AspNetCore.ReCaptcha</RootNamespace>
+    <AssemblyName>Griesoft.AspNetCore.ReCaptcha</AssemblyName>
     <Company>Griesinger Software</Company>
     <Authors>Joonas Griesinger</Authors>
     <Owners>jgdevlabs,jooni91</Owners>
@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\repos\ReCaptcha\docs\GSoftware.AspNetCore.ReCaptcha.xml</DocumentationFile>
+    <DocumentationFile>D:\repos\ReCaptcha\docs\Griesoft.AspNetCore.ReCaptcha.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,18 +41,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Localization\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Localization\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Localization\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">

@@ -1,4 +1,4 @@
-﻿namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
+﻿namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 {
     /// <summary>
     /// Recaptcha rendering options for the <see cref="RecaptchaScriptTagHelper"/>.

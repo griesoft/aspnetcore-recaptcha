@@ -5,7 +5,7 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace GSoftware.AspNetCore.ReCaptcha.Extensions
+namespace Griesoft.AspNetCore.ReCaptcha.Extensions
 {
     // Copied some extension methods from https://github.com/aspnet/Mvc/blob/release/2.2/src/Microsoft.AspNetCore.Mvc.TagHelpers/TagHelperOutputExtensions.cs,
     // because they were only available for .NET Core 2.2+

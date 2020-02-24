@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using GSoftware.AspNetCore.ReCaptcha;
-using GSoftware.AspNetCore.ReCaptcha.Configuration;
-using GSoftware.AspNetCore.ReCaptcha.Filters;
-using GSoftware.AspNetCore.ReCaptcha.Services;
+using Griesoft.AspNetCore.ReCaptcha;
+using Griesoft.AspNetCore.ReCaptcha.Configuration;
+using Griesoft.AspNetCore.ReCaptcha.Filters;
+using Griesoft.AspNetCore.ReCaptcha.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;

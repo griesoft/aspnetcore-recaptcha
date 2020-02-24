@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GSoftware.AspNetCore.ReCaptcha.Localization {
+namespace Griesoft.AspNetCore.ReCaptcha.Localization {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace GSoftware.AspNetCore.ReCaptcha.Localization {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GSoftware.AspNetCore.ReCaptcha.Localization.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Griesoft.AspNetCore.ReCaptcha.Localization.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
