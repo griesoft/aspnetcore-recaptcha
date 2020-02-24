@@ -1,6 +1,6 @@
-﻿using GSoftware.AspNetCore.ReCaptcha.TagHelpers;
+﻿using Griesoft.AspNetCore.ReCaptcha.TagHelpers;
 
-namespace GSoftware.AspNetCore.ReCaptcha.Configuration
+namespace Griesoft.AspNetCore.ReCaptcha.Configuration
 {
     /// <summary>
     /// Options for this reCAPTCHA service. You can set your global default values for the service on app startup.

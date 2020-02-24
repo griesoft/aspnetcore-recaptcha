@@ -1,4 +1,4 @@
-﻿namespace GSoftware.AspNetCore.ReCaptcha.Configuration
+﻿namespace Griesoft.AspNetCore.ReCaptcha.Configuration
 {
     /// <summary>
     /// Mandatory settings for this reCAPTCHA service. The values for this object will be read from your appsettings.json file.

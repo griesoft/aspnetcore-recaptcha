@@ -1,4 +1,4 @@
-﻿namespace GSoftware.AspNetCore.ReCaptcha
+﻿namespace Griesoft.AspNetCore.ReCaptcha
 {
     /// <summary>
     /// Recaptcha validation error reason message enum fields.

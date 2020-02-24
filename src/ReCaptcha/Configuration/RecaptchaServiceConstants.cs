@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("ReCaptcha.Tests")]
-namespace GSoftware.AspNetCore.ReCaptcha.Configuration
+namespace Griesoft.AspNetCore.ReCaptcha.Configuration
 {
     internal class RecaptchaServiceConstants
     {

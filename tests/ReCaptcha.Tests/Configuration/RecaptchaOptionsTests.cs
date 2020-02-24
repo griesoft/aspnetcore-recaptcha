@@ -1,5 +1,5 @@
-﻿using GSoftware.AspNetCore.ReCaptcha;
-using GSoftware.AspNetCore.ReCaptcha.Configuration;
+﻿using Griesoft.AspNetCore.ReCaptcha;
+using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using NUnit.Framework;
 
 namespace ReCaptcha.Tests.Configuration

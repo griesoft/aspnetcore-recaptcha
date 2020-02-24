@@ -1,7 +1,7 @@
 ﻿using System;
-using GSoftware.AspNetCore.ReCaptcha;
-using GSoftware.AspNetCore.ReCaptcha.Configuration;
-using GSoftware.AspNetCore.ReCaptcha.Filters;
+using Griesoft.AspNetCore.ReCaptcha;
+using Griesoft.AspNetCore.ReCaptcha.Configuration;
+using Griesoft.AspNetCore.ReCaptcha.Filters;
 using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;

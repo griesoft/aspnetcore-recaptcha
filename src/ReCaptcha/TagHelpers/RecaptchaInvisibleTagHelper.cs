@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Text.Encodings.Web;
-using GSoftware.AspNetCore.ReCaptcha.Configuration;
-using GSoftware.AspNetCore.ReCaptcha.Extensions;
-using GSoftware.AspNetCore.ReCaptcha.Localization;
+using Griesoft.AspNetCore.ReCaptcha.Configuration;
+using Griesoft.AspNetCore.ReCaptcha.Extensions;
+using Griesoft.AspNetCore.ReCaptcha.Localization;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Options;
 
-namespace GSoftware.AspNetCore.ReCaptcha.TagHelpers
+namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 {
     /// <summary>
     /// Add a invisible reCAPTCHA div element to your page or automatically bind the invisible captcha to a button element

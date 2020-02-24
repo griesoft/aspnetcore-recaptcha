@@ -1,7 +1,7 @@
 ﻿using System;
-using GSoftware.AspNetCore.ReCaptcha.Configuration;
-using GSoftware.AspNetCore.ReCaptcha.Filters;
-using GSoftware.AspNetCore.ReCaptcha.Services;
+using Griesoft.AspNetCore.ReCaptcha.Configuration;
+using Griesoft.AspNetCore.ReCaptcha.Filters;
+using Griesoft.AspNetCore.ReCaptcha.Services;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection

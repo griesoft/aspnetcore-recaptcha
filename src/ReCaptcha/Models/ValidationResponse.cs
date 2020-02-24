@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
 [assembly: InternalsVisibleTo("ReCaptcha.Tests")]
-namespace GSoftware.AspNetCore.ReCaptcha
+namespace Griesoft.AspNetCore.ReCaptcha
 {
     /// <summary>
     /// Recaptcha validation response model.
