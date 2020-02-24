@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using GSoftware.AspNetCore.ReCaptcha;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,7 +21,13 @@ namespace ReCaptcha.Sample.Controllers
         }
 
         [ValidateRecaptcha(ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
-        public IActionResult Privacy(ValidationResponse recaptchaResponse)
+        public IActionResult RecaptchaFormSubmit(ValidationResponse recaptchaResponse)
+        {
+
+            return View("Index");
+        }
+
+        public IActionResult Privacy()
         {
             return View();
         }

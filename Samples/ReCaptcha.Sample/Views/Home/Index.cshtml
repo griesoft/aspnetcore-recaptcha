@@ -1,8 +1,33 @@
-﻿@{
+﻿
+@using Microsoft.Extensions.Options
+@using GSoftware.AspNetCore.ReCaptcha.Configuration
+@inject IOptionsMonitor<RecaptchaSettings> options
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+        <form id="demo-form" asp-controller="Home" asp-action="RecaptchaFormSubmit">
+
+            <input type="text" value="Testing" />
+            @*<input hidden id="g-recaptcha-response" name="g-recaptcha-response" />*@
+            @*<input type="submit" value="submitForm" />*@
+
+            <button re-invisible callback="successCallback" class="btn btn-primary">Submit</button>
+
+            @*<button re-invisible callback="successCallback">Submit</button>*@
+            <recaptcha-invisible callback="successCallback" />
+        </form>
+
+        @*<recaptcha callback="successCallback" />*@
+    </div>
+
+@section Scripts {
+
+    <recaptcha-script />
+
+}

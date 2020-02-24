@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ReCaptcha\ReCaptcha.csproj" />
+    <PackageReference Include="GSoftware.AspNetCore.ReCaptcha" Version="0.0.2" />
   </ItemGroup>
 
 
