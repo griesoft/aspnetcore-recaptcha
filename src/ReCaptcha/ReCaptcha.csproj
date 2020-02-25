@@ -11,7 +11,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Nullable>enable</Nullable>
     <LangVersion>8.0</LangVersion>
-    <Description>A Google reCPATCHA validation wrapper service for ASP.NET Core. Implementation is made very simple and usage is as easy as the usage of the antiforgery token validation filter.</Description>
+    <Description>A Google reCPATCHA validation wrapper service for ASP.NET Core. With only a few simple setup steps you are ready to block bots from filling in and submitting forms on your website.</Description>
     <Copyright>2020 © Griesinger Software</Copyright>
     <PackageProjectUrl>https://github.com/jgdevlabs/aspnetcore-recaptcha</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jgdevlabs/aspnetcore-recaptcha</RepositoryUrl>
@@ -28,7 +28,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
@@ -36,8 +36,11 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>

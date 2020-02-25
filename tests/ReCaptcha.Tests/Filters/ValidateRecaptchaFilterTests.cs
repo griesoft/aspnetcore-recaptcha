@@ -157,7 +157,7 @@ namespace ReCaptcha.Tests.Filters
         }
 
         [Test]
-        public async Task OnActionExecutionAsync_WhenTokenNotFound_BlocksAndReturnsBadRequest()
+        public async Task OnActionExecutionAsync_WhenTokenNotFound_BlocksAndReturns_RecaptchaValidationFailedResult()
         {
             // Arrange
 
@@ -167,7 +167,7 @@ namespace ReCaptcha.Tests.Filters
 
             // Assert
             _recaptchaServiceMock.VerifyNoOtherCalls();
-            Assert.IsInstanceOf<BadRequestResult>(_actionExecutingContext.Result);
+            Assert.IsInstanceOf<IRecaptchaValidationFailedResult>(_actionExecutingContext.Result);
         }
 
         [Test]
@@ -189,7 +189,7 @@ namespace ReCaptcha.Tests.Filters
         }
 
         [Test]
-        public async Task OnActionExecutionAsync_WhenValidationFailed_BlocksAndReturnsBadRequest()
+        public async Task OnActionExecutionAsync_WhenValidationFailed_BlocksAndReturns_RecaptchaValidationFailedResult()
         {
             // Arrange
             var httpContext = new DefaultHttpContext();
@@ -212,7 +212,7 @@ namespace ReCaptcha.Tests.Filters
 
             // Assert
             _recaptchaServiceMock.Verify();
-            Assert.IsInstanceOf<BadRequestResult>(_actionExecutingContext.Result);
+            Assert.IsInstanceOf<IRecaptchaValidationFailedResult>(_actionExecutingContext.Result);
         }
 
         [Test]

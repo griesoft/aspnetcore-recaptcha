@@ -387,6 +387,21 @@
             The validation filter will allow the request to continue even if the reCAPTCHA response verification failed.
             </summary>
         </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.Filters.IRecaptchaValidationFailedResult">
+            <summary>
+            Represents an <see cref="T:Microsoft.AspNetCore.Mvc.IActionResult"/> that is used when the recaptcha validation failed. 
+            This can be matched inside MVC result filters to process the validation failure.
+            </summary>
+        </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.Filters.RecaptchaValidationFailedResult">
+            <summary>
+            A bad request result used for recaptcha validation failures. Use <see cref="T:Griesoft.AspNetCore.ReCaptcha.Filters.IRecaptchaValidationFailedResult"/> to
+            match for validation failures inside MVC result filters.
+            </summary>
+        </member>
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.Filters.RecaptchaValidationFailedResult.ExecuteResultAsync(Microsoft.AspNetCore.Mvc.ActionContext)">
+            <inheritdoc />
+        </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.Localization.Resources">
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.
