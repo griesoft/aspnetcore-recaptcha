@@ -1,5 +1,5 @@
 # ASP.NET Core reCAPTCHA
-A Google reCPATCHA validation wrapper service for ASP.NET & ASP.NET Core. With only a few simple setup steps you are ready to block bots from filling in and submitting forms on your website.
+A Google reCPATCHA validation wrapper service for ASP.NET Core. With only a few simple setup steps you are ready to block bots from filling in and submitting forms on your website.
 
 This package also supports reCAPTCHA V3, but at the moment does not provide any frontend tag helpers for that. So only backend validation is supported right now.
 
