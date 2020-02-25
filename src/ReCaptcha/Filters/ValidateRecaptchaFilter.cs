@@ -7,7 +7,6 @@ using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using Griesoft.AspNetCore.ReCaptcha.Localization;
 using Griesoft.AspNetCore.ReCaptcha.Services;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -101,8 +100,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
 
                 if (OnValidationFailedAction == ValidationFailedAction.BlockRequest)
                 {
-                    context.Result = new BadRequestResult();
-
+                    context.Result = new RecaptchaValidationFailedResult();
                     return true;
                 }
             }
