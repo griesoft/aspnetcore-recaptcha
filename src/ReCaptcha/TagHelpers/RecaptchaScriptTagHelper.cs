@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
+using Griesoft.AspNetCore.ReCaptcha.Extensions;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 
 namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
@@ -79,7 +79,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
                     queryCollection.Add("hl", Language);
                 }
 
-                output.Attributes.SetAttribute("src", QueryHelpers.AddQueryString(RecaptchaScriptEndpoint, queryCollection));
+                output.Attributes.SetAttribute("src", TagHelperOutputExtensions.AddQueryString(RecaptchaScriptEndpoint, queryCollection));
             }
 
             output.Attributes.SetAttribute("async", null);
