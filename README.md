@@ -45,9 +45,9 @@ public void ConfigureServices(IServiceCollection services)
 First you will need to import the tag helpers. Open your `_ViewImports.cshtml` file and add the following lines:
 
 ```razor
-@using GSoftware.AspNetCore.ReCaptcha
+@using Griesoft.AspNetCore.ReCaptcha
 
-@addTagHelper *, GSoftware.AspNetCore.ReCaptcha
+@addTagHelper *, Griesoft.AspNetCore.ReCaptcha
 ```
 
 Now you are ready to use the tag helpers in your views. Always add the `<recaptcha-script>` tag on the bottom of your view. This will render the script tag which will load the reCAPTCHA.js API.
@@ -56,10 +56,10 @@ Next you only need to add a `<recaptcha>` tag in your form and you are all set. 
 
 ### Adding backend validation to an action
 
-Add a using statement to `GSoftware.AspNetCore.ReCaptcha` in your controller. Next you just need to the `[ValidateRecaptcha]` attribute to the action which is triggered by your form.
+Add a using statement to `Griesoft.AspNetCore.ReCaptcha` in your controller. Next you just need to the `[ValidateRecaptcha]` attribute to the action which is triggered by your form.
 
 ```csharp
-using GSoftware.AspNetCore.ReCaptcha;
+using Griesoft.AspNetCore.ReCaptcha;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ReCaptcha.Sample.Controllers
