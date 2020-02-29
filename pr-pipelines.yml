@@ -1,5 +1,8 @@
 pr:
-- master
+  branches:
+    include:
+    - master
+
 
 pool:
   vmImage: 'windows-latest'
