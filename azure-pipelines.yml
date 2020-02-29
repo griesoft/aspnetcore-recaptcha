@@ -7,6 +7,8 @@ trigger:
     exclude:
     - '*/README.md'
 
+pr: none
+
 
 pool:
   vmImage: 'windows-latest'
@@ -73,7 +75,7 @@ jobs:
           testRunTitle: 'Project Unit Tests'
           workingDirectory: '$(System.DefaultWorkingDirectory)'
 
-  - deployment: PushArtifacts
+  - deployment: PushToTestFeed
     displayName: Push to Development Feed
     dependsOn: 
       - BuildPack
@@ -95,14 +97,20 @@ jobs:
                 publishVstsFeed: 'f9036ec9-eb1c-4aff-a2b8-27fdaa573d0f/29b705d0-eac8-42a7-9230-4bcfe9f83688'
                 allowPackageConflicts: true
 
-            - task: DownloadFile@1
-              displayName: 'Download version bump script'
-              inputs:
-                FileUrl: 'https://gist.githubusercontent.com/jooni91/d3e5ca575402eb3454dd1c1a4a4d998e/raw/d13c90d62ad0d614df9c5129c47a51c19e9460cb/update-patch-version-code-script.ps1'
+  - job: BumpPatch
+    displayName: Bump the version patch
+    dependsOn:
+      - PushToTestFeed
+    condition: and(succeeded(), eq(variables['Build.SOurceBranch'], 'refs/heads/master'))
+    steps:
+      - task: DownloadFile@1
+        displayName: 'Download version bump script'
+        inputs:
+          FileUrl: 'https://gist.githubusercontent.com/jooni91/d3e5ca575402eb3454dd1c1a4a4d998e/raw/d13c90d62ad0d614df9c5129c47a51c19e9460cb/update-patch-version-code-script.ps1'
 
-            - task: PowerShell@2
-              displayName: 'Run version bump script'
-              inputs:
-                targetType: filePath
-                filePath: './update-patch-version-code-script.ps1'
-                arguments: '$(System.AccessToken)'
+      - task: PowerShell@2
+        displayName: 'Run version bump script'
+        inputs:
+          targetType: filePath
+          filePath: './update-patch-version-code-script.ps1'
+          arguments: '$(System.AccessToken)'
