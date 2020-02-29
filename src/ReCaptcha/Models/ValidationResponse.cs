@@ -18,6 +18,18 @@ namespace Griesoft.AspNetCore.ReCaptcha
         public bool Success { get; set; }
 
         /// <summary>
+        /// The score for this request (0.0 - 1.0). Only used with reCAPTCHA V3.
+        /// </summary>
+        [JsonProperty(PropertyName = "score")]
+        public double? Score { get; set; } = null;
+
+        /// <summary>
+        /// The action name for this request (important to verify). Only used with reCAPTCHA V3.
+        /// </summary>
+        [JsonProperty(PropertyName = "action")]
+        public string? Action { get; set; } = null;
+
+        /// <summary>
         /// Timestamp of the challenge load.
         /// </summary>
         [JsonProperty(PropertyName = "challenge_ts")]
