@@ -4,7 +4,16 @@ A Google reCPATCHA validation wrapper service for ASP.NET Core. With only a few 
 This package also supports reCAPTCHA V3, but at the moment does not provide any frontend tag helpers for that. So only backend validation is supported at the moment.
 
 [![Build Status](https://dev.azure.com/griesingersoftware/ASP.NET%20Core%20Recaptcha/_apis/build/status/jgdevlabs.aspnetcore-recaptcha?branchName=master)](https://dev.azure.com/griesingersoftware/ASP.NET%20Core%20Recaptcha/_build/latest?definitionId=17&branchName=master)
+[![Build Status](https://vsrm.dev.azure.com/griesingersoftware/_apis/public/Release/badge/f9036ec9-eb1c-4aff-a2b8-27fdaa573d0f/1/2)](https://vsrm.dev.azure.com/griesingersoftware/_apis/public/Release/badge/f9036ec9-eb1c-4aff-a2b8-27fdaa573d0f/1/2)
 [![License](https://badgen.net/github/license/jgdevlabs/aspnetcore-recaptcha)](https://github.com/jgdevlabs/aspnetcore-recaptcha/blob/master/LICENSE)
+[![NuGet](https://badgen.net/nuget/v/Griesoft.AspNetCore.ReCaptcha)](https://www.nuget.org/packages/Griesoft.AspNetCore.ReCaptcha)
+[![GitHub Release](https://badgen.net/github/release/jgdevlabs/aspnetcore-recaptcha)](https://github.com/jgdevlabs/aspnetcore-recaptcha/releases)
+
+## Installation
+
+Install via [NuGet](https://www.nuget.org/packages/Griesoft.AspNetCore.ReCaptcha/) using:
+
+``PM> Install-Package Griesoft.AspNetCore.ReCaptcha``
 
 ## Quickstart
 
