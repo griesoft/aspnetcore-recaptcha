@@ -18,7 +18,6 @@ namespace Griesoft.AspNetCore.ReCaptcha.Extensions
     {
         private static readonly char[] SpaceChars = { '\u0020', '\u0009', '\u000A', '\u000C', '\u000D' };
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1307:Specify StringComparison", Justification = "<Pending>")]
         internal static string AddQueryString(string uri, IEnumerable<KeyValuePair<string, string>> queryString)
         {
             if (uri == null)

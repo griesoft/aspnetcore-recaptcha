@@ -39,7 +39,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
 
             ValidationResponse validationResponse;
 
-            if (!TryGetRecaptchaToken(context.HttpContext.Request, out string? token))
+            if (!ValidateRecaptchaFilter.TryGetRecaptchaToken(context.HttpContext.Request, out string? token))
             {
                 _logger.LogWarning(Resources.RecaptchaResponseTokenMissing);
 
@@ -57,7 +57,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
                 validationResponse = await _recaptchaService.ValidateRecaptchaResponse(token, GetRemoteIp(context)).ConfigureAwait(true);
             }
 
-            TryAddResponseToActionAguments(context, validationResponse);
+            ValidateRecaptchaFilter.TryAddResponseToActionAguments(context, validationResponse);
 
             if (!ShouldShortCircuit(context, validationResponse))
             {
@@ -70,27 +70,6 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
             return _options.UseRemoteIp ?
                 context.HttpContext.Connection.RemoteIpAddress.ToString() :
                 null;
-        }
-        private bool TryGetRecaptchaToken(HttpRequest request, [NotNullWhen(true)] out string? token)
-        {
-            if (request.Headers.ContainsKey(RecaptchaServiceConstants.TokenKeyName))
-            {
-                token = request.Headers[RecaptchaServiceConstants.TokenKeyName];
-            }
-            else if (request.HasFormContentType && request.Form.ContainsKey(RecaptchaServiceConstants.TokenKeyName.ToLowerInvariant()))
-            {
-                token = request.Form[RecaptchaServiceConstants.TokenKeyName.ToLowerInvariant()];
-            }
-            else if (request.Query.ContainsKey(RecaptchaServiceConstants.TokenKeyName.ToLowerInvariant()))
-            {
-                token = request.Query[RecaptchaServiceConstants.TokenKeyName.ToLowerInvariant()];
-            }
-            else
-            {
-                token = null;
-            }
-
-            return token != null;
         }
         private bool ShouldShortCircuit(ActionExecutingContext context, ValidationResponse response)
         {
@@ -107,7 +86,28 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
 
             return false;
         }
-        private void TryAddResponseToActionAguments(ActionExecutingContext context, ValidationResponse response)
+        private static bool TryGetRecaptchaToken(HttpRequest request, [NotNullWhen(true)] out string? token)
+        {
+            if (request.Headers.ContainsKey(RecaptchaServiceConstants.TokenKeyName))
+            {
+                token = request.Headers[RecaptchaServiceConstants.TokenKeyName];
+            }
+            else if (request.HasFormContentType && request.Form.ContainsKey(RecaptchaServiceConstants.TokenKeyNameLower))
+            {
+                token = request.Form[RecaptchaServiceConstants.TokenKeyNameLower];
+            }
+            else if (request.Query.ContainsKey(RecaptchaServiceConstants.TokenKeyNameLower))
+            {
+                token = request.Query[RecaptchaServiceConstants.TokenKeyNameLower];
+            }
+            else
+            {
+                token = null;
+            }
+
+            return token != null;
+        }
+        private static void TryAddResponseToActionAguments(ActionExecutingContext context, ValidationResponse response)
         {
             if (context.ActionArguments.Any(pair => pair.Value is ValidationResponse))
             {
