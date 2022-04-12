@@ -458,6 +458,16 @@
             Validation success status.
             </summary>
         </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.Score">
+            <summary>
+            The score for this request (0.0 - 1.0). Only used with reCAPTCHA V3.
+            </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.Action">
+            <summary>
+            The action name for this request (important to verify). Only used with reCAPTCHA V3.
+            </summary>
+        </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.ChallengeTimeStamp">
             <summary>
             Timestamp of the challenge load.
