@@ -11,12 +11,12 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
-        <Description>A Google reCPATCHA validation wrapper service for ASP.NET Core. With only a few simple setup steps you are ready to block bots from filling in and submitting forms on your website.</Description>
-        <Copyright>2020 © Griesinger Software</Copyright>
+        <Description>A Google reCAPTCHA validation wrapper service for ASP.NET Core. With only a few simple setup steps you are ready to block bots from filling in and submitting forms on your website.</Description>
+        <Copyright>2022 © Griesinger Software</Copyright>
         <PackageProjectUrl>https://github.com/jgdevlabs/aspnetcore-recaptcha</PackageProjectUrl>
         <RepositoryUrl>https://github.com/jgdevlabs/aspnetcore-recaptcha</RepositoryUrl>
         <NeutralLanguage>en</NeutralLanguage>
-        <PackageTags>aspnetcore;recaptcha;aspnetcoremvc;actionfilter;google;razor;recaptcha-v2;recaptcha-v3;taghelper</PackageTags>
+        <PackageTags>aspnetcore;recaptcha;aspnetcoremvc;recaptcha-v2;recaptcha-v3</PackageTags>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -28,20 +28,12 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' != 'net461'">
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.0" />
-        <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.1.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -62,9 +54,5 @@
             <DependentUpon>Resources.resx</DependentUpon>
         </Compile>
     </ItemGroup>
-
-    <PropertyGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
-        <NoWarn>$(NoWarn);8600;8601;8602;8603;8604</NoWarn>
-    </PropertyGroup>
 
 </Project>

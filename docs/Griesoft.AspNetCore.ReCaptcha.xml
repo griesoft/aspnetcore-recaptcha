@@ -416,7 +416,7 @@
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.Errors">
             <summary>
-            List of <see cref="T:Griesoft.AspNetCore.ReCaptcha.ValidationError"/>'s, if any occured.
+            List of <see cref="T:Griesoft.AspNetCore.ReCaptcha.ValidationError"/>'s, if any occurred.
             </summary>
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.Services.IRecaptchaService">
