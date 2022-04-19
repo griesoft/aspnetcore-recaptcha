@@ -18,6 +18,9 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
     /// 
     /// For easiest use of this tag helper set only the <c>FormId</c>. This will add a default callback function to the body. That function does
     /// submit the form after a successful reCAPTCHA challenge.
+    /// 
+    /// If the tag is not inside the form that is going to be submitted, you should use a custom callback function. The default callback function
+    /// does not add the reCAPTCHA token to the form, which will result in response verification failure.
     /// </remarks>
     [HtmlTargetElement("recaptcha-invisible", Attributes = "callback", TagStructure = TagStructure.WithoutEndTag)]
     [HtmlTargetElement("recaptcha-invisible", Attributes = "formid", TagStructure = TagStructure.WithoutEndTag)]

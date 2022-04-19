@@ -136,21 +136,19 @@
             The callback script is used as a default callback function to submit a form after a reCAPTCHA challenge was successful.
             </remarks>
         </member>
-        <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.CallbackScriptTagHelperComponent.#ctor(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="formId"></param>
-        </member>
-        <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.CallbackScriptTagHelperComponent.Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
-            <inheritdoc />
-        </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper">
             <summary>
             Add a invisible reCAPTCHA div element to your page. Or add a 're-invisible' attribute to a button element to bind the invisible captcha to a button.
             </summary>
             <remarks>
+            The <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.FormId"/> is required. With the exception that you set a <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Callback"/> instead.
+            When setting both the value set to <c>Callback</c> always wins and the <c>FormId</c> value is basically irrelevant.
             
+            For easiest use of this tag helper set only the <c>FormId</c>. This will add a default callback function to the body. That function does
+            submit the form after a successful reCAPTCHA challenge.
+            
+            If the tag is not inside the form that is going to be submitted, you should use a custom callback function. The default callback function
+            does not add the reCAPTCHA token to the form, which will result in response verification failure.
             </remarks>
         </member>
         <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings},Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions},Microsoft.AspNetCore.Mvc.Razor.TagHelpers.ITagHelperComponentManager)">
