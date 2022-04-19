@@ -39,7 +39,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
 
             ValidationResponse validationResponse;
 
-            if (!ValidateRecaptchaFilter.TryGetRecaptchaToken(context.HttpContext.Request, out string? token))
+            if (!TryGetRecaptchaToken(context.HttpContext.Request, out string? token))
             {
                 _logger.LogWarning(Resources.RecaptchaResponseTokenMissing);
 
@@ -57,7 +57,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
                 validationResponse = await _recaptchaService.ValidateRecaptchaResponse(token, GetRemoteIp(context)).ConfigureAwait(true);
             }
 
-            ValidateRecaptchaFilter.TryAddResponseToActionAguments(context, validationResponse);
+            TryAddResponseToActionAguments(context, validationResponse);
 
             if (!ShouldShortCircuit(context, validationResponse))
             {

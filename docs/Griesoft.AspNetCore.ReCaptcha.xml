@@ -128,18 +128,38 @@
             
             </summary>
         </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.CallbackScriptTagHelperComponent">
+            <summary>
+            This tag helper component is used to add a short callback script to the bottom of a body tag.
+            </summary>
+            <remarks>
+            The callback script is used as a default callback function to submit a form after a reCAPTCHA challenge was successful.
+            </remarks>
+        </member>
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.CallbackScriptTagHelperComponent.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="formId"></param>
+        </member>
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.CallbackScriptTagHelperComponent.Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
+            <inheritdoc />
+        </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper">
             <summary>
-            Add a invisible reCAPTCHA div element to your page or automatically bind the invisible captcha to a button element
-            by adding a re-invisible attribute to it. Both require in addition the callback attribute.
+            Add a invisible reCAPTCHA div element to your page. Or add a 're-invisible' attribute to a button element to bind the invisible captcha to a button.
             </summary>
+            <remarks>
+            
+            </remarks>
         </member>
-        <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings},Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions})">
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings},Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions},Microsoft.AspNetCore.Mvc.Razor.TagHelpers.ITagHelperComponentManager)">
             <summary>
             
             </summary>
             <param name="settings"></param>
             <param name="options"></param>
+            <param name="tagHelperComponentManager"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Badge">
@@ -151,6 +171,12 @@
         <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.TabIndex">
             <summary>
             Set the tabindex of the reCAPTCHA element. If other elements in your page use tabindex, it should be set to make user navigation easier.
+            </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.FormId">
+            <summary>
+            The id of the form that will be submitted after a successful reCAPTCHA challenge. 
+            This does only apply when not specifying a custom <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Callback"/>.
             </summary>
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Callback">
@@ -172,7 +198,7 @@
         <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
             <inheritdoc />
             <exception cref="T:System.ArgumentNullException"></exception>
-            <exception cref="T:System.NullReferenceException"><see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Callback"/> must not be null. It is required for invisible reCAPTCHA to work.</exception>
+            <exception cref="T:System.NullReferenceException">Thrown when both <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Callback"/> and <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.FormId"/> are null or empty.</exception>
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaScriptTagHelper">
             <summary>

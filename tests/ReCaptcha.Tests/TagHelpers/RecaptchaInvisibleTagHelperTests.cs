@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using Griesoft.AspNetCore.ReCaptcha.TagHelpers;
+using Microsoft.AspNetCore.Mvc.Razor.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -19,6 +20,8 @@ namespace ReCaptcha.Tests.TagHelpers
 
         private Mock<IOptionsMonitor<RecaptchaSettings>> _settingsMock;
         private Mock<IOptionsMonitor<RecaptchaOptions>> _optionsMock;
+        private Mock<ITagHelperComponentManager> _tagHelperComponentManagerMock;
+        private Mock<ICollection<ITagHelperComponent>> _tagHelperComponentCollectionMock;
         private TagHelperOutput _tagHelperOutputStub;
         private TagHelperContext _contextStub;
         private RecaptchaInvisibleTagHelper invisibleTagHelper;
@@ -40,6 +43,14 @@ namespace ReCaptcha.Tests.TagHelpers
                 .Returns(new RecaptchaOptions())
                 .Verifiable();
 
+            _tagHelperComponentCollectionMock = new Mock<ICollection<ITagHelperComponent>>();
+            _tagHelperComponentCollectionMock.Setup(instance => instance.Add(It.IsAny<CallbackScriptTagHelperComponent>()))
+                .Verifiable();
+
+            _tagHelperComponentManagerMock = new Mock<ITagHelperComponentManager>();
+            _tagHelperComponentManagerMock.SetupGet(instance => instance.Components)
+                .Returns(_tagHelperComponentCollectionMock.Object);
+
             _tagHelperOutputStub = new TagHelperOutput("recaptcha-invisible",
                 new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
                 {
@@ -52,7 +63,7 @@ namespace ReCaptcha.Tests.TagHelpers
                 new Dictionary<object, object>(),
                 Guid.NewGuid().ToString("N"));
 
-            invisibleTagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object)
+            invisibleTagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object, _tagHelperComponentManagerMock.Object)
             {
                 Callback = CallbackName
             };
@@ -73,7 +84,7 @@ namespace ReCaptcha.Tests.TagHelpers
                 .Verifiable();
 
             // Act
-            var instance = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object);
+            var instance = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object, _tagHelperComponentManagerMock.Object);
 
             // Assert
             Assert.NotNull(instance);
@@ -91,7 +102,7 @@ namespace ReCaptcha.Tests.TagHelpers
 
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new RecaptchaInvisibleTagHelper(null, _optionsMock.Object));
+            Assert.Throws<ArgumentNullException>(() => new RecaptchaInvisibleTagHelper(null, _optionsMock.Object, _tagHelperComponentManagerMock.Object));
         }
 
         [Test]
@@ -104,7 +115,20 @@ namespace ReCaptcha.Tests.TagHelpers
 
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new RecaptchaInvisibleTagHelper(_settingsMock.Object, null));
+            Assert.Throws<ArgumentNullException>(() => new RecaptchaInvisibleTagHelper(_settingsMock.Object, null, _tagHelperComponentManagerMock.Object));
+        }
+
+        [Test]
+        public void Constructor_ShouldThrow_WhenTagHelperComponentManagerNull()
+        {
+            // Arrange
+
+
+            // Act
+
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object, null));
         }
 
         [Test]
@@ -125,7 +149,7 @@ namespace ReCaptcha.Tests.TagHelpers
                 .Verifiable();
 
             // Act
-            var tagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object);
+            var tagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object, _tagHelperComponentManagerMock.Object);
 
             // Assert
             _optionsMock.Verify(options => options.CurrentValue, Times.Once);
@@ -146,16 +170,18 @@ namespace ReCaptcha.Tests.TagHelpers
         }
 
         [Test]
-        public void Process_ShouldThrow_NullReferenceException_WhenCallbackNullOrEmpty()
+        public void Process_ShouldThrow_NullReferenceException_WhenCallbackAndFormIdNullOrEmpty()
         {
             // Arrange
-            var nullCallbackTagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object)
+            var nullCallbackTagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object, _tagHelperComponentManagerMock.Object)
             {
-                Callback = null
+                Callback = null,
+                FormId = null
             };
-            var emptyCallbackTagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object)
+            var emptyCallbackTagHelper = new RecaptchaInvisibleTagHelper(_settingsMock.Object, _optionsMock.Object, _tagHelperComponentManagerMock.Object)
             {
-                Callback = string.Empty
+                Callback = string.Empty,
+                FormId = string.Empty
             };
 
             // Act
@@ -178,6 +204,35 @@ namespace ReCaptcha.Tests.TagHelpers
 
             // Assert
             Assert.IsFalse(_tagHelperOutputStub.Attributes.ContainsName("re-invisible"));
+        }
+
+        [Test]
+        public void Process_ShouldSet_CallbackToDefaultCallback_WhenCallbackIsNullOrEmpty()
+        {
+            // Arrange
+            var formId = $"formId";
+            invisibleTagHelper.Callback = null;
+            invisibleTagHelper.FormId = formId;
+
+            // Act
+            invisibleTagHelper.Process(_contextStub, _tagHelperOutputStub);
+
+            // Assert
+            Assert.AreEqual(invisibleTagHelper.Callback, $"submit{formId}");
+        }
+
+        [Test]
+        public void Process_ShouldAdd_CallbackScriptTagHelperComponent_WhenCallbackIsNullOrEmpty()
+        {
+            // Arrange
+            invisibleTagHelper.Callback = null;
+            invisibleTagHelper.FormId = "formId";
+
+            // Act
+            invisibleTagHelper.Process(_contextStub, _tagHelperOutputStub);
+
+            // Assert
+            _tagHelperComponentCollectionMock.Verify();
         }
 
         [Test]
