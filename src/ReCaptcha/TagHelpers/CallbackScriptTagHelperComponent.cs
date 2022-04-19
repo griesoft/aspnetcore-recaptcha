@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
+[assembly: InternalsVisibleTo("ReCaptcha.Tests")]
 namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 {
     /// <summary>
@@ -9,20 +11,20 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
     /// <remarks>
     /// The callback script is used as a default callback function to submit a form after a reCAPTCHA challenge was successful.
     /// </remarks>
-    public class CallbackScriptTagHelperComponent : TagHelperComponent
+    internal class CallbackScriptTagHelperComponent : TagHelperComponent
     {
         private readonly string _formId;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="formId"></param>
         public CallbackScriptTagHelperComponent(string formId)
         {
+            if (string.IsNullOrEmpty(formId))
+            {
+                throw new ArgumentNullException(nameof(formId));
+            }
+
             _formId = formId;
         }
 
-        /// <inheritdoc />
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             if (string.Equals(context.TagName, "body", StringComparison.OrdinalIgnoreCase))
@@ -31,7 +33,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
             }
         }
 
-        private static string CallbackScript(string formId)
+        public static string CallbackScript(string formId)
         {
             // Append the formId to the function name in case that multiple recaptcha tags are added in a document.
             return $"<script>function submit{formId}(token){{document.getElementById('{formId}').submit();}}</script>";
