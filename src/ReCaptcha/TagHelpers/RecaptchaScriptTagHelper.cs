@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using Griesoft.AspNetCore.ReCaptcha.Extensions;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Options;
 
+[assembly: InternalsVisibleTo("ReCaptcha.Tests")]
 namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 {
     /// <summary>
@@ -16,7 +18,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
     [HtmlTargetElement("recaptcha-script", TagStructure = TagStructure.WithoutEndTag)]
     public class RecaptchaScriptTagHelper : TagHelper
     {
-        private const string RecaptchaScriptEndpoint = "https://www.google.com/recaptcha/api.js";
+        internal const string RecaptchaScriptEndpoint = "https://www.google.com/recaptcha/api.js";
 
         private readonly RecaptchaSettings _settings;
 
@@ -57,31 +59,28 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
             output.TagName = "script";
             output.TagMode = TagMode.StartTagAndEndTag;
 
-            if (Render == Render.V3)
+            var queryCollection = new Dictionary<string, string>();
+
+            if (!string.IsNullOrEmpty(OnloadCallback) && !Render.HasFlag(Render.V3))
             {
-                output.Attributes.Add("src", $"{RecaptchaScriptEndpoint}?render={_settings.SiteKey}");
+                queryCollection.Add("onload", OnloadCallback);
             }
-            else
+
+            if (Render == (Render.V3 | Render.Explicit))
             {
-                var queryCollection = new Dictionary<string, string>();
-
-                if (!string.IsNullOrEmpty(OnloadCallback))
-                {
-                    queryCollection.Add("onload", OnloadCallback);
-                }
-
-                if (Render == Render.Explicit)
-                {
-                    queryCollection.Add("render", Render.ToString().ToLowerInvariant());
-                }
-
-                if (!string.IsNullOrEmpty(Language))
-                {
-                    queryCollection.Add("hl", Language);
-                }
-
-                output.Attributes.SetAttribute("src", TagHelperOutputExtensions.AddQueryString(RecaptchaScriptEndpoint, queryCollection));
+                queryCollection.Add("render", _settings.SiteKey);
             }
+            else if (Render == Render.Explicit)
+            {
+                queryCollection.Add("render", Render.ToString().ToLowerInvariant());
+            }
+
+            if (!string.IsNullOrEmpty(Language) && !Render.HasFlag(Render.V3))
+            {
+                queryCollection.Add("hl", Language);
+            }
+
+            output.Attributes.SetAttribute("src", TagHelperOutputExtensions.AddQueryString(RecaptchaScriptEndpoint, queryCollection));
 
             output.Attributes.SetAttribute("async", null);
             output.Attributes.SetAttribute("defer", null);

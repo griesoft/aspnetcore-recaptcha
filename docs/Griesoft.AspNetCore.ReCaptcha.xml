@@ -4,73 +4,61 @@
         <name>Griesoft.AspNetCore.ReCaptcha</name>
     </assembly>
     <members>
-        <member name="T:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions">
-            <summary>
-            Options for this reCAPTCHA service. You can set your global default values for the service on app startup.
-            </summary>
+        <member name="T:System.Diagnostics.CodeAnalysis.AllowNullAttribute">
+            <summary>Specifies that null is allowed as an input even if the corresponding type disallows it.</summary>
         </member>
-        <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions.UseRemoteIp">
-            <summary>
-            If set to true the remote IP will be send to Google when verifying the response token. The default is false.
-            </summary>
+        <member name="T:System.Diagnostics.CodeAnalysis.DisallowNullAttribute">
+            <summary>Specifies that null is disallowed as an input even if the corresponding type allows it.</summary>
         </member>
-        <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions.ValidationFailedAction">
-            <summary>
-            Configure the service on a global level whether it should block / short circuit the request pipeline 
-            when the reCPATCHA response token is invalid or not. The default is <see cref="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.BlockRequest"/>.
-            </summary>
-            <remarks>
-            This affects only the action filter logic of this service. This can also be set individually 
-            for each controller or action by setting a value to <see cref="P:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.ValidationFailedAction"/>,
-            like this <code>[ValidateRecaptcha(ValidationFailedAction = ValidationFailedAction.ContinueRequest)]</code>.
-            
-            The value may never be set to <see cref="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.Unspecified"/>, it will always be translated to
-            <see cref="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.BlockRequest"/>.
-            </remarks>
+        <member name="T:System.Diagnostics.CodeAnalysis.MaybeNullAttribute">
+            <summary>Specifies that an output may be null even if the corresponding type disallows it.</summary>
         </member>
-        <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions.Size">
-            <summary>
-            The global default size value for a reCAPTCHA tag.
-            </summary>
+        <member name="T:System.Diagnostics.CodeAnalysis.NotNullAttribute">
+            <summary>Specifies that an output will not be null even if the corresponding type allows it.</summary>
         </member>
-        <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions.Theme">
-            <summary>
-            The global default theme value for a reCAPTCHA tag.
-            </summary>
+        <member name="T:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute">
+            <summary>Specifies that when a method returns <see cref="P:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.ReturnValue"/>, the parameter may be null even if the corresponding type disallows it.</summary>
         </member>
-        <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions.Badge">
-            <summary>
-            The global default badge value for an invisible reCAPTCHA tag.
-            </summary>
+        <member name="M:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.#ctor(System.Boolean)">
+            <summary>Initializes the attribute with the specified return value condition.</summary>
+            <param name="returnValue">
+            The return value condition. If the method returns this value, the associated parameter may be null.
+            </param>
         </member>
-        <member name="T:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings">
-            <summary>
-            Mandatory settings for this reCAPTCHA service. The values for this object will be read from your appsettings.json file.
-            </summary>
-            <remarks>
-            For more information about configuration in ASP.NET Core check out Microsoft docs: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1
-            </remarks>
-            <seealso cref="N:Microsoft.Extensions.Configuration"/>
+        <member name="P:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.ReturnValue">
+            <summary>Gets the return value condition.</summary>
         </member>
-        <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings.SiteKey">
-            <summary>
-            The public reCAPTCHA site key. Will be added to reCAPTCHA HTML elements as the data-sitekey attribute.
-            </summary>
+        <member name="T:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute">
+            <summary>Specifies that when a method returns <see cref="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue"/>, the parameter will not be null even if the corresponding type allows it.</summary>
         </member>
-        <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.BadgePosition">
-            <summary>
-            Recaptcha badge options for the <see cref="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper"/>.
-            </summary>
+        <member name="M:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.#ctor(System.Boolean)">
+            <summary>Initializes the attribute with the specified return value condition.</summary>
+            <param name="returnValue">
+            The return value condition. If the method returns this value, the associated parameter will not be null.
+            </param>
         </member>
-        <member name="F:Griesoft.AspNetCore.ReCaptcha.TagHelpers.BadgePosition.BottomLeft">
-            <summary>
-            Position the badge in the bottom left of your page.
-            </summary>
+        <member name="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue">
+            <summary>Gets the return value condition.</summary>
         </member>
-        <member name="F:Griesoft.AspNetCore.ReCaptcha.TagHelpers.BadgePosition.BottomRight">
-            <summary>
-            Position the badge in the bottom right of your page.
-            </summary>
+        <member name="T:System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute">
+            <summary>Specifies that the output will be non-null if the named parameter is non-null.</summary>
+        </member>
+        <member name="M:System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute.#ctor(System.String)">
+            <summary>Initializes the attribute with the associated parameter name.</summary>
+            <param name="parameterName">
+            The associated parameter name.  The output will be non-null if the argument to the parameter specified is non-null.
+            </param>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute.ParameterName">
+            <summary>Gets the associated parameter name.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute">
+            <summary>Applied to a method that will never return under any circumstance.</summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.DoesNotReturnIfAttribute">
+            <summary>Specifies that the method will not return if the associated Boolean parameter is passed the specified value.</summary>
+        </member>
+        <member name="M:System.Diagnostics.Code          </summary>
         </member>
         <member name="F:Griesoft.AspNetCore.ReCaptcha.TagHelpers.BadgePosition.Inline">
             <summary>
@@ -82,20 +70,19 @@
             Recaptcha rendering options for the <see cref="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaScriptTagHelper"/>.
             </summary>
         </member>
-        <member name="F:Griesoft.AspNetCore.ReCaptcha.TagHelpers.Render.Explicit">
-            <summary>
-            Render the reCAPTCHA elements explicitly after the scripts have loaded successfully.
-            You need to provide a success callback and handle rendering of the reCAPTCHA elements in it yourself.
-            </summary>
-        </member>
         <member name="F:Griesoft.AspNetCore.ReCaptcha.TagHelpers.Render.Onload">
             <summary>
-            The default rendering option. This will render your reCAPTCHA elements automatically after the script has loaded successfully.
+            The default rendering option. This will render your V2 reCAPTCHA elements automatically after the script has been loaded.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.TagHelpers.Render.Explicit">
+            <summary>
+            When rendering your reCAPTCHA elements explicitly a given onloadCallback will be called after the script has been loaded.
             </summary>
         </member>
         <member name="F:Griesoft.AspNetCore.ReCaptcha.TagHelpers.Render.V3">
             <summary>
-            Loads the reCAPTCHA V3 script. It will behave mostly the same like <see cref="F:Griesoft.AspNetCore.ReCaptcha.TagHelpers.Render.Explicit"/>, so you have to render the reCAPTCHA elements yourself.
+            Loads the reCAPTCHA V3 script.
             </summary>
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.Size">
@@ -136,21 +123,7 @@
             The callback script is used as a default callback function to submit a form after a reCAPTCHA challenge was successful.
             </remarks>
         </member>
-        <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper">
-            <summary>
-            Add a invisible reCAPTCHA div element to your page. Or add a 're-invisible' attribute to a button element to bind the invisible captcha to a button.
-            </summary>
-            <remarks>
-            The <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.FormId"/> is required. With the exception that you set a <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Callback"/> instead.
-            When setting both the value set to <c>Callback</c> always wins and the <c>FormId</c> value is basically irrelevant.
-            
-            For easiest use of this tag helper set only the <c>FormId</c>. This will add a default callback function to the body. That function does
-            submit the form after a successful reCAPTCHA challenge.
-            
-            If the tag is not inside the form that is going to be submitted, you should use a custom callback function. The default callback function
-            does not add the reCAPTCHA token to the form, which will result in response verification failure.
-            </remarks>
-        </member>
+        <!-- Badly formed XML comment ignored for member "T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper" -->
         <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings},Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions},Microsoft.AspNetCore.Mvc.Razor.TagHelpers.ITagHelperComponentManager)">
             <summary>
             
@@ -174,12 +147,13 @@
         <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.FormId">
             <summary>
             The id of the form that will be submitted after a successful reCAPTCHA challenge. 
-            This does only apply when not specifying a custom <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Callback"/>.
             </summary>
+            <remarks>This does only apply when not specifying a <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Callback"/>.</remarks>
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Callback">
             <summary>
-            Set the name of your callback function, executed when the user submits a successful response. The "g-recaptcha-response" token is passed to your callback.
+            Set the name of your callback function, which is called when the reCAPTCHA challenge was successful. 
+            A "g-recaptcha-response" token is added to your callback function parameters for server-side verification.
             </summary>
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.ExpiredCallback">
@@ -200,10 +174,11 @@
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaScriptTagHelper">
             <summary>
-            Adds a script tag, which will load the required reCAPTCHA JavaScript API. Can be added
-            anywhere on your HTML page, but if you use a onload callback function you must place this
-            after that callback to avoid race conditions.
+            Adds a script tag, which will load the required reCAPTCHA API.
             </summary>
+            <remarks>
+            In case that you use an onload callback function you must place this tag after the callback script, to avoid race conditions.
+            </remarks>
         </member>
         <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaScriptTagHelper.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings})">
             <summary>
@@ -234,8 +209,24 @@
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaTagHelper">
             <summary>
-            A tag helper which adds a Google reCAPTCHA div element to your page.
+            A tag helper which adds a Google reCAPTCHA check box to your page.
             </summary>
+            <remarks>
+            If the reCAPTCHA element is outside of the form, the response token is not included in your form which will result in response verification failure.
+            This can be prevented by either placing the reCAPTCHA inside your form or by using a callback function which will add the token to your form after the
+            challenge was successfully completed.
+            </remarks>
+             <example>
+            The simplest use of the tag would be:
+            <code>
+            <recaptcha />
+            </code>
+            
+            Which will translate into the following HTML:
+            <code>
+            <div class="g-recaptcha" data-sitekey="your_site_key" data-size="normal" data-theme="light"></div>
+            </code>
+            </example>
         </member>
         <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaTagHelper.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings},Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions})">
             <summary>
@@ -284,8 +275,29 @@
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper">
             <summary>
-            
+            A reCAPTCHA V3 tag helper, which can be used to automatically bind the challenge to a button.
             </summary>
+            <remarks>
+            The <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.FormId"/> is required. With the exception that you set a <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Callback"/> instead.
+            When setting both the value set to <c>Callback</c> always wins and the <c>FormId</c> value is basically irrelevant.
+            
+            For easiest use of this tag helper set only the <c>FormId</c>. This will add a default callback function to the body. That function does
+            submit the form after a successful reCAPTCHA challenge.
+            
+            If the tag is not inside the form that is going to be submitted, you should use a custom callback function. The default callback function
+            does not add the reCAPTCHA token to the form, which will result in response verification failure.
+            </remarks>
+            <example>
+            The simplest use of the tag would be:
+            <code>
+            <recaptchav3 formid="myForm" action="submit">Submit</recaptchav3>
+            </code>
+            
+            Which will translate into the following HTML:
+            <code>
+            <button class="g-recaptcha" data-sitekey="your_site_key" data-callback='submitmyForm' data-action='submit'>Submit</button>
+            </code>
+            </example>
         </member>
         <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings},Microsoft.AspNetCore.Mvc.Razor.TagHelpers.ITagHelperComponentManager)">
             <summary>
@@ -297,18 +309,103 @@
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.FormId">
             <summary>
-            
+            The id of the form that will be submitted after a successful reCAPTCHA challenge. 
             </summary>
+            <remarks>This does only apply when not specifying a <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Callback"/>.</remarks>
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Callback">
             <summary>
-            
+            Set the name of your callback function, which is called when the reCAPTCHA challenge was successful. 
+            A "g-recaptcha-response" token is added to your callback function parameters for server-side verification.
             </summary>
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Action">
             <summary>
+            The name of the action that was triggered.
+            </summary>
+            <remarks>You should verify that the server-side verification response returns the same action.</remarks>
+        </member>
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
+            <inheritdoc />
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.NullReferenceException">Thrown when both <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Callback"/> and <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.FormId"/> or <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Action"/> are/is null or empty.</exception>
+        </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.ValidationError">
+            <summary>
+            Recaptcha validation error reason message enum fields.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationError.Undefined">
+            <summary>
+            Somethign went wrong in a very bad way. You can consider yourself lucky when you hit this error.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationError.MissingInputSecret">
+            <summary>
+            No input secret was provided. Make sure you have configured the service correctly.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationError.InvalidInputSecret">
+            <summary>
+            The secret parameter is invalid or malformed. Make sure you have not switched the secret key with the site key accidently.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationError.MissingInputResponse">
+            <summary>
+            The response token is missing.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationError.InvalidInputResponse">
+            <summary>
+            The response parameter is invalid or malformed.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationError.BadRequest">
+            <summary>
+            The request is invalid or malformed.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationError.TimeoutOrDuplicate">
+            <summary>
+            The response is no longer valid: either is too old or has been used previously.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationError.HttpRequestFailed">
+            <summary>
+            The connection to the reCAPTCHA validation endpoint failed.
+            </summary>
+        </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction">
+            <summary>
+            Options which specify what to do with a HTTP request when a reCAPTCHA response token was invalid.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.Unspecified">
+            <summary>
             
             </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.BlockRequest">
+            <summary>
+            The validation filter will block and stop execution of requests which did fail reCAPTCHA response verification.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.ContinueRequest">
+            <summary>
+            The validation filter will allow the request to continue even if the reCAPTCHA response verification failed.
+            </summary>
+        </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.Filters.IRecaptchaValidationFailedResult">
+            <summary>
+            Represents an <see cref="T:Microsoft.AspNetCore.Mvc.IActionResult"/> that is used when the recaptcha validation failed. 
+            This can be matched inside MVC result filters to process the validation failure.
+            </summary>
+        </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.Filters.RecaptchaValidationFailedResult">
+            <summary>
+            A bad request result used for rec of the action that was triggered.
+            </summary>
+            <remarks>You should verify that the server-side verification response returns the same action.</remarks>
         </member>
         <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
             <inheritdoc />
@@ -465,86 +562,6 @@
             <summary>
             The action name for this request (important to verify). Only used with reCAPTCHA V3.
             </summary>
-        </member>
-        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.ChallengeTimeStamp">
-            <summary>
-            Timestamp of the challenge load.
-            </summary>
-        </member>
-        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.Hostname">
-            <summary>
-            The hostname of the site where the reCAPTCHA was solved.
-            </summary>
-        </member>
-        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.Errors">
-            <summary>
-            List of <see cref="T:Griesoft.AspNetCore.ReCaptcha.ValidationError"/>'s, if any occurred.
-            </summary>
-        </member>
-        <member name="T:Griesoft.AspNetCore.ReCaptcha.Services.IRecaptchaService">
-            <summary>
-            A service for reCAPTCHA response backend validation.
-            </summary>
-        </member>
-        <member name="M:Griesoft.AspNetCore.ReCaptcha.Services.IRecaptchaService.ValidateRecaptchaResponse(System.String,System.String)">
-            <summary>
-            Validate the reCAPTCHA response token.
-            </summary>
-            <param name="token">The response token.</param>
-            <param name="remoteIp">If set, the remote IP will be send to Google for validation too.</param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="T:Griesoft.AspNetCore.ReCaptcha.Services.RecaptchaService">
-            <inheritdoc />
-        </member>
-        <member name="M:Griesoft.AspNetCore.ReCaptcha.Services.RecaptchaService.ValidateRecaptchaResponse(System.String,System.String)">
-            <inheritdoc />
-        </member>
-        <member name="T:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute">
-            <summary>
-            Validates an incoming POST request to a controller or action, which is decorated with this attribute 
-            that the header contains a valid ReCaptcha token. If the token is missing or is not valid, the action
-            will not be executed.
-            </summary>
-        </member>
-        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.Order">
-            <inheritdoc />
-        </member>
-        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.IsReusable">
-            <inheritdoc />
-        </member>
-        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.ValidationFailedAction">
-            <summary>
-            If set to <see cref="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.BlockRequest"/>, the requests that do not contain a valid reCAPTCHA response token will be canceled. 
-            If this is set to anything else than <see cref="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.Unspecified"/>, this will override the global behaviour, 
-            which you might have set at app startup.
-            </summary>
-        </member>
-        <member name="M:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.CreateInstance(System.IServiceProvider)">
-            <summary>
-            Creates an instance of the executable filter.
-            </summary>
-            <param name="serviceProvider">The request <see cref="T:System.IServiceProvider"/>.</param>
-            <returns>An instance of the executable filter.</returns>
-            <exception cref="T:System.InvalidOperationException">Thrown if the required services ar not registered.</exception>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.RecaptchaServiceExtensions">
-            <summary>
-            <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> extension methods for easy service registration in the StartUp.cs.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.RecaptchaServiceExtensions.AddRecaptchaService(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions})">
-            <summary>
-            Register the <see cref="T:Griesoft.AspNetCore.ReCaptcha.Services.RecaptchaService"/> to the web project and all it's dependencies.
-            </summary>
-            <param name="services"></param>
-            <param name="options">Specify global options for the service.</param>
-            <returns></returns>
-        </member>
-    </members>
-</doc>
-/summary>
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.ChallengeTimeStamp">
             <summary>
