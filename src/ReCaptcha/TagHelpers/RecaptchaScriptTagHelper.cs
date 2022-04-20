@@ -8,10 +8,11 @@ using Microsoft.Extensions.Options;
 namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 {
     /// <summary>
-    /// Adds a script tag, which will load the required reCAPTCHA JavaScript API. Can be added
-    /// anywhere on your HTML page, but if you use a onload callback function you must place this
-    /// after that callback to avoid race conditions.
+    /// Adds a script tag, which will load the required reCAPTCHA API.
     /// </summary>
+    /// <remarks>
+    /// In case that you use an onload callback function you must place this tag after the callback script, to avoid race conditions.
+    /// </remarks>
     [HtmlTargetElement("recaptcha-script", TagStructure = TagStructure.WithoutEndTag)]
     public class RecaptchaScriptTagHelper : TagHelper
     {

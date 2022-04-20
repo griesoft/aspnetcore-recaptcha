@@ -10,7 +10,8 @@ using Microsoft.Extensions.Options;
 namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 {
     /// <summary>
-    /// Add a invisible reCAPTCHA div element to your page. Or add a 're-invisible' attribute to a button element to bind the invisible captcha to a button.
+    /// Add a invisible reCAPTCHA div element to your page. You may also use it by adding a 're-invisible' attribute to a button 
+    /// element which will automatically bind the challenge to it.
     /// </summary>
     /// <remarks>
     /// The <see cref="FormId"/> is required. With the exception that you set a <see cref="Callback"/> instead.
@@ -22,6 +23,17 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
     /// If the tag is not inside the form that is going to be submitted, you should use a custom callback function. The default callback function
     /// does not add the reCAPTCHA token to the form, which will result in response verification failure.
     /// </remarks>
+    /// <example>
+    /// The simplest use of the tag would be:
+    /// <code>
+    /// <button re-invisible formid="myForm">Submit</button>
+    /// </code>
+    /// 
+    /// Which will translate into the following HTML:
+    /// <code>
+    /// <button class="g-recaptcha" data-sitekey="your_site_key" data-callback="submitmyForm" data-badge="bottomleft">Submit</button>
+    /// </code>
+    /// </example>
     [HtmlTargetElement("recaptcha-invisible", Attributes = "callback", TagStructure = TagStructure.WithoutEndTag)]
     [HtmlTargetElement("recaptcha-invisible", Attributes = "formid", TagStructure = TagStructure.WithoutEndTag)]
     [HtmlTargetElement("button", Attributes = "re-invisible,callback")]
@@ -66,12 +78,13 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 
         /// <summary>
         /// The id of the form that will be submitted after a successful reCAPTCHA challenge. 
-        /// This does only apply when not specifying a custom <see cref="Callback"/>.
         /// </summary>
+        /// <remarks>This does only apply when not specifying a <see cref="Callback"/>.</remarks>
         public string? FormId { get; set; }
 
         /// <summary>
-        /// Set the name of your callback function, executed when the user submits a successful response. The "g-recaptcha-response" token is passed to your callback.
+        /// Set the name of your callback function, which is called when the reCAPTCHA challenge was successful. 
+        /// A "g-recaptcha-response" token is added to your callback function parameters for server-side verification.
         /// </summary>
         public string Callback { get; set; } = string.Empty;
 

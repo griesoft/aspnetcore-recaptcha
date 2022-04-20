@@ -282,6 +282,39 @@
             <inheritdoc />
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings},Microsoft.AspNetCore.Mvc.Razor.TagHelpers.ITagHelperComponentManager)">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
+            <param name="tagHelperComponentManager"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.FormId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Callback">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Action">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
+            <inheritdoc />
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.NullReferenceException">Thrown when both <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Callback"/> and <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.FormId"/> or <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Action"/> are/is null or empty.</exception>
+        </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.ValidationError">
             <summary>
             Recaptcha validation error reason message enum fields.
@@ -378,6 +411,11 @@
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.Localization.Resources.ActionPropertyNullErrorMessage">
+            <summary>
+              Looks up a localized string similar to The action is a madatory property, but was not set. .
+            </summary>
+        </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.Localization.Resources.CallbackPropertyNullErrorMessage">
             <summary>
               Looks up a localized string similar to A callback function name must be specified. Invisible reCAPTCHA does not work without it..
@@ -427,6 +465,86 @@
             <summary>
             The action name for this request (important to verify). Only used with reCAPTCHA V3.
             </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.ChallengeTimeStamp">
+            <summary>
+            Timestamp of the challenge load.
+            </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.Hostname">
+            <summary>
+            The hostname of the site where the reCAPTCHA was solved.
+            </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.Errors">
+            <summary>
+            List of <see cref="T:Griesoft.AspNetCore.ReCaptcha.ValidationError"/>'s, if any occurred.
+            </summary>
+        </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.Services.IRecaptchaService">
+            <summary>
+            A service for reCAPTCHA response backend validation.
+            </summary>
+        </member>
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.Services.IRecaptchaService.ValidateRecaptchaResponse(System.String,System.String)">
+            <summary>
+            Validate the reCAPTCHA response token.
+            </summary>
+            <param name="token">The response token.</param>
+            <param name="remoteIp">If set, the remote IP will be send to Google for validation too.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.Services.RecaptchaService">
+            <inheritdoc />
+        </member>
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.Services.RecaptchaService.ValidateRecaptchaResponse(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute">
+            <summary>
+            Validates an incoming POST request to a controller or action, which is decorated with this attribute 
+            that the header contains a valid ReCaptcha token. If the token is missing or is not valid, the action
+            will not be executed.
+            </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.Order">
+            <inheritdoc />
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.IsReusable">
+            <inheritdoc />
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.ValidationFailedAction">
+            <summary>
+            If set to <see cref="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.BlockRequest"/>, the requests that do not contain a valid reCAPTCHA response token will be canceled. 
+            If this is set to anything else than <see cref="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.Unspecified"/>, this will override the global behaviour, 
+            which you might have set at app startup.
+            </summary>
+        </member>
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.CreateInstance(System.IServiceProvider)">
+            <summary>
+            Creates an instance of the executable filter.
+            </summary>
+            <param name="serviceProvider">The request <see cref="T:System.IServiceProvider"/>.</param>
+            <returns>An instance of the executable filter.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if the required services ar not registered.</exception>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.RecaptchaServiceExtensions">
+            <summary>
+            <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> extension methods for easy service registration in the StartUp.cs.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.RecaptchaServiceExtensions.AddRecaptchaService(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions})">
+            <summary>
+            Register the <see cref="T:Griesoft.AspNetCore.ReCaptcha.Services.RecaptchaService"/> to the web project and all it's dependencies.
+            </summary>
+            <param name="services"></param>
+            <param name="options">Specify global options for the service.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
+/summary>
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.ChallengeTimeStamp">
             <summary>
