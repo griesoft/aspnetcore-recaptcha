@@ -35,9 +35,9 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
     /// </code>
     /// </example>
     [HtmlTargetElement("recaptcha-invisible", Attributes = "callback", TagStructure = TagStructure.WithoutEndTag)]
-    [HtmlTargetElement("recaptcha-invisible", Attributes = "formid", TagStructure = TagStructure.WithoutEndTag)]
+    [HtmlTargetElement("recaptcha-invisible", Attributes = "form-id", TagStructure = TagStructure.WithoutEndTag)]
     [HtmlTargetElement("button", Attributes = "re-invisible,callback")]
-    [HtmlTargetElement("button", Attributes = "re-invisible,formid")]
+    [HtmlTargetElement("button", Attributes = "re-invisible,form-id")]
     public class RecaptchaInvisibleTagHelper : TagHelper
     {
         private readonly ITagHelperComponentManager _tagHelperComponentManager;

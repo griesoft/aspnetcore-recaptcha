@@ -33,8 +33,8 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
     /// <button class="g-recaptcha" data-sitekey="your_site_key" data-callback='submitmyForm' data-action='submit'>Submit</button>
     /// </code>
     /// </example>
-    [HtmlTargetElement(Attributes = "callback,action")]
-    [HtmlTargetElement(Attributes = "formid,action")]
+    [HtmlTargetElement("recaptcha-v3", Attributes = "callback,action")]
+    [HtmlTargetElement("recaptcha-v3", Attributes = "form-id,action")]
     public class RecaptchaV3TagHelper : TagHelper
     {
         private readonly ITagHelperComponentManager _tagHelperComponentManager;
