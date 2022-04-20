@@ -530,10 +530,11 @@
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute">
             <summary>
-            Validates an incoming POST request to a controller or action, which is decorated with this attribute 
-            that the header contains a valid ReCaptcha token. If the token is missing or is not valid, the action
-            will not be executed.
+            Validates an incoming request that it contains a valid ReCaptcha token.
             </summary>
+            <remarks>
+            Can be applied to a specific action or to a controller which would validate all incoming requests to it.
+            </remarks>
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.Order">
             <inheritdoc />
@@ -544,9 +545,16 @@
         <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.ValidationFailedAction">
             <summary>
             If set to <see cref="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.BlockRequest"/>, the requests that do not contain a valid reCAPTCHA response token will be canceled. 
-            If this is set to anything else than <see cref="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.Unspecified"/>, this will override the global behaviour, 
-            which you might have set at app startup.
+            If this is set to anything else than <see cref="F:Griesoft.AspNetCore.ReCaptcha.ValidationFailedAction.Unspecified"/>, this will override the global behavior.
             </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.Action">
+            <summary>
+            The name of the action that is verified.
+            </summary>
+            <remarks>
+            This is a reCAPTCHA V3 feature and should be used only when validating V3 challenges.
+            </remarks>
         </member>
         <member name="M:Griesoft.AspNetCore.ReCaptcha.ValidateRecaptchaAttribute.CreateInstance(System.IServiceProvider)">
             <summary>

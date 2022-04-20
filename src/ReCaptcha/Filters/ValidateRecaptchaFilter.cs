@@ -30,6 +30,8 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
 
         public ValidationFailedAction OnValidationFailedAction { get; set; } = ValidationFailedAction.Unspecified;
 
+        public string? Action { get; set; }
+
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             if (OnValidationFailedAction == ValidationFailedAction.Unspecified)
@@ -73,7 +75,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
         }
         private bool ShouldShortCircuit(ActionExecutingContext context, ValidationResponse response)
         {
-            if (!response.Success)
+            if (!response.Success || Action != response.Action)
             {
                 _logger.LogInformation(Resources.InvalidResponseTokenMessage);
 

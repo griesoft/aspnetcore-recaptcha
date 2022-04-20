@@ -253,9 +253,10 @@ namespace ReCaptcha.Tests.Filters
         }
 
         [Test]
-        public async Task OnActionExecutionAsync_WhenValidationSuccess_ContinuesAndAddsResponseToArguments()
+        public async Task OnActionExecutionAsync_WhenActionDoesNotMatch_BlocksAndReturns_RecaptchaValidationFailedResult()
         {
             // Arrange
+            var action = "submit";
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Headers.Add(RecaptchaServiceConstants.TokenKeyName, TokenValue);
 
@@ -270,8 +271,42 @@ namespace ReCaptcha.Tests.Filters
                 .Verifiable();
 
             _filter = new ValidateRecaptchaFilter(_recaptchaServiceMock.Object, _optionsMock.Object, _logger);
+            _filter.Action = action;
 
-            _actionExecutingContext.ActionArguments.Add("argumentName", new ValidationResponse { Success = false });
+            // Act
+            await _filter.OnActionExecutionAsync(_actionExecutingContext, _actionExecutionDelegate);
+
+            // Assert
+            _recaptchaServiceMock.Verify();
+            Assert.IsInstanceOf<IRecaptchaValidationFailedResult>(_actionExecutingContext.Result);
+        }
+
+        [Test]
+        public async Task OnActionExecutionAsync_WhenActionDoesNotMatch_ContinuesAndAddsResponseToArguments()
+        {
+            // Arrange
+            var action = "submit";
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.Headers.Add(RecaptchaServiceConstants.TokenKeyName, TokenValue);
+
+            _actionExecutingContext.HttpContext = httpContext;
+
+            _recaptchaServiceMock = new Mock<IRecaptchaService>();
+            _recaptchaServiceMock.Setup(service => service.ValidateRecaptchaResponse(It.Is<string>(s => s == TokenValue), null))
+                .ReturnsAsync(new ValidationResponse
+                {
+                    Success = true,
+                    ErrorMessages = new List<string> { "invalid-input-response" }
+                })
+                .Verifiable();
+
+            _filter = new ValidateRecaptchaFilter(_recaptchaServiceMock.Object, _optionsMock.Object, _logger)
+            {
+                OnValidationFailedAction = ValidationFailedAction.ContinueRequest,
+                Action = action
+            };
+
+            _actionExecutingContext.ActionArguments.Add("argumentName", new ValidationResponse { Success = true });
 
             // Act
             await _filter.OnActionExecutionAsync(_actionExecutingContext, _actionExecutionDelegate);
@@ -280,6 +315,44 @@ namespace ReCaptcha.Tests.Filters
             _recaptchaServiceMock.Verify();
             Assert.IsInstanceOf<OkResult>(_actionExecutingContext.Result);
             Assert.IsTrue((_actionExecutingContext.ActionArguments["argumentName"] as ValidationResponse).Success);
+            Assert.GreaterOrEqual((_actionExecutingContext.ActionArguments["argumentName"] as ValidationResponse).Errors.Count(), 1);
+            Assert.AreEqual(ValidationError.InvalidInputResponse, (_actionExecutingContext.ActionArguments["argumentName"] as ValidationResponse).Errors.First());
+        }
+
+        [Test]
+        public async Task OnActionExecutionAsync_WhenValidationSuccess_ContinuesAndAddsResponseToArguments()
+        {
+            // Arrange
+            var action = "submit";
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.Headers.Add(RecaptchaServiceConstants.TokenKeyName, TokenValue);
+
+            _actionExecutingContext.HttpContext = httpContext;
+
+            _recaptchaServiceMock = new Mock<IRecaptchaService>();
+            _recaptchaServiceMock.Setup(service => service.ValidateRecaptchaResponse(It.Is<string>(s => s == TokenValue), null))
+                .ReturnsAsync(new ValidationResponse
+                {
+                    Success = true,
+                    Action = action
+                })
+                .Verifiable();
+
+            _filter = new ValidateRecaptchaFilter(_recaptchaServiceMock.Object, _optionsMock.Object, _logger)
+            {
+                Action = action
+            };
+
+            _actionExecutingContext.ActionArguments.Add("argumentName", new ValidationResponse { Success = false, Action = string.Empty });
+
+            // Act
+            await _filter.OnActionExecutionAsync(_actionExecutingContext, _actionExecutionDelegate);
+
+            // Assert
+            _recaptchaServiceMock.Verify();
+            Assert.IsInstanceOf<OkResult>(_actionExecutingContext.Result);
+            Assert.IsTrue((_actionExecutingContext.ActionArguments["argumentName"] as ValidationResponse).Success);
+            Assert.AreEqual(action, (_actionExecutingContext.ActionArguments["argumentName"] as ValidationResponse).Action);
             Assert.AreEqual((_actionExecutingContext.ActionArguments["argumentName"] as ValidationResponse).Errors.Count(), 0);
         }
 
