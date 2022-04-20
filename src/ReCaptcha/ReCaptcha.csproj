@@ -17,6 +17,7 @@
         <RepositoryUrl>https://github.com/jgdevlabs/aspnetcore-recaptcha</RepositoryUrl>
         <NeutralLanguage>en</NeutralLanguage>
         <PackageTags>aspnetcore;recaptcha;aspnetcoremvc;recaptcha-v2;recaptcha-v3</PackageTags>
+        <DocumentationFile>..\..\docs\Griesoft.AspNetCore.ReCaptcha.xml</DocumentationFile>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
