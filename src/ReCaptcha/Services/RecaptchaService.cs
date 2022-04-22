@@ -41,7 +41,15 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
 
                 return JsonConvert.DeserializeObject<ValidationResponse>(
                     await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(true));
+                    .ConfigureAwait(true))
+                    ?? new ValidationResponse()
+                    {
+                        Success = false,
+                        ErrorMessages = new List<string>()
+                        {
+                            "response-deserialization-failed"
+                        }
+                    };
             }
             catch (HttpRequestException)
             {
