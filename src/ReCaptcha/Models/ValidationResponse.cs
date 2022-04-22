@@ -42,7 +42,7 @@ namespace Griesoft.AspNetCore.ReCaptcha
         public string Hostname { get; set; } = string.Empty;
 
         /// <summary>
-        /// List of <see cref="ValidationError"/>'s, if any occured.
+        /// List of <see cref="ValidationError"/>'s, if any occurred.
         /// </summary>
         [JsonIgnore]
         public IEnumerable<ValidationError> Errors => GetValidationErrors();

@@ -74,6 +74,19 @@ namespace ReCaptcha.Tests.TagHelpers
         }
 
         [Test]
+        public void Process_ShouldThrow_WhenOutputTagIsNull()
+        {
+            // Arrange
+            var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object);
+
+            // Act
+
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => scriptTagHelper.Process(_context, null));
+        }
+
+        [Test]
         public void Process_ShouldChangeTagTo_ScriptTag()
         {
             // Arrange
@@ -101,44 +114,13 @@ namespace ReCaptcha.Tests.TagHelpers
         }
 
         [Test]
-        public void Process_ShouldContain_ThreeAttributes()
+        public void Process_ShouldAdd_CallbackToQuery()
         {
             // Arrange
-            var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object);
-
-            // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
-
-            // Assert
-            Assert.AreEqual(3, _tagHelperOutput.Attributes.Count);
-            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("src"));
-            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("async"));
-            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("defer"));
-        }
-
-        [Test]
-        public void Process_ShouldNotContain_Content()
-        {
-            // Arrange
-            var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object);
-            _tagHelperOutput.Content.SetContent("<p>Inner HTML<p>");
-
-            // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
-
-            // Assert
-            Assert.IsTrue(_tagHelperOutput.Content.IsEmptyOrWhiteSpace);
-        }
-
-        [Test]
-        public void Process_ShouldNotAdd_CallbackAndLanguageToQuery_WhenRenderV3()
-        {
-            // Arrange
+            var callback = "myCallback";
             var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object)
             {
-                Render = Render.V3,
-                OnloadCallback = "myCallback",
-                Language = "fi"
+                OnloadCallback = callback
             };
 
             // Act
@@ -146,16 +128,18 @@ namespace ReCaptcha.Tests.TagHelpers
             var query = QueryHelpers.ParseQuery(new Uri(_tagHelperOutput.Attributes["src"].Value.ToString()).Query);
 
             // Assert
-            Assert.AreEqual(1, query.Count);
-            Assert.IsTrue(query.ContainsKey("render"));
+            Assert.IsTrue(query.ContainsKey("onload"));
+            Assert.AreEqual(callback, query["onload"]);
         }
 
         [Test]
-        public void Process_ShouldAddSiteKey_ToQueryRenderKey_WhenRenderV3()
+        public void Process_ShouldNotAdd_CallbackToQuery_WhenRenderIsV3()
         {
             // Arrange
+            var callback = "myCallback";
             var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object)
             {
+                OnloadCallback = callback,
                 Render = Render.V3
             };
 
@@ -164,17 +148,16 @@ namespace ReCaptcha.Tests.TagHelpers
             var query = QueryHelpers.ParseQuery(new Uri(_tagHelperOutput.Attributes["src"].Value.ToString()).Query);
 
             // Assert
-            _settingsMock.Verify();
-            Assert.AreEqual(SiteKey, query["render"]);
+            Assert.IsFalse(query.ContainsKey("onload"));
         }
 
         [Test]
-        public void Process_ShouldNotAdd_RenderQueryKey_WhenRenderIsDefaultOnload()
+        public void Process_ShouldAdd_RenderSiteKeyToQuery_WhenRenderIsV3AndExplicit()
         {
             // Arrange
             var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object)
             {
-                OnloadCallback = "myCallback"
+                Render = Render.V3 | Render.Explicit
             };
 
             // Act
@@ -182,7 +165,27 @@ namespace ReCaptcha.Tests.TagHelpers
             var query = QueryHelpers.ParseQuery(new Uri(_tagHelperOutput.Attributes["src"].Value.ToString()).Query);
 
             // Assert
-            Assert.IsFalse(query.ContainsKey("render"));
+            _settingsMock.Verify();
+            Assert.IsTrue(query.ContainsKey("render"));
+            Assert.AreEqual(SiteKey, query["render"]);
+        }
+
+        [Test]
+        public void Process_ShouldAdd_RenderExplicitToQuery_WhenRenderIsExplicit()
+        {
+            // Arrange
+            var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object)
+            {
+                Render = Render.Explicit
+            };
+
+            // Act
+            scriptTagHelper.Process(_context, _tagHelperOutput);
+            var query = QueryHelpers.ParseQuery(new Uri(_tagHelperOutput.Attributes["src"].Value.ToString()).Query);
+
+            // Assert
+            Assert.IsTrue(query.ContainsKey("render"));
+            Assert.AreEqual("explicit", query["render"]);
         }
 
         [Test]
@@ -203,27 +206,7 @@ namespace ReCaptcha.Tests.TagHelpers
         }
 
         [Test]
-        public void Process_ShouldAdd_CallbackName_ToQuery()
-        {
-            // Arrange
-            var callback = "myCallbackName";
-
-            var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object)
-            {
-                OnloadCallback = callback
-            };
-            
-            // Act
-            scriptTagHelper.Process(_context, _tagHelperOutput);
-            var query = QueryHelpers.ParseQuery(new Uri(_tagHelperOutput.Attributes["src"].Value.ToString()).Query);
-
-            // Assert
-            Assert.IsTrue(query.ContainsKey("onload"));
-            Assert.AreEqual(callback, query["onload"]);
-        }
-
-        [Test]
-        public void Process_ShouldAdd_Language_ToQuery()
+        public void Process_ShouldAdd_HlToQuery()
         {
             // Arrange
             var language = "fi";
@@ -243,17 +226,13 @@ namespace ReCaptcha.Tests.TagHelpers
         }
 
         [Test]
-        public void Process_ShouldContain_AllQueryKeys()
+        public void Process_ShouldNotAdd_HlToQuery_WhenRenderIsV3()
         {
             // Arrange
-            var callback = "myCallbackName";
-            var language = "fi";
-
             var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object)
             {
-                Render = Render.Explicit,
-                OnloadCallback = callback,
-                Language = language
+                Render = Render.V3,
+                Language = "fi"
             };
 
             // Act
@@ -261,61 +240,77 @@ namespace ReCaptcha.Tests.TagHelpers
             var query = QueryHelpers.ParseQuery(new Uri(_tagHelperOutput.Attributes["src"].Value.ToString()).Query);
 
             // Assert
-            Assert.AreEqual(3, query.Count);
-            Assert.IsTrue(query.ContainsKey("render"));
-            Assert.IsTrue(query.ContainsKey("onload"));
-            Assert.IsTrue(query.ContainsKey("hl"));
-            Assert.AreEqual("explicit", query["render"]);
-            Assert.AreEqual(callback, query["onload"]);
-            Assert.AreEqual(language, query["hl"]);
+            Assert.IsFalse(query.ContainsKey("hl"));
         }
 
         [Test]
-        public void Process_SrcAttribute_ExistsOnlyOnce_AndHasUrlValue()
+        public void Process_ShouldAdd_SrcAttribute()
         {
             // Arrange
             var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object);
-            _tagHelperOutput.Attributes.Add("src", "test");
-            _tagHelperOutput.Attributes.Add("src", "othertest");
 
             // Act
             scriptTagHelper.Process(_context, _tagHelperOutput);
 
             // Assert
-            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribut => attribut.Name == "src"));
-            Assert.IsTrue(_tagHelperOutput.Attributes["src"].Value.ToString().StartsWith("https://"));
+            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("src"));
+            Assert.AreEqual(RecaptchaScriptTagHelper.RecaptchaScriptEndpoint, _tagHelperOutput.Attributes["src"].Value);
         }
 
         [Test]
-        public void Process_AsyncAttribute_ExistsOnlyOnce_AndHasEmptyValue()
+        public void Process_ShouldAdd_AsyncAttribute()
         {
             // Arrange
             var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object);
-            _tagHelperOutput.Attributes.Add("async", "test");
-            _tagHelperOutput.Attributes.Add("async", "othertest");
 
             // Act
             scriptTagHelper.Process(_context, _tagHelperOutput);
 
             // Assert
-            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribut => attribut.Name == "async"));
-            Assert.IsTrue(string.IsNullOrEmpty(_tagHelperOutput.Attributes["async"].Value?.ToString()));
+            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("async"));
         }
 
         [Test]
-        public void Process_DeferAttribute_ExistsOnlyOnce_AndHasEmptyValue()
+        public void Process_ShouldAdd_DeferAttribute()
         {
             // Arrange
             var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object);
-            _tagHelperOutput.Attributes.Add("defer", "test");
-            _tagHelperOutput.Attributes.Add("defer", "othertest");
 
             // Act
             scriptTagHelper.Process(_context, _tagHelperOutput);
 
             // Assert
-            Assert.AreEqual(1, _tagHelperOutput.Attributes.Count(attribut => attribut.Name == "defer"));
-            Assert.IsTrue(string.IsNullOrEmpty(_tagHelperOutput.Attributes["defer"].Value?.ToString()));
+            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("defer"));
+        }
+
+        [Test]
+        public void Process_ShouldNotContain_Content()
+        {
+            // Arrange
+            var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object);
+            _tagHelperOutput.Content.SetContent("<p>Inner HTML<p>");
+
+            // Act
+            scriptTagHelper.Process(_context, _tagHelperOutput);
+
+            // Assert
+            Assert.IsTrue(_tagHelperOutput.Content.IsEmptyOrWhiteSpace);
+        }
+
+        [Test]
+        public void Process_ByDefault_ContainsThreeAttributes()
+        {
+            // Arrange
+            var scriptTagHelper = new RecaptchaScriptTagHelper(_settingsMock.Object);
+
+            // Act
+            scriptTagHelper.Process(_context, _tagHelperOutput);
+
+            // Assert
+            Assert.AreEqual(3, _tagHelperOutput.Attributes.Count);
+            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("src"));
+            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("async"));
+            Assert.IsTrue(_tagHelperOutput.Attributes.ContainsName("defer"));
         }
     }
 }

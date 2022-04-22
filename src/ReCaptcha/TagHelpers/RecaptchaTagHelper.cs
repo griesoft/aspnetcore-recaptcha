@@ -8,8 +8,24 @@ using Microsoft.Extensions.Options;
 namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 {
     /// <summary>
-    /// A tag helper which adds a Google reCAPTCHA div element to your page.
+    /// A tag helper which adds a Google reCAPTCHA check box to your page.
     /// </summary>
+    /// <remarks>
+    /// If the reCAPTCHA element is outside of the form, the response token is not included in your form which will result in response verification failure.
+    /// This can be prevented by either placing the reCAPTCHA inside your form or by using a callback function which will add the token to your form after the
+    /// challenge was successfully completed.
+    /// </remarks>
+    ///  <example>
+    /// The simplest use of the tag would be:
+    /// <code>
+    /// <recaptcha />
+    /// </code>
+    /// 
+    /// Which will translate into the following HTML:
+    /// <code>
+    /// <div class="g-recaptcha" data-sitekey="your_site_key" data-size="normal" data-theme="light"></div>
+    /// </code>
+    /// </example>
     public class RecaptchaTagHelper : TagHelper
     {
         private readonly RecaptchaSettings _settings;

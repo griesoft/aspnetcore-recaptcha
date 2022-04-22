@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace Griesoft.AspNetCore.ReCaptcha
 {
     /// <summary>
-    /// Validates an incoming POST request to a controller or action, which is decorated with this attribute 
-    /// that the header contains a valid ReCaptcha token. If the token is missing or is not valid, the action
-    /// will not be executed.
+    /// Validates an incoming request that it contains a valid ReCaptcha token.
     /// </summary>
+    /// <remarks>
+    /// Can be applied to a specific action or to a controller which would validate all incoming requests to it.
+    /// </remarks>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public sealed class ValidateRecaptchaAttribute : Attribute, IFilterFactory, IOrderedFilter
     {
@@ -21,10 +22,17 @@ namespace Griesoft.AspNetCore.ReCaptcha
 
         /// <summary>
         /// If set to <see cref="ValidationFailedAction.BlockRequest"/>, the requests that do not contain a valid reCAPTCHA response token will be canceled. 
-        /// If this is set to anything else than <see cref="ValidationFailedAction.Unspecified"/>, this will override the global behaviour, 
-        /// which you might have set at app startup.
+        /// If this is set to anything else than <see cref="ValidationFailedAction.Unspecified"/>, this will override the global behavior.
         /// </summary>
         public ValidationFailedAction ValidationFailedAction { get; set; } = ValidationFailedAction.Unspecified;
+
+        /// <summary>
+        /// The name of the action that is verified.
+        /// </summary>
+        /// <remarks>
+        /// This is a reCAPTCHA V3 feature and should be used only when validating V3 challenges.
+        /// </remarks>
+        public string? Action { get; set; }
 
 
         /// <summary>
@@ -42,6 +50,7 @@ namespace Griesoft.AspNetCore.ReCaptcha
             _ = filter ?? throw new InvalidOperationException(Resources.RequiredServiceNotRegisteredErrorMessage);
 
             filter.OnValidationFailedAction = ValidationFailedAction;
+            filter.Action = Action;
 
             return filter;
         }

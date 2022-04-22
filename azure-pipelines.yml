@@ -6,6 +6,9 @@ trigger:
   paths:
     exclude:
     - '*/README.md'
+    - '*/.github/*'
+    - '*/LICENSE.md'
+    - '*/CHANGELOG.md'
 
 pr: none
 
