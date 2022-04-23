@@ -182,7 +182,7 @@
         <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
             <inheritdoc />
             <exception cref="T:System.ArgumentNullException"></exception>
-            <exception cref="T:System.NullReferenceException">Thrown when both <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Callback"/> and <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.FormId"/> are null or empty.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown when both <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.Callback"/> and <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaInvisibleTagHelper.FormId"/> are null or empty.</exception>
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaScriptTagHelper">
             <summary>
@@ -340,7 +340,7 @@
         <member name="M:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
             <inheritdoc />
             <exception cref="T:System.ArgumentNullException"></exception>
-            <exception cref="T:System.NullReferenceException">Thrown when both <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Callback"/> and <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.FormId"/> or <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Action"/> are/is null or empty.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown when both <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Callback"/> and <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.FormId"/> or <see cref="P:Griesoft.AspNetCore.ReCaptcha.TagHelpers.RecaptchaV3TagHelper.Action"/> are/is null or empty.</exception>
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.ValidationError">
             <summary>

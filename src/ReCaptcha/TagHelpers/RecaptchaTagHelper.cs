@@ -64,7 +64,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
         /// <summary>
         /// Set the tabindex of the reCAPTCHA element. If other elements in your page use tabindex, it should be set to make user navigation easier.
         /// </summary>
-        public int? TabIndex { get; set; } = null;
+        public int? TabIndex { get; set; }
 
         /// <summary>
         /// Set the name of your callback function, executed when the user submits a successful response. The "g-recaptcha-response" token is passed to your callback.
