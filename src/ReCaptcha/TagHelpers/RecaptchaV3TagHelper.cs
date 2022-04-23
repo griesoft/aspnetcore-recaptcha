@@ -65,7 +65,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
         /// Set the name of your callback function, which is called when the reCAPTCHA challenge was successful. 
         /// A "g-recaptcha-response" token is added to your callback function parameters for server-side verification.
         /// </summary>
-        public string Callback { get; set; } = string.Empty;
+        public string? Callback { get; set; }
 
         /// <summary>
         /// The name of the action that was triggered.
@@ -75,19 +75,19 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 
         /// <inheritdoc />
         /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="NullReferenceException">Thrown when both <see cref="Callback"/> and <see cref="FormId"/> or <see cref="Action"/> are/is null or empty.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when both <see cref="Callback"/> and <see cref="FormId"/> or <see cref="Action"/> are/is null or empty.</exception>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             _ = output ?? throw new ArgumentNullException(nameof(output));
 
             if (string.IsNullOrEmpty(Callback) && string.IsNullOrEmpty(FormId))
             {
-                throw new NullReferenceException(Resources.CallbackPropertyNullErrorMessage);
+                throw new InvalidOperationException(Resources.CallbackPropertyNullErrorMessage);
             }
 
             if (string.IsNullOrEmpty(Action))
             {
-                throw new NullReferenceException(Resources.ActionPropertyNullErrorMessage);
+                throw new InvalidOperationException(Resources.ActionPropertyNullErrorMessage);
             }
 
             if (string.IsNullOrEmpty(Callback))

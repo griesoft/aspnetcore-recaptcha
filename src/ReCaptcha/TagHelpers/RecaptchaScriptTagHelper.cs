@@ -63,7 +63,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 
             if (!string.IsNullOrEmpty(OnloadCallback) && !Render.HasFlag(Render.V3))
             {
-                queryCollection.Add("onload", OnloadCallback);
+                queryCollection.Add("onload", OnloadCallback!);
             }
 
             if (Render == (Render.V3 | Render.Explicit))
@@ -77,7 +77,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 
             if (!string.IsNullOrEmpty(Language) && !Render.HasFlag(Render.V3))
             {
-                queryCollection.Add("hl", Language);
+                queryCollection.Add("hl", Language!);
             }
 
             output.Attributes.SetAttribute("src", TagHelperOutputExtensions.AddQueryString(RecaptchaScriptEndpoint, queryCollection));

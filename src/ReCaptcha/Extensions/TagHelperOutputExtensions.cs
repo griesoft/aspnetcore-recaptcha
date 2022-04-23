@@ -72,7 +72,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Extensions
 
             var encodedSpaceChars = SpaceChars.Where(x => !x.Equals('\u0020')).Select(x => htmlEncoder.Encode(x.ToString(CultureInfo.InvariantCulture))).ToArray();
 
-            if (SpaceChars.Any(classValue.Contains) || encodedSpaceChars.Any(value => classValue.IndexOf(value, StringComparison.Ordinal) >= 0))
+            if (SpaceChars.Any(classValue.Contains) || encodedSpaceChars.Any(value => classValue.Contains(value)))
             {
                 throw new ArgumentException(null, nameof(classValue));
             }

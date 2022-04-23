@@ -12,7 +12,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Configuration
         /// <summary>
         /// If set to true the remote IP will be send to Google when verifying the response token. The default is false.
         /// </summary>
-        public bool UseRemoteIp { get; set; } = false;
+        public bool UseRemoteIp { get; set; }
 
         /// <summary>
         /// Configure the service on a global level whether it should block / short circuit the request pipeline 

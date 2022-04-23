@@ -74,7 +74,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
         /// <summary>
         /// Set the tabindex of the reCAPTCHA element. If other elements in your page use tabindex, it should be set to make user navigation easier.
         /// </summary>
-        public int? TabIndex { get; set; } = null;
+        public int? TabIndex { get; set; }
 
         /// <summary>
         /// The id of the form that will be submitted after a successful reCAPTCHA challenge. 
@@ -86,7 +86,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
         /// Set the name of your callback function, which is called when the reCAPTCHA challenge was successful. 
         /// A "g-recaptcha-response" token is added to your callback function parameters for server-side verification.
         /// </summary>
-        public string Callback { get; set; } = string.Empty;
+        public string? Callback { get; set; }
 
         /// <summary>
         /// Set the name of your callback function, executed when the reCAPTCHA response expires and the user needs to re-verify.
@@ -101,14 +101,14 @@ namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 
         /// <inheritdoc />
         /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="NullReferenceException">Thrown when both <see cref="Callback"/> and <see cref="FormId"/> are null or empty.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when both <see cref="Callback"/> and <see cref="FormId"/> are null or empty.</exception>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             _ = output ?? throw new ArgumentNullException(nameof(output));
 
             if (string.IsNullOrEmpty(Callback) && string.IsNullOrEmpty(FormId))
             {
-                throw new NullReferenceException(Resources.CallbackPropertyNullErrorMessage);
+                throw new InvalidOperationException(Resources.CallbackPropertyNullErrorMessage);
             }
 
             if (output.TagName == "button")
