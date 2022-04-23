@@ -110,7 +110,7 @@ namespace ReCaptcha.Tests.TagHelpers
         }
 
         [Test]
-        public void Process_ShouldThrow_NullReferenceException_WhenCallbackAndFormIdNullOrEmpty()
+        public void Process_ShouldThrow_InvalidOperationException_WhenCallbackAndFormIdNullOrEmpty()
         {
             // Arrange
             var nullCallbackTagHelper = new RecaptchaV3TagHelper(_settingsMock.Object, _tagHelperComponentManagerMock.Object)
@@ -128,12 +128,12 @@ namespace ReCaptcha.Tests.TagHelpers
 
 
             // Assert
-            Assert.Throws<NullReferenceException>(() => nullCallbackTagHelper.Process(_contextStub, _tagHelperOutputStub));
-            Assert.Throws<NullReferenceException>(() => emptyCallbackTagHelper.Process(_contextStub, _tagHelperOutputStub));
+            Assert.Throws<InvalidOperationException>(() => nullCallbackTagHelper.Process(_contextStub, _tagHelperOutputStub));
+            Assert.Throws<InvalidOperationException>(() => emptyCallbackTagHelper.Process(_contextStub, _tagHelperOutputStub));
         }
 
         [Test]
-        public void Process_ShouldThrow_NullReferenceException_WhenActionIsNullOrEmpty()
+        public void Process_ShouldThrow_InvalidOperationException_WhenActionIsNullOrEmpty()
         {
             // Arrange
             var nullCallbackTagHelper = new RecaptchaV3TagHelper(_settingsMock.Object, _tagHelperComponentManagerMock.Object)
@@ -151,8 +151,8 @@ namespace ReCaptcha.Tests.TagHelpers
 
 
             // Assert
-            Assert.Throws<NullReferenceException>(() => nullCallbackTagHelper.Process(_contextStub, _tagHelperOutputStub));
-            Assert.Throws<NullReferenceException>(() => emptyCallbackTagHelper.Process(_contextStub, _tagHelperOutputStub));
+            Assert.Throws<InvalidOperationException>(() => nullCallbackTagHelper.Process(_contextStub, _tagHelperOutputStub));
+            Assert.Throws<InvalidOperationException>(() => emptyCallbackTagHelper.Process(_contextStub, _tagHelperOutputStub));
         }
 
         [Test]
