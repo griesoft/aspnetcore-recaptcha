@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
+using Griesoft.AspNetCore.ReCaptcha.Extensions;
 using Griesoft.AspNetCore.ReCaptcha.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -34,7 +35,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
 
             try
             {
-                var response = await _httpClient.PostAsync($"?secret={_settings.SecretKey}&response={token}{(remoteIp != null ? $"&remoteip={remoteIp}" : "")}", null)
+                var response = await _httpClient.PostAsync($"?secret={_settings.SecretKey}&response={token}{(remoteIp != null ? $"&remoteip={remoteIp}" : "")}", null!)
                     .ConfigureAwait(true);
 
                 response.EnsureSuccessStatusCode();
@@ -53,7 +54,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning(Resources.RequestFailedErrorMessage);
+                _logger.ValidationRequestFailed();
                 return new ValidationResponse()
                 {
                     Success = false,
@@ -65,7 +66,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, Resources.ValidationUnexpectedErrorMessage);
+                _logger.ValidationRequestUnexpectedException(ex);
                 throw;
             }
         }

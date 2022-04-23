@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
+using Griesoft.AspNetCore.ReCaptcha.Extensions;
 using Griesoft.AspNetCore.ReCaptcha.Localization;
 using Griesoft.AspNetCore.ReCaptcha.Services;
 using Microsoft.AspNetCore.Http;
@@ -43,7 +44,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
 
             if (!TryGetRecaptchaToken(context.HttpContext.Request, out string? token))
             {
-                _logger.LogWarning(Resources.RecaptchaResponseTokenMissing);
+                _logger.RecaptchaResponseTokenMissing();
 
                 validationResponse = new ValidationResponse()
                 {
@@ -77,7 +78,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
         {
             if (!response.Success || Action != response.Action)
             {
-                _logger.LogInformation(Resources.InvalidResponseTokenMessage);
+                _logger.InvalidResponseToken();
 
                 if (OnValidationFailedAction == ValidationFailedAction.BlockRequest)
                 {
