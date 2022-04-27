@@ -18,7 +18,7 @@ namespace ReCaptcha.Tests.Extensions
 
             // Assert
             Assert.IsTrue(services.Any(service => service.ServiceType.FullName == "Griesoft.AspNetCore.ReCaptcha.Services.IRecaptchaService"));
-            Assert.IsTrue(services.Any(service => service.ServiceType.FullName == "Griesoft.AspNetCore.ReCaptcha.Filters.ValidateRecaptchaFilter"));
+            Assert.IsTrue(services.Any(service => service.ServiceType.FullName == "Griesoft.AspNetCore.ReCaptcha.Filters.IValidateRecaptchaFilter"));
             Assert.IsTrue(services.Any(service => service.ServiceType.FullName == "Microsoft.Extensions.Options.IConfigureOptions`1[[Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions, Griesoft.AspNetCore.ReCaptcha, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"));
             Assert.IsTrue(services.Any(service => service.ServiceType.FullName == "Microsoft.Extensions.Options.IConfigureOptions`1[[Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings, Griesoft.AspNetCore.ReCaptcha, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"));
         }

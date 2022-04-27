@@ -31,7 +31,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 client.BaseAddress = new Uri(RecaptchaServiceConstants.GoogleRecaptchaEndpoint);
             });
 
-            services.AddTransient<ValidateRecaptchaFilter>();
+            services.AddTransient<IValidateRecaptchaFilter, ValidateRecaptchaFilter>();
 
             return services;
         }

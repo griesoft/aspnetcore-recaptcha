@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using Griesoft.AspNetCore.ReCaptcha.Extensions;
-using Griesoft.AspNetCore.ReCaptcha.Localization;
 using Griesoft.AspNetCore.ReCaptcha.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -15,7 +14,7 @@ using Microsoft.Extensions.Options;
 [assembly: InternalsVisibleTo("ReCaptcha.Tests")]
 namespace Griesoft.AspNetCore.ReCaptcha.Filters
 {
-    internal class ValidateRecaptchaFilter : IAsyncActionFilter
+    internal class ValidateRecaptchaFilter : IValidateRecaptchaFilter
     {
         private readonly IRecaptchaService _recaptchaService;
         private readonly RecaptchaOptions _options;
