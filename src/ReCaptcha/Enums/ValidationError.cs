@@ -6,7 +6,7 @@
     public enum ValidationError
     {
         /// <summary>
-        /// Somethign went wrong in a very bad way. You can consider yourself lucky when you hit this error.
+        /// Something went wrong in a very bad way. You can consider yourself lucky when you hit this error.
         /// </summary>
         Undefined,
 
@@ -16,7 +16,7 @@
         MissingInputSecret,
 
         /// <summary>
-        /// The secret parameter is invalid or malformed. Make sure you have not switched the secret key with the site key accidently.
+        /// The secret parameter is invalid or malformed. Make sure you have not switched the secret key with the site key accidentally.
         /// </summary>
         InvalidInputSecret,
 

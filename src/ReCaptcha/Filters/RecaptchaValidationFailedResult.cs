@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Griesoft.AspNetCore.ReCaptcha.Filters
 {
     /// <summary>
-    /// A bad request result used for recaptcha validation failures. Use <see cref="IRecaptchaValidationFailedResult"/> to
+    /// A bad request result used for reCAPTCHA validation failures. Use <see cref="IRecaptchaValidationFailedResult"/> to
     /// match for validation failures inside MVC result filters.
     /// </summary>
     public class RecaptchaValidationFailedResult : IActionResult, IRecaptchaValidationFailedResult

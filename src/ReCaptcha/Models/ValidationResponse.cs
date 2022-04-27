@@ -30,13 +30,13 @@ namespace Griesoft.AspNetCore.ReCaptcha
         public string? Action { get; set; } = null;
 
         /// <summary>
-        /// Timestamp of the challenge load.
+        /// Time stamp of the challenge load.
         /// </summary>
         [JsonProperty(PropertyName = "challenge_ts")]
         public DateTime ChallengeTimeStamp { get; set; }
 
         /// <summary>
-        /// The hostname of the site where the reCAPTCHA was solved.
+        /// The host name of the site where the reCAPTCHA was solved.
         /// </summary>
         [JsonProperty(PropertyName = "hostname")]
         public string Hostname { get; set; } = string.Empty;
