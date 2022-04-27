@@ -36,7 +36,7 @@ namespace ReCaptcha.Tests
             optionsMock.SetupGet(options => options.CurrentValue)
                 .Returns(new RecaptchaOptions());
             var servicesMock = new Mock<IServiceProvider>();
-            servicesMock.Setup(provider => provider.GetService(typeof(ValidateRecaptchaFilter)))
+            servicesMock.Setup(provider => provider.GetService(typeof(IValidateRecaptchaFilter)))
                 .Returns(new ValidateRecaptchaFilter(null, optionsMock.Object, null))
                 .Verifiable();
             var attribute = new ValidateRecaptchaAttribute();
@@ -60,7 +60,7 @@ namespace ReCaptcha.Tests
             optionsMock.SetupGet(options => options.CurrentValue)
                 .Returns(new RecaptchaOptions());
             var servicesMock = new Mock<IServiceProvider>();
-            servicesMock.Setup(provider => provider.GetService(typeof(ValidateRecaptchaFilter)))
+            servicesMock.Setup(provider => provider.GetService(typeof(IValidateRecaptchaFilter)))
                 .Returns(new ValidateRecaptchaFilter(null, optionsMock.Object, null))
                 .Verifiable();
             var attribute = new ValidateRecaptchaAttribute
@@ -87,7 +87,7 @@ namespace ReCaptcha.Tests
             optionsMock.SetupGet(options => options.CurrentValue)
                 .Returns(new RecaptchaOptions());
             var servicesMock = new Mock<IServiceProvider>();
-            servicesMock.Setup(provider => provider.GetService(typeof(ValidateRecaptchaFilter)))
+            servicesMock.Setup(provider => provider.GetService(typeof(IValidateRecaptchaFilter)))
                 .Returns(new ValidateRecaptchaFilter(null, optionsMock.Object, null))
                 .Verifiable();
             var attribute = new ValidateRecaptchaAttribute

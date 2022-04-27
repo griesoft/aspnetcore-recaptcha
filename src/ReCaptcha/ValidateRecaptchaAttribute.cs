@@ -40,11 +40,11 @@ namespace Griesoft.AspNetCore.ReCaptcha
         /// </summary>
         /// <param name="serviceProvider">The request <see cref="IServiceProvider"/>.</param>
         /// <returns>An instance of the executable filter.</returns>
-        /// <exception cref="InvalidOperationException">Thrown if the required services ar not registered.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the required services are not registered.</exception>
         public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
 #pragma warning disable CA1062 // Validate arguments of public methods
-            var filter = serviceProvider.GetService(typeof(ValidateRecaptchaFilter)) as ValidateRecaptchaFilter;
+            var filter = serviceProvider.GetService(typeof(IValidateRecaptchaFilter)) as IValidateRecaptchaFilter;
 #pragma warning restore CA1062 // Validate arguments of public methods
 
             _ = filter ?? throw new InvalidOperationException(Resources.RequiredServiceNotRegisteredErrorMessage);

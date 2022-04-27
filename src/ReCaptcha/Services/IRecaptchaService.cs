@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Griesoft.AspNetCore.ReCaptcha.Services
 {
     /// <summary>
-    /// A service for reCAPTCHA response backend validation.
+    /// A service for reCAPTCHA response back-end validation.
     /// </summary>
     public interface IRecaptchaService
     {

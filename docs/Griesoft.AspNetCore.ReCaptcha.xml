@@ -349,7 +349,7 @@
         </member>
         <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationError.Undefined">
             <summary>
-            Somethign went wrong in a very bad way. You can consider yourself lucky when you hit this error.
+            Something went wrong in a very bad way. You can consider yourself lucky when you hit this error.
             </summary>
         </member>
         <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationError.MissingInputSecret">
@@ -359,7 +359,7 @@
         </member>
         <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationError.InvalidInputSecret">
             <summary>
-            The secret parameter is invalid or malformed. Make sure you have not switched the secret key with the site key accidently.
+            The secret parameter is invalid or malformed. Make sure you have not switched the secret key with the site key accidentally.
             </summary>
         </member>
         <member name="F:Griesoft.AspNetCore.ReCaptcha.ValidationError.MissingInputResponse">
@@ -409,13 +409,31 @@
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.Filters.IRecaptchaValidationFailedResult">
             <summary>
-            Represents an <see cref="T:Microsoft.AspNetCore.Mvc.IActionResult"/> that is used when the recaptcha validation failed. 
+            Represents an <see cref="T:Microsoft.AspNetCore.Mvc.IActionResult"/> that is used when the reCAPTCHA validation failed. 
             This can be matched inside MVC result filters to process the validation failure.
             </summary>
         </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.Filters.IValidateRecaptchaFilter">
+            <summary>
+            An action filter which does validate that the request contains a valid reCAPTCHA token.
+            </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.Filters.IValidateRecaptchaFilter.OnValidationFailedAction">
+            <summary>
+            The action that the filter should take when validation of a token fails.
+            </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.Filters.IValidateRecaptchaFilter.Action">
+            <summary>
+            The reCAPTCHA V3 action name.
+            </summary>
+            <remarks>
+            This will also be validated for a matching action name in the validation response from the reCAPTCHA service.
+            </remarks>
+        </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.Filters.RecaptchaValidationFailedResult">
             <summary>
-            A bad request result used for recaptcha validation failures. Use <see cref="T:Griesoft.AspNetCore.ReCaptcha.Filters.IRecaptchaValidationFailedResult"/> to
+            A bad request result used for reCAPTCHA validation failures. Use <see cref="T:Griesoft.AspNetCore.ReCaptcha.Filters.IRecaptchaValidationFailedResult"/> to
             match for validation failures inside MVC result filters.
             </summary>
         </member>
@@ -495,12 +513,12 @@
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.ChallengeTimeStamp">
             <summary>
-            Timestamp of the challenge load.
+            Time stamp of the challenge load.
             </summary>
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.Hostname">
             <summary>
-            The hostname of the site where the reCAPTCHA was solved.
+            The host name of the site where the reCAPTCHA was solved.
             </summary>
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.ValidationResponse.Errors">
@@ -510,7 +528,7 @@
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.Services.IRecaptchaService">
             <summary>
-            A service for reCAPTCHA response backend validation.
+            A service for reCAPTCHA response back-end validation.
             </summary>
         </member>
         <member name="M:Griesoft.AspNetCore.ReCaptcha.Services.IRecaptchaService.ValidateRecaptchaResponse(System.String,System.String)">
@@ -562,7 +580,7 @@
             </summary>
             <param name="serviceProvider">The request <see cref="T:System.IServiceProvider"/>.</param>
             <returns>An instance of the executable filter.</returns>
-            <exception cref="T:System.InvalidOperationException">Thrown if the required services ar not registered.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown if the required services are not registered.</exception>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.RecaptchaServiceExtensions">
             <summary>
