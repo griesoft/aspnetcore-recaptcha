@@ -43,6 +43,31 @@
             The global default badge value for an invisible reCAPTCHA tag.
             </summary>
         </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaServiceConstants">
+            <summary>
+            Constant values for this service.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaServiceConstants.GoogleRecaptchaEndpoint">
+            <summary>
+            The validation endpoint.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaServiceConstants.TokenKeyName">
+            <summary>
+            The header key name under which the token is stored.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaServiceConstants.TokenKeyNameLower">
+            <summary>
+            The header key name under which the token is stored in lower case.
+            </summary>
+        </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaServiceConstants.SettingsSectionKey">
+            <summary>
+            The section name in the appsettings.json from which the settings are read.
+            </summary>
+        </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings">
             <summary>
             Mandatory settings for this reCAPTCHA service. The values for this object will be read from your appsettings.json file.
@@ -51,6 +76,18 @@
             For more information about configuration in ASP.NET Core check out Microsoft docs: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1
             </remarks>
             <seealso cref="N:Microsoft.Extensions.Configuration"/>
+        </member>
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="siteKey"></param>
+            <param name="secretKey"></param>
         </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings.SiteKey">
             <summary>

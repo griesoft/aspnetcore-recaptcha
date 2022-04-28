@@ -70,7 +70,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
         private string? GetRemoteIp(ActionExecutingContext context)
         {
             return _options.UseRemoteIp ?
-                context.HttpContext.Connection.RemoteIpAddress.ToString() :
+                context.HttpContext.Connection.RemoteIpAddress?.ToString() :
                 null;
         }
         private bool ShouldShortCircuit(ActionExecutingContext context, ValidationResponse response)
