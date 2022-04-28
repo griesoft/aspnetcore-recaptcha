@@ -1,13 +1,28 @@
-﻿using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("ReCaptcha.Tests")]
-namespace Griesoft.AspNetCore.ReCaptcha.Configuration
+﻿namespace Griesoft.AspNetCore.ReCaptcha.Configuration
 {
-    internal class RecaptchaServiceConstants
+    /// <summary>
+    /// Constant values for this service.
+    /// </summary>
+    public class RecaptchaServiceConstants
     {
-        internal const string GoogleRecaptchaEndpoint = "https://www.google.com/recaptcha/api/siteverify";
-        internal const string TokenKeyName = "G-Recaptcha-Response";
-        internal const string TokenKeyNameLower = "g-recaptcha-response";
-        internal const string SettingsSectionKey = "RecaptchaSettings";
+        /// <summary>
+        /// The validation endpoint.
+        /// </summary>
+        public const string GoogleRecaptchaEndpoint = "https://www.google.com/recaptcha/api/siteverify";
+
+        /// <summary>
+        /// The header key name under which the token is stored.
+        /// </summary>
+        public const string TokenKeyName = "G-Recaptcha-Response";
+
+        /// <summary>
+        /// The header key name under which the token is stored in lower case.
+        /// </summary>
+        public const string TokenKeyNameLower = "g-recaptcha-response";
+
+        /// <summary>
+        /// The section name in the appsettings.json from which the settings are read.
+        /// </summary>
+        public const string SettingsSectionKey = "RecaptchaSettings";
     }
 }
