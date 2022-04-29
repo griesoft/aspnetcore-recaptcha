@@ -112,7 +112,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Extensions
 
         private static string ExtractClassValue(TagHelperAttribute classAttribute, HtmlEncoder htmlEncoder)
         {
-            string extractedClassValue;
+            string? extractedClassValue;
             switch (classAttribute.Value)
             {
                 case string valueAsString:
@@ -129,7 +129,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Extensions
                     }
                     break;
                 default:
-                    extractedClassValue = htmlEncoder.Encode(classAttribute.Value?.ToString());
+                    extractedClassValue = htmlEncoder.Encode(classAttribute.Value.ToString() ?? string.Empty);
                     break;
             }
             var currentClassValue = extractedClassValue ?? string.Empty;

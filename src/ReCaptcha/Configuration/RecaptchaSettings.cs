@@ -10,27 +10,16 @@
     public class RecaptchaSettings
     {
         /// <summary>
-        /// 
+        /// The reCAPTCHA site key.
         /// </summary>
-        public RecaptchaSettings() { }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="siteKey"></param>
-        /// <param name="secretKey"></param>
-        public RecaptchaSettings(string siteKey, string secretKey)
-        {
-            SiteKey = siteKey;
-            SecretKey = secretKey;
-        }
-
-
-        /// <summary>
-        /// The public reCAPTCHA site key. Will be added to reCAPTCHA HTML elements as the data-sitekey attribute.
-        /// </summary>
+        /// <remarks>
+        /// Will be added to reCAPTCHA HTML elements as the data-sitekey attribute.
+        /// </remarks>
         public string SiteKey { get; set; } = string.Empty;
 
-        internal string SecretKey { get; set; } = string.Empty;
+        /// <summary>
+        /// The reCAPTCHA secret key.
+        /// </summary>
+        public string SecretKey { get; set; } = string.Empty;
     }
 }

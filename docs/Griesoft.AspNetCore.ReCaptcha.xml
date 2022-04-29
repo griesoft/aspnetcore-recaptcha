@@ -77,21 +77,17 @@
             </remarks>
             <seealso cref="N:Microsoft.Extensions.Configuration"/>
         </member>
-        <member name="M:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings.#ctor">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings.#ctor(System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="siteKey"></param>
-            <param name="secretKey"></param>
-        </member>
         <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings.SiteKey">
             <summary>
-            The public reCAPTCHA site key. Will be added to reCAPTCHA HTML elements as the data-sitekey attribute.
+            The reCAPTCHA site key.
+            </summary>
+            <remarks>
+            Will be added to reCAPTCHA HTML elements as the data-sitekey attribute.
+            </remarks>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings.SecretKey">
+            <summary>
+            The reCAPTCHA secret key.
             </summary>
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.BadgePosition">
