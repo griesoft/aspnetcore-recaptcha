@@ -1,5 +1,5 @@
 # ASP.NET Core reCAPTCHA
-A Google reCPATCHA service for ASP.NET Core. Keep bots away from submitting forms or other actions in just a few steps.
+A Google reCAPTCHA service for ASP.NET Core. Keep bots away from submitting forms or other actions in just a few steps.
 
 The service supports V2 and V3 and comes with tag helpers that make it easy to add challenges to your forms. Also, backend validation is made easy and requires only the use of an attribute in your controllers or actions that should get validated.
 
