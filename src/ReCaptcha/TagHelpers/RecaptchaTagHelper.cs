@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Text.Encodings.Web;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
-using Griesoft.AspNetCore.ReCaptcha.Extensions;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Options;
+
+#if !NET461
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+#else
+using Griesoft.AspNetCore.ReCaptcha.Extensions;
+#endif
 
 namespace Griesoft.AspNetCore.ReCaptcha.TagHelpers
 {

@@ -58,6 +58,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Extensions
             return sb.ToString();
         }
 
+#if NET461
         internal static void AddClass(this TagHelperOutput tagHelperOutput, string classValue, HtmlEncoder htmlEncoder)
         {
             if (tagHelperOutput == null)
@@ -135,5 +136,6 @@ namespace Griesoft.AspNetCore.ReCaptcha.Extensions
             var currentClassValue = extractedClassValue ?? string.Empty;
             return currentClassValue;
         }
+#endif
     }
 }
