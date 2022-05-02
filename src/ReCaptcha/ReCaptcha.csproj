@@ -13,8 +13,8 @@
         <LangVersion>latest</LangVersion>
         <Description>A Google reCAPTCHA service for ASP.NET Core. Keep bots away from submitting forms or other actions in just a few steps.</Description>
         <Copyright>2022 © Griesinger Software</Copyright>
-        <PackageProjectUrl>https://github.com/jgdevlabs/aspnetcore-recaptcha</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/jgdevlabs/aspnetcore-recaptcha</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/griesoft/aspnetcore-recaptcha</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/griesoft/aspnetcore-recaptcha</RepositoryUrl>
         <NeutralLanguage>en</NeutralLanguage>
         <PackageTags>aspnetcore;recaptcha;aspnetcoremvc;recaptcha-v2;recaptcha-v3</PackageTags>
         <IncludeSymbols>true</IncludeSymbols>
