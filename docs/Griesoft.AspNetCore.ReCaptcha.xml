@@ -564,6 +564,15 @@
             A service for reCAPTCHA response back-end validation.
             </summary>
         </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.Services.IRecaptchaService.ValidationResponse">
+            <summary>
+            Access the validation response of the last validation that this service did perform.
+            </summary>
+            <remarks>
+            This service is registered as transient (or should be) which means the validation response will
+            always match the request that instantiated this service.
+            </remarks>
+        </member>
         <member name="M:Griesoft.AspNetCore.ReCaptcha.Services.IRecaptchaService.ValidateRecaptchaResponse(System.String,System.String)">
             <summary>
             Validate the reCAPTCHA response token.
@@ -574,6 +583,9 @@
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.Services.RecaptchaService">
+            <inheritdoc />
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.Services.RecaptchaService.ValidationResponse">
             <inheritdoc />
         </member>
         <member name="M:Griesoft.AspNetCore.ReCaptcha.Services.RecaptchaService.ValidateRecaptchaResponse(System.String,System.String)">

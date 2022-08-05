@@ -29,6 +29,9 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
         }
 
         /// <inheritdoc />
+        public ValidationResponse? ValidationResponse { get; private set; }
+
+        /// <inheritdoc />
         public async Task<ValidationResponse> ValidateRecaptchaResponse(string token, string? remoteIp = null)
         {
             _ = token ?? throw new ArgumentNullException(nameof(token));
@@ -40,7 +43,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
 
                 response.EnsureSuccessStatusCode();
 
-                return JsonConvert.DeserializeObject<ValidationResponse>(
+                ValidationResponse = JsonConvert.DeserializeObject<ValidationResponse>(
                     await response.Content.ReadAsStringAsync()
                     .ConfigureAwait(true))
                     ?? new ValidationResponse()
@@ -55,7 +58,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
             catch (HttpRequestException)
             {
                 _logger.ValidationRequestFailed();
-                return new ValidationResponse()
+                ValidationResponse = new ValidationResponse()
                 {
                     Success = false,
                     ErrorMessages = new List<string>()
@@ -69,6 +72,8 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
                 _logger.ValidationRequestUnexpectedException(ex);
                 throw;
             }
+
+            return ValidationResponse;
         }
     }
 }
