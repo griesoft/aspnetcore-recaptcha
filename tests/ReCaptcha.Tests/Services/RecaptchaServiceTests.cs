@@ -26,6 +26,7 @@ namespace ReCaptcha.Tests.Services
         private Mock<IOptionsMonitor<RecaptchaSettings>> _settingsMock;
         private Mock<HttpMessageHandler> _httpMessageHandlerMock;
         private HttpClient _httpClient;
+        private Mock<IHttpClientFactory> _httpClientFactory;
 
         [SetUp]
         public void Initialize()
@@ -59,6 +60,11 @@ namespace ReCaptcha.Tests.Services
             {
                 BaseAddress = new Uri("http://test.com/"),
             };
+
+            _httpClientFactory = new Mock<IHttpClientFactory>();
+            _httpClientFactory.Setup(instance => instance.CreateClient(It.Is<string>(val => val == RecaptchaServiceConstants.RecaptchaServiceHttpClientName)))
+                .Returns(_httpClient)
+                .Verifiable();
         }
 
         [Test]
@@ -68,7 +74,7 @@ namespace ReCaptcha.Tests.Services
 
 
             // Act
-            var instance = new RecaptchaService(_settingsMock.Object, _httpClient, _logger);
+            var instance = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
 
             // Assert
             Assert.NotNull(instance);
@@ -79,7 +85,7 @@ namespace ReCaptcha.Tests.Services
         public void ValidateRecaptchaResponse_ShouldThrow_ArgumentNullException()
         {
             // Arrange
-            var service = new RecaptchaService(_settingsMock.Object, _httpClient, _logger);
+            var service = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
 
             // Act
 
@@ -110,13 +116,19 @@ namespace ReCaptcha.Tests.Services
                 BaseAddress = new Uri("http://test.com/"),
             };
 
-            var service = new RecaptchaService(_settingsMock.Object, _httpClient, _logger);
+            _httpClientFactory = new Mock<IHttpClientFactory>();
+            _httpClientFactory.Setup(instance => instance.CreateClient(It.Is<string>(val => val == RecaptchaServiceConstants.RecaptchaServiceHttpClientName)))
+                .Returns(_httpClient)
+                .Verifiable();
+
+            var service = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
 
             // Act
             var response = await service.ValidateRecaptchaResponse(Token);
 
             // Assert
             _httpMessageHandlerMock.Verify();
+            _httpClientFactory.Verify();
             Assert.GreaterOrEqual(response.Errors.Count(), 1);
             Assert.AreEqual(ValidationError.HttpRequestFailed, response.Errors.First());
         }
@@ -140,7 +152,12 @@ namespace ReCaptcha.Tests.Services
                 BaseAddress = new Uri("http://test.com/"),
             };
 
-            var service = new RecaptchaService(_settingsMock.Object, _httpClient, _logger);
+            _httpClientFactory = new Mock<IHttpClientFactory>();
+            _httpClientFactory.Setup(instance => instance.CreateClient(It.Is<string>(val => val == RecaptchaServiceConstants.RecaptchaServiceHttpClientName)))
+                .Returns(_httpClient)
+                .Verifiable();
+
+            var service = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
 
             // Act
 
@@ -148,13 +165,14 @@ namespace ReCaptcha.Tests.Services
             // Assert
             Assert.ThrowsAsync<Exception>(() => service.ValidateRecaptchaResponse(Token));
             _httpMessageHandlerMock.Verify();
+            _httpClientFactory.Verify();
         }
 
         [Test]
         public async Task ValidateRecaptchaResponse_ShouldReturn_DeserializedResponse()
         {
             // Arrange
-            var service = new RecaptchaService(_settingsMock.Object, _httpClient, _logger);
+            var service = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
 
             // Act
             var response = await service.ValidateRecaptchaResponse(Token);
@@ -169,13 +187,14 @@ namespace ReCaptcha.Tests.Services
         public async Task ValidateRecaptchaResponse_Should_DeserializedResponse_AndSet_ValidationResponseProperty()
         {
             // Arrange
-            var service = new RecaptchaService(_settingsMock.Object, _httpClient, _logger);
+            var service = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
 
             // Act
             var response = await service.ValidateRecaptchaResponse(Token);
 
             // Assert
             _httpMessageHandlerMock.Verify();
+            _httpClientFactory.Verify();
             Assert.IsTrue(response.Success);
             Assert.AreEqual(0, response.Errors.Count());
             Assert.NotNull(service.ValidationResponse);

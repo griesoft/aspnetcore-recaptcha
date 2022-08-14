@@ -68,6 +68,11 @@
             The section name in the appsettings.json from which the settings are read.
             </summary>
         </member>
+        <member name="F:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaServiceConstants.RecaptchaServiceHttpClientName">
+            <summary>
+            The named HttpClient name that we use in the IRecpatchaService.
+            </summary>
+        </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings">
             <summary>
             Mandatory settings for this reCAPTCHA service. The values for this object will be read from your appsettings.json file.
