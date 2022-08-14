@@ -9,6 +9,15 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
     public interface IRecaptchaService
     {
         /// <summary>
+        /// Access the validation response of the last validation that this service did perform.
+        /// </summary>
+        /// <remarks>
+        /// This service is registered as transient (or should be) which means the validation response will
+        /// always match the request that instantiated this service.
+        /// </remarks>
+        ValidationResponse? ValidationResponse { get; }
+
+        /// <summary>
         /// Validate the reCAPTCHA response token.
         /// </summary>
         /// <param name="token">The response token.</param>

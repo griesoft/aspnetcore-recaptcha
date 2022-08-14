@@ -164,5 +164,21 @@ namespace ReCaptcha.Tests.Services
             Assert.IsTrue(response.Success);
             Assert.AreEqual(0, response.Errors.Count());
         }
+
+        [Test]
+        public async Task ValidateRecaptchaResponse_Should_DeserializedResponse_AndSet_ValidationResponseProperty()
+        {
+            // Arrange
+            var service = new RecaptchaService(_settingsMock.Object, _httpClient, _logger);
+
+            // Act
+            var response = await service.ValidateRecaptchaResponse(Token);
+
+            // Assert
+            _httpMessageHandlerMock.Verify();
+            Assert.IsTrue(response.Success);
+            Assert.AreEqual(0, response.Errors.Count());
+            Assert.NotNull(service.ValidationResponse);
+        }
     }
 }
