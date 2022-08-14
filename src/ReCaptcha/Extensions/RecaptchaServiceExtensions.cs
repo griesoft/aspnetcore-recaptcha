@@ -26,10 +26,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.Configure(options ??= opt => { });
 
-            services.AddHttpClient<IRecaptchaService, RecaptchaService>(client =>
+            services.AddHttpClient(RecaptchaServiceConstants.RecaptchaServiceHttpClientName, client =>
             {
                 client.BaseAddress = new Uri(RecaptchaServiceConstants.GoogleRecaptchaEndpoint);
             });
+
+            services.AddScoped<IRecaptchaService, RecaptchaService>();
 
             services.AddTransient<IValidateRecaptchaFilter, ValidateRecaptchaFilter>();
 

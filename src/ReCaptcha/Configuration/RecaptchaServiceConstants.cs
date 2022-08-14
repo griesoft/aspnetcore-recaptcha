@@ -24,5 +24,10 @@
         /// The section name in the appsettings.json from which the settings are read.
         /// </summary>
         public const string SettingsSectionKey = "RecaptchaSettings";
+
+        /// <summary>
+        /// The named HttpClient name that we use in the IRecpatchaService.
+        /// </summary>
+        public const string RecaptchaServiceHttpClientName = "ReCaptchaValidationClient";
     }
 }

@@ -17,14 +17,14 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
     internal class RecaptchaService : IRecaptchaService
     {
         private readonly RecaptchaSettings _settings;
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<RecaptchaService> _logger;
 
         public RecaptchaService(IOptionsMonitor<RecaptchaSettings> settings,
-            HttpClient httpClient, ILogger<RecaptchaService> logger)
+            IHttpClientFactory httpClientFactory, ILogger<RecaptchaService> logger)
         {
             _settings = settings.CurrentValue;
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
             _logger = logger;
         }
 
@@ -38,7 +38,8 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
 
             try
             {
-                var response = await _httpClient.PostAsync($"?secret={_settings.SecretKey}&response={token}{(remoteIp != null ? $"&remoteip={remoteIp}" : "")}", null!)
+                var httpClient = _httpClientFactory.CreateClient(RecaptchaServiceConstants.RecaptchaServiceHttpClientName);
+                var response = await httpClient.PostAsync($"?secret={_settings.SecretKey}&response={token}{(remoteIp != null ? $"&remoteip={remoteIp}" : "")}", null!)
                     .ConfigureAwait(true);
 
                 response.EnsureSuccessStatusCode();
