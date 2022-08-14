@@ -95,6 +95,19 @@ namespace ReCaptcha.Tests.Services
         }
 
         [Test]
+        public async Task ValidateRecaptchaResponse_Should_CreateNamedHttpClient()
+        {
+            // Arrange
+            var service = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
+
+            // Act
+            var response = await service.ValidateRecaptchaResponse(Token);
+
+            // Assert
+            _httpClientFactory.Verify();
+        }
+
+        [Test]
         public async Task ValidateRecaptchaResponse_ShouldReturn_HttpRequestError()
         {
             // Arrange
@@ -118,8 +131,7 @@ namespace ReCaptcha.Tests.Services
 
             _httpClientFactory = new Mock<IHttpClientFactory>();
             _httpClientFactory.Setup(instance => instance.CreateClient(It.Is<string>(val => val == RecaptchaServiceConstants.RecaptchaServiceHttpClientName)))
-                .Returns(_httpClient)
-                .Verifiable();
+                .Returns(_httpClient);
 
             var service = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
 
@@ -128,7 +140,6 @@ namespace ReCaptcha.Tests.Services
 
             // Assert
             _httpMessageHandlerMock.Verify();
-            _httpClientFactory.Verify();
             Assert.GreaterOrEqual(response.Errors.Count(), 1);
             Assert.AreEqual(ValidationError.HttpRequestFailed, response.Errors.First());
         }
@@ -154,8 +165,7 @@ namespace ReCaptcha.Tests.Services
 
             _httpClientFactory = new Mock<IHttpClientFactory>();
             _httpClientFactory.Setup(instance => instance.CreateClient(It.Is<string>(val => val == RecaptchaServiceConstants.RecaptchaServiceHttpClientName)))
-                .Returns(_httpClient)
-                .Verifiable();
+                .Returns(_httpClient);
 
             var service = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
 
@@ -165,7 +175,6 @@ namespace ReCaptcha.Tests.Services
             // Assert
             Assert.ThrowsAsync<Exception>(() => service.ValidateRecaptchaResponse(Token));
             _httpMessageHandlerMock.Verify();
-            _httpClientFactory.Verify();
         }
 
         [Test]
@@ -194,7 +203,6 @@ namespace ReCaptcha.Tests.Services
 
             // Assert
             _httpMessageHandlerMock.Verify();
-            _httpClientFactory.Verify();
             Assert.IsTrue(response.Success);
             Assert.AreEqual(0, response.Errors.Count());
             Assert.NotNull(service.ValidationResponse);
