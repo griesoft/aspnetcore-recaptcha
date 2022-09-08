@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Griesoft.AspNetCore.ReCaptcha;
+using Griesoft.AspNetCore.ReCaptcha.Clients;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using Griesoft.AspNetCore.ReCaptcha.Services;
 using Microsoft.Extensions.Logging;
@@ -26,7 +27,7 @@ namespace ReCaptcha.Tests.Services
         private Mock<IOptionsMonitor<RecaptchaSettings>> _settingsMock;
         private Mock<HttpMessageHandler> _httpMessageHandlerMock;
         private HttpClient _httpClient;
-        private Mock<IHttpClientFactory> _httpClientFactory;
+        private Mock<IRecaptchaHttpClientFactory> _httpClientFactory;
 
         [SetUp]
         public void Initialize()
@@ -61,8 +62,8 @@ namespace ReCaptcha.Tests.Services
                 BaseAddress = new Uri("http://test.com/"),
             };
 
-            _httpClientFactory = new Mock<IHttpClientFactory>();
-            _httpClientFactory.Setup(instance => instance.CreateClient(It.Is<string>(val => val == RecaptchaServiceConstants.RecaptchaServiceHttpClientName)))
+            _httpClientFactory = new Mock<IRecaptchaHttpClientFactory>();
+            _httpClientFactory.Setup(instance => instance.CreateClient())
                 .Returns(_httpClient)
                 .Verifiable();
         }
@@ -129,8 +130,8 @@ namespace ReCaptcha.Tests.Services
                 BaseAddress = new Uri("http://test.com/"),
             };
 
-            _httpClientFactory = new Mock<IHttpClientFactory>();
-            _httpClientFactory.Setup(instance => instance.CreateClient(It.Is<string>(val => val == RecaptchaServiceConstants.RecaptchaServiceHttpClientName)))
+            _httpClientFactory = new Mock<IRecaptchaHttpClientFactory>();
+            _httpClientFactory.Setup(instance => instance.CreateClient())
                 .Returns(_httpClient);
 
             var service = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
@@ -163,8 +164,8 @@ namespace ReCaptcha.Tests.Services
                 BaseAddress = new Uri("http://test.com/"),
             };
 
-            _httpClientFactory = new Mock<IHttpClientFactory>();
-            _httpClientFactory.Setup(instance => instance.CreateClient(It.Is<string>(val => val == RecaptchaServiceConstants.RecaptchaServiceHttpClientName)))
+            _httpClientFactory = new Mock<IRecaptchaHttpClientFactory>();
+            _httpClientFactory.Setup(instance => instance.CreateClient())
                 .Returns(_httpClient);
 
             var service = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
@@ -172,7 +173,7 @@ namespace ReCaptcha.Tests.Services
             // Act
 
 
-            // Assert
+            // Assert6
             Assert.ThrowsAsync<Exception>(() => service.ValidateRecaptchaResponse(Token));
             _httpMessageHandlerMock.Verify();
         }

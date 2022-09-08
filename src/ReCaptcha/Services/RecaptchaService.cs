@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Griesoft.AspNetCore.ReCaptcha.Clients;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using Griesoft.AspNetCore.ReCaptcha.Extensions;
 using Griesoft.AspNetCore.ReCaptcha.Localization;
@@ -17,11 +18,11 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
     internal class RecaptchaService : IRecaptchaService
     {
         private readonly RecaptchaSettings _settings;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IRecaptchaHttpClientFactory _httpClientFactory;
         private readonly ILogger<RecaptchaService> _logger;
 
         public RecaptchaService(IOptionsMonitor<RecaptchaSettings> settings,
-            IHttpClientFactory httpClientFactory, ILogger<RecaptchaService> logger)
+            IRecaptchaHttpClientFactory httpClientFactory, ILogger<RecaptchaService> logger)
         {
             _settings = settings.CurrentValue;
             _httpClientFactory = httpClientFactory;
@@ -38,7 +39,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
 
             try
             {
-                var httpClient = _httpClientFactory.CreateClient(RecaptchaServiceConstants.RecaptchaServiceHttpClientName);
+                var httpClient = _httpClientFactory.CreateClient();
                 var response = await httpClient.PostAsync($"?secret={_settings.SecretKey}&response={token}{(remoteIp != null ? $"&remoteip={remoteIp}" : "")}", null!)
                     .ConfigureAwait(true);
 
@@ -78,3 +79,4 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
         }
     }
 }
+

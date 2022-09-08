@@ -1,4 +1,5 @@
 ﻿using System;
+using Griesoft.AspNetCore.ReCaptcha.Clients;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using Griesoft.AspNetCore.ReCaptcha.Filters;
 using Griesoft.AspNetCore.ReCaptcha.Services;
@@ -26,11 +27,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.Configure(options ??= opt => { });
 
-            services.AddHttpClient(RecaptchaServiceConstants.RecaptchaServiceHttpClientName, client =>
-            {
-                client.BaseAddress = new Uri(RecaptchaServiceConstants.GoogleRecaptchaEndpoint);
-            });
-
+            services.AddScoped<IRecaptchaHttpClientFactory, RecaptchaClientFactory>();
             services.AddScoped<IRecaptchaService, RecaptchaService>();
 
             services.AddTransient<IValidateRecaptchaFilter, ValidateRecaptchaFilter>();

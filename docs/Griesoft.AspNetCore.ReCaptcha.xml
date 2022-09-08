@@ -107,6 +107,16 @@
             The global default badge value for an invisible reCAPTCHA tag.
             </summary>
         </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions.UseProxy">
+            <summary>
+            Indicates if proxy server should be used to forward http client requests
+            </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaOptions.ProxyAddress">
+            <summary>
+            Proxy server address to be used to http client
+            </summary>
+        </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaServiceConstants">
             <summary>
             Constant values for this service.
