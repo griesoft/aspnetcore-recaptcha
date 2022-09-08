@@ -10,9 +10,9 @@ namespace Griesoft.AspNetCore.ReCaptcha.Clients
 {
     internal class RecaptchaClientFactory : IRecaptchaHttpClientFactory
     {
-        private readonly RecaptchaOptions _options;
+        private readonly RecaptchaSettings _options;
 
-        public RecaptchaClientFactory(IOptionsMonitor<RecaptchaOptions> options)
+        public RecaptchaClientFactory(IOptionsMonitor<RecaptchaSettings> options)
         {
             _options = options.CurrentValue;
         }

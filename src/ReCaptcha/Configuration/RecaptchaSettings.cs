@@ -21,5 +21,15 @@
         /// The reCAPTCHA secret key.
         /// </summary>
         public string SecretKey { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Indicates if proxy server should be used to forward http client requests
+        /// </summary>
+        public bool? UseProxy { get; set; }
+
+        /// <summary>
+        /// Proxy server address to be used to http client
+        /// </summary>
+        public string? ProxyAddress { get; set; }
     }
 }
