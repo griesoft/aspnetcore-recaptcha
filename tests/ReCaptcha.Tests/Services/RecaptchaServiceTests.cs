@@ -173,7 +173,7 @@ namespace ReCaptcha.Tests.Services
             // Act
 
 
-            // Assert6
+            // Assert
             Assert.ThrowsAsync<Exception>(() => service.ValidateRecaptchaResponse(Token));
             _httpMessageHandlerMock.Verify();
         }
