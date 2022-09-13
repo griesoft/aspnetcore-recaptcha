@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using Griesoft.AspNetCore.ReCaptcha.Client;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using Griesoft.AspNetCore.ReCaptcha.Filters;
 using Griesoft.AspNetCore.ReCaptcha.Services;
@@ -29,24 +30,14 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.Configure(options ??= opt => { });
 
-            //build temporary service provider to access settings
-            var serviceProvider = services.BuildServiceProvider();
-            var settings = serviceProvider.GetRequiredService<IOptions<RecaptchaSettings>>()?.Value;
+            services.AddScoped<ProxyHttpClientHandler, ProxyHttpClientHandler>();
 
-            //register http client with recaptcha base address
-            var httpClientBuilder = services.AddHttpClient(RecaptchaServiceConstants.RecaptchaServiceHttpClientName, client =>
+            services.AddHttpClient(RecaptchaServiceConstants.RecaptchaServiceHttpClientName, client =>
             {
                 client.BaseAddress = new Uri(RecaptchaServiceConstants.GoogleRecaptchaEndpoint);
-            });
+            })
+            .ConfigurePrimaryHttpMessageHandler<ProxyHttpClientHandler>();
 
-            //if necessary use handler that utilizes a proxy
-            if (settings?.UseProxy == true) {
-                httpClientBuilder.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler()
-                 {
-                     UseProxy = true,
-                     Proxy = new WebProxy(settings.ProxyAddress, false)
-                 });
-            }
 
             services.AddScoped<IRecaptchaService, RecaptchaService>();
 
