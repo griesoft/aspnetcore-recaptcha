@@ -1,4 +1,6 @@
-﻿namespace Griesoft.AspNetCore.ReCaptcha.Configuration
+﻿using System.Runtime.Serialization;
+
+namespace Griesoft.AspNetCore.ReCaptcha.Configuration
 {
     /// <summary>
     /// Mandatory settings for this reCAPTCHA service. The values for this object will be read from your appsettings.json file.
@@ -31,5 +33,10 @@
         /// Proxy server address to be used to http client
         /// </summary>
         public string? ProxyAddress { get; set; }
+
+        /// <summary>
+        /// Indicates whether to bypass proxy for local addresses
+        /// </summary>
+        public bool BypassOnLocal { get; set; }
     }
 }

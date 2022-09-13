@@ -1,4 +1,5 @@
-﻿using Griesoft.AspNetCore.ReCaptcha;
+﻿using System;
+using Griesoft.AspNetCore.ReCaptcha;
 using Griesoft.AspNetCore.ReCaptcha.Client;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using Microsoft.Extensions.Options;
@@ -28,6 +29,30 @@ namespace ReCaptcha.Tests.Client
             // Assert
             Assert.IsTrue(handler.UseProxy);
             Assert.IsNotNull(handler.Proxy);
+            Assert.IsFalse(handler.Proxy.IsBypassed(new Uri("http://127.0.0.1:8080")));
+
+        }
+
+        [Test]
+        public void Initialize_WithProxyBypassed()
+        {
+            // Arrange
+            var settingsMock = new Mock<IOptions<RecaptchaSettings>>();
+            settingsMock.SetupGet(instance => instance.Value)
+                .Returns(new RecaptchaSettings()
+                {
+                    UseProxy = true,
+                    ProxyAddress = "http://10.1.2.3:80",
+                    BypassOnLocal = true
+                });
+
+            // Act
+            var handler = new ProxyHttpClientHandler(settingsMock.Object);
+
+            // Assert
+            Assert.IsTrue(handler.UseProxy);
+            Assert.IsNotNull(handler.Proxy);
+            Assert.IsTrue(handler.Proxy.IsBypassed(new Uri("http://127.0.0.1:8080")));
         }
 
         [Test]

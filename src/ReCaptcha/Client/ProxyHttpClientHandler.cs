@@ -25,7 +25,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Client
             if (currentSettings != null && currentSettings.UseProxy == true && !String.IsNullOrEmpty(currentSettings.ProxyAddress))
             {
                 this.UseProxy = true;
-                this.Proxy = new WebProxy(currentSettings.ProxyAddress, false);
+                this.Proxy = new WebProxy(currentSettings.ProxyAddress, currentSettings.BypassOnLocal);
             }
             else
             {
