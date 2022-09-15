@@ -62,7 +62,7 @@ namespace ReCaptcha.Tests.Services
             };
 
             _httpClientFactory = new Mock<IHttpClientFactory>();
-            _httpClientFactory.Setup(instance => instance.CreateClient(RecaptchaServiceConstants.RecaptchaServiceHttpClientName))
+            _httpClientFactory.Setup(instance => instance.CreateClient(It.Is<string>(val => val == RecaptchaServiceConstants.RecaptchaServiceHttpClientName)))
                 .Returns(_httpClient)
                 .Verifiable();
         }
@@ -130,7 +130,7 @@ namespace ReCaptcha.Tests.Services
             };
 
             _httpClientFactory = new Mock<IHttpClientFactory>();
-            _httpClientFactory.Setup(instance => instance.CreateClient(RecaptchaServiceConstants.RecaptchaServiceHttpClientName))
+            _httpClientFactory.Setup(instance => instance.CreateClient(It.Is<string>(val => val == RecaptchaServiceConstants.RecaptchaServiceHttpClientName)))
                 .Returns(_httpClient);
 
             var service = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
@@ -164,7 +164,7 @@ namespace ReCaptcha.Tests.Services
             };
 
             _httpClientFactory = new Mock<IHttpClientFactory>();
-            _httpClientFactory.Setup(instance => instance.CreateClient(RecaptchaServiceConstants.RecaptchaServiceHttpClientName))
+            _httpClientFactory.Setup(instance => instance.CreateClient(It.Is<string>(val => val == RecaptchaServiceConstants.RecaptchaServiceHttpClientName)))
                 .Returns(_httpClient);
 
             var service = new RecaptchaService(_settingsMock.Object, _httpClientFactory.Object, _logger);
