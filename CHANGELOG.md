@@ -1,4 +1,12 @@
-# [2.0.0](https://github.com/jgdevlabs/aspnetcore-recaptcha/releases/tag/v2.0.1) (22.04.2022)
+# [2.2.1](https://github.com/griesoft/aspnetcore-recaptcha/releases/tag/v2.2.1) (25.09.2022)
+
+### Added:
+- Support forward proxy #19 ([mikocot](https://github.com/mikocot))
+
+### New Contributor:
+[mikocot](https://github.com/mikocot)
+
+# [2.0.0](https://github.com/griesoft/aspnetcore-recaptcha/releases/tag/v2.0.1) (22.04.2022)
 
 ### Added:
 - An Action property to the ValidateRecaptchaFilter and the ValidateRecaptchaAttribute, for reCAPTCHA V3 action validation.
