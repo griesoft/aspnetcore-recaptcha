@@ -140,6 +140,18 @@ There are global defaults that you may modify on your application startup. Also,
 
 All options from the [official reCAPTCHA docs](https://developers.google.com/recaptcha/intro) are available to you in this package.
 
+## Proxy Server
+
+If your environment requires to use forward proxy server, this can be done by specifying two additional parameters in the configuration file
+
+```json
+"RecaptchaSettings": {
+    "UseProxy": true,
+    "ProxyAddress": "http://10.1.2.3:80"
+}
+```
+
+The address should contain port and protocol, as required by the System.Net.WebProxy class.
 ## Detailed Documentation
 Is on it's way...
 

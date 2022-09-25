@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
+using Griesoft.AspNetCore.ReCaptcha.Client;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using Griesoft.AspNetCore.ReCaptcha.Filters;
 using Griesoft.AspNetCore.ReCaptcha.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -20,16 +24,20 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddRecaptchaService(this IServiceCollection services, Action<RecaptchaOptions>? options = null)
         {
             services.AddOptions<RecaptchaSettings>()
-                .Configure<IConfiguration>((settings, config) =>
-                    config.GetSection(RecaptchaServiceConstants.SettingsSectionKey)
+                    .Configure<IConfiguration>((settings, config) =>
+                     config.GetSection(RecaptchaServiceConstants.SettingsSectionKey)
                     .Bind(settings, (op) => op.BindNonPublicProperties = true));
 
             services.Configure(options ??= opt => { });
 
+            services.AddScoped<ProxyHttpClientHandler, ProxyHttpClientHandler>();
+
             services.AddHttpClient(RecaptchaServiceConstants.RecaptchaServiceHttpClientName, client =>
             {
                 client.BaseAddress = new Uri(RecaptchaServiceConstants.GoogleRecaptchaEndpoint);
-            });
+            })
+            .ConfigurePrimaryHttpMessageHandler<ProxyHttpClientHandler>();
+
 
             services.AddScoped<IRecaptchaService, RecaptchaService>();
 

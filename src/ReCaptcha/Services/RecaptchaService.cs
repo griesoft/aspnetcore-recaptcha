@@ -78,3 +78,4 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
         }
     }
 }
+

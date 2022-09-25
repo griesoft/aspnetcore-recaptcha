@@ -17,13 +17,26 @@
             <summary>Specifies that an output will not be null even if the corresponding type allows it.</summary>
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute">
-            <summary>Specifies that when a method returns <see cref="P:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.ReturnValue"/>, the parameter may be null even if the corresponding type disallows it.</summary>
+            <summary>
+                Specifies that when a method returns <see cref="P:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.ReturnValue"/>, the parameter may be null even if the corresponding type disallows it.
+            </summary>
         </member>
         <member name="M:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.#ctor(System.Boolean)">
             <summary>Initializes the attribute with the specified return value condition.</summary>
             <param name="returnValue">
-            The return value condition. If the method returns this value, the associated parameter may be null.
+                The return value condition. If the method returns this value, the associated parameter may be null.
             </param>
+        </member>
+        <member name="T:Griesoft.AspNetCore.ReCaptcha.Clients.IRecaptchaHttpClientFactory">
+            <summary>
+            Constructs http client used for verifying captcha result with Google
+            </summary>
+        </member>
+        <member name="M:Griesoft.AspNetCore.ReCaptcha.Clients.IRecaptchaHttpClientFactory.CreateClient">
+            <summary>
+            Create HttpClient with preconfigured options to communicate with Google reCatpcha REST service
+            </summary>
+            <returns></returns>
         </member>
         <member name="P:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.ReturnValue">
             <summary>Gets the return value condition.</summary>
@@ -157,6 +170,16 @@
         <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings.SecretKey">
             <summary>
             The reCAPTCHA secret key.
+            </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings.UseProxy">
+            <summary>
+            Indicates if proxy server should be used to forward http client requests
+            </summary>
+        </member>
+        <member name="P:Griesoft.AspNetCore.ReCaptcha.Configuration.RecaptchaSettings.ProxyAddress">
+            <summary>
+            Proxy server address to be used to http client
             </summary>
         </member>
         <member name="T:Griesoft.AspNetCore.ReCaptcha.TagHelpers.BadgePosition">

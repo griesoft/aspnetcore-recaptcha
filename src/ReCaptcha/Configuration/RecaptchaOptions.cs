@@ -46,5 +46,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Configuration
         /// The global default badge value for an invisible reCAPTCHA tag.
         /// </summary>
         public BadgePosition Badge { get; set; } = BadgePosition.BottomRight;
+
+
     }
 }
