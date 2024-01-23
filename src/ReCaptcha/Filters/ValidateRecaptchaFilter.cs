@@ -90,17 +90,17 @@ namespace Griesoft.AspNetCore.ReCaptcha.Filters
         }
         private static bool TryGetRecaptchaToken(HttpRequest request, [NotNullWhen(true)] out string? token)
         {
-            if (request.Headers.ContainsKey(RecaptchaServiceConstants.TokenKeyName))
+            if (request.Headers.TryGetValue(RecaptchaServiceConstants.TokenKeyName, out var headerVal))
             {
-                token = request.Headers[RecaptchaServiceConstants.TokenKeyName];
+                token = headerVal;
             }
-            else if (request.HasFormContentType && request.Form.ContainsKey(RecaptchaServiceConstants.TokenKeyNameLower))
+            else if (request.HasFormContentType && request.Form.TryGetValue(RecaptchaServiceConstants.TokenKeyNameLower, out var formVal))
             {
-                token = request.Form[RecaptchaServiceConstants.TokenKeyNameLower];
+                token = formVal;
             }
-            else if (request.Query.ContainsKey(RecaptchaServiceConstants.TokenKeyNameLower))
+            else if (request.Query.TryGetValue(RecaptchaServiceConstants.TokenKeyNameLower, out var queryVal))
             {
-                token = request.Query[RecaptchaServiceConstants.TokenKeyNameLower];
+                token = queryVal;
             }
             else
             {

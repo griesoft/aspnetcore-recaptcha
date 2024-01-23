@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netcoreapp3.1;net461;net5.0;net6.0</TargetFrameworks>
+        <TargetFrameworks>net462;net6.0;net8.0</TargetFrameworks>
         <RootNamespace>Griesoft.AspNetCore.ReCaptcha</RootNamespace>
         <AssemblyName>Griesoft.AspNetCore.ReCaptcha</AssemblyName>
-        <Company>Griesinger Software</Company>
+        <Company>Griesoft</Company>
         <Authors>Joonas Griesinger</Authors>
         <Owners>jgdevlabs,jooni91</Owners>
         <Title>ASP.NET Core reCAPTCHA Service</Title>
@@ -12,7 +12,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <Description>A Google reCAPTCHA service for ASP.NET Core. Keep bots away from submitting forms or other actions in just a few steps.</Description>
-        <Copyright>2022 © Griesinger Software</Copyright>
+        <Copyright>2024 © Griesoft</Copyright>
         <PackageProjectUrl>https://github.com/griesoft/aspnetcore-recaptcha</PackageProjectUrl>
         <RepositoryUrl>https://github.com/griesoft/aspnetcore-recaptcha</RepositoryUrl>
         <NeutralLanguage>en</NeutralLanguage>
@@ -26,25 +26,25 @@
         <AnalysisLevel>latest-recommended</AnalysisLevel>
     </PropertyGroup>
 
-    <ItemGroup Condition="$(TargetFramework)!='net461'">
+    <ItemGroup Condition="$(TargetFramework)!='net462'">
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
+        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
-    <ItemGroup Condition="$(TargetFramework)=='net461'">
+    <ItemGroup Condition="$(TargetFramework)=='net462'">
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
