@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Razor.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Options;
 
-#if !NET461
+#if !NET462
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 #else
 using Griesoft.AspNetCore.ReCaptcha.Extensions;

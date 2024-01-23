@@ -58,7 +58,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Extensions
             return sb.ToString();
         }
 
-#if NET461
+#if NET462
         internal static void AddClass(this TagHelperOutput tagHelperOutput, string classValue, HtmlEncoder htmlEncoder)
         {
             if (tagHelperOutput == null)
