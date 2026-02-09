@@ -43,7 +43,7 @@ namespace ReCaptcha.Tests.Services
                 .Verifiable();
 
             _httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-            _httpMessageHandlerMock.Protected()
+           _httpMessageHandlerMock.Protected()
                .Setup<Task<HttpResponseMessage>>(
                   "SendAsync",
                   ItExpr.IsAny<HttpRequestMessage>(),
@@ -52,7 +52,7 @@ namespace ReCaptcha.Tests.Services
                .ReturnsAsync(new HttpResponseMessage()
                {
                    StatusCode = HttpStatusCode.OK,
-                   Content = new StringContent("{'success': true, 'challenge_ts': '" + DateTime.UtcNow.ToString("o") + "', 'hostname': 'https://test.com', 'error-codes': []}")
+                   Content = new StringContent("{\"success\": true, \"challenge_ts\": \"" + DateTime.UtcNow.ToString("o") + "\", \"hostname\": \"https://test.com\", \"error-codes\": []}")
                })
                .Verifiable();
 

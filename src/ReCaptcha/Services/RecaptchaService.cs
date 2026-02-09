@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Griesoft.AspNetCore.ReCaptcha.Configuration;
 using Griesoft.AspNetCore.ReCaptcha.Extensions;
-using Griesoft.AspNetCore.ReCaptcha.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 [assembly: InternalsVisibleTo("ReCaptcha.Tests")]
 namespace Griesoft.AspNetCore.ReCaptcha.Services
@@ -44,7 +43,7 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
 
                 response.EnsureSuccessStatusCode();
 
-                ValidationResponse = JsonConvert.DeserializeObject<ValidationResponse>(
+                ValidationResponse = JsonSerializer.Deserialize<ValidationResponse>(
                     await response.Content.ReadAsStringAsync()
                     .ConfigureAwait(true))
                     ?? new ValidationResponse()
@@ -62,10 +61,10 @@ namespace Griesoft.AspNetCore.ReCaptcha.Services
                 ValidationResponse = new ValidationResponse()
                 {
                     Success = false,
-                    ErrorMessages = new List<string>()
-                    {
+                    ErrorMessages =
+                    [
                         "request-failed"
-                    }
+                    ]
                 };
             }
             catch (Exception ex)

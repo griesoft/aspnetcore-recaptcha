@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 [assembly: InternalsVisibleTo("ReCaptcha.Tests")]
 namespace Griesoft.AspNetCore.ReCaptcha
@@ -14,31 +14,31 @@ namespace Griesoft.AspNetCore.ReCaptcha
         /// <summary>
         /// Validation success status.
         /// </summary>
-        [JsonProperty(PropertyName = "success")]
+        [JsonPropertyName("success")]
         public bool Success { get; set; }
 
         /// <summary>
         /// The score for this request (0.0 - 1.0). Only used with reCAPTCHA V3.
         /// </summary>
-        [JsonProperty(PropertyName = "score")]
+        [JsonPropertyName("score")]
         public double? Score { get; set; } = null;
 
         /// <summary>
         /// The action name for this request (important to verify). Only used with reCAPTCHA V3.
         /// </summary>
-        [JsonProperty(PropertyName = "action")]
+        [JsonPropertyName("action")]
         public string? Action { get; set; } = null;
 
         /// <summary>
         /// Time stamp of the challenge load.
         /// </summary>
-        [JsonProperty(PropertyName = "challenge_ts")]
+        [JsonPropertyName("challenge_ts")]
         public DateTime ChallengeTimeStamp { get; set; }
 
         /// <summary>
         /// The host name of the site where the reCAPTCHA was solved.
         /// </summary>
-        [JsonProperty(PropertyName = "hostname")]
+        [JsonPropertyName("hostname")]
         public string Hostname { get; set; } = string.Empty;
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace Griesoft.AspNetCore.ReCaptcha
         [JsonIgnore]
         public IEnumerable<ValidationError> Errors => GetValidationErrors();
 
-        [JsonProperty(PropertyName = "error-codes")]
-        internal List<string> ErrorMessages { get; set; } = new List<string>();
+        [JsonPropertyName("error-codes")]
+        internal List<string> ErrorMessages { get; set; } = [];
 
         private IEnumerable<ValidationError> GetValidationErrors()
         {
